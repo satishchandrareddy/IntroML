@@ -1,5 +1,5 @@
 # LRegression.py
-#
+
 import functions_activation
 import functions_loss
 import NeuralNetwork_Base

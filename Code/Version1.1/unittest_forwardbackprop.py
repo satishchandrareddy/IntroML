@@ -1,6 +1,5 @@
-'''
-unittest_backpropderivative.py
-'''
+#unittest_forwardbackprop.py
+
 import LRegression
 import numpy as np
 import unittest
@@ -14,10 +13,10 @@ class Test_functions(unittest.TestCase):
         Y = np.sum(X,axis=0) + 7
         model = LRegression.LRegression(n_feature,"linear")
         optimizer = None
-        model.compile(optimizer,"meansquarederror")
+        model.compile("meansquarederror",optimizer)
         eps = 1e-5
         error = model.test_derivative(X,Y,eps)
-        print("backpropderivative: LinearRegression Error: {}".format(error))
+        print("forwardbackprop: LinearRegression Error: {}".format(error))
         self.assertLessEqual(error,1e-7)
 
 if __name__ == "__main__":

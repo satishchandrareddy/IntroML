@@ -1,6 +1,5 @@
-# NeuralNetwork.py
-#
-# NeuralNetwork Base class
+# NeuralNetwork_Base.py
+
 import numpy as np
 import functions_loss
 
@@ -8,9 +7,9 @@ class NeuralNetwork_Base:
     def __init__(self):
         pass 
 
-    def compile(self,optimizer,loss_fun):
-        self.optimizer = optimizer
+    def compile(self,loss_fun,optimizer):
         self.loss = loss_fun
+        self.optimizer = optimizer
 
     def forward_propagate(self,X):
         pass
@@ -23,9 +22,6 @@ class NeuralNetwork_Base:
         # order = string: "param" or "param_der"
         # label = string: "W" or "b"
         return self.info[layer][order][label]
-
-    def get_param_label(self,layer):
-        return self.info[layer]["param"].keys()
 
     def get_A(self,layer):
         return self.info[layer]["A"]
@@ -64,22 +60,22 @@ class NeuralNetwork_Base:
         error = min(np.max(abs_error),np.max(rel_error))
         return error
 
-    def update_param(self,optimizer):
+    def get_param_label(self,layer):
+        return self.info[layer]["param"].keys()
+
+    def update_param(self):
         for layer in range(self.nlayer):
             for label in self.get_param_label(layer):
-                self.info[layer]["param"][label] += optimizer.update(self.info[layer]["param_der"][label])
+                self.info[layer]["param"][label] += self.optimizer.update(self.get_param(layer,"param_der",label))
 
     def train(self,X,Y,epochs):
-        # forward propagate and predict
-        Y_pred = self.predict(X)
-        # compute initial loss 
-        loss_history = [self.compute_loss(Y)]
-        # compute accuracy and save
-        accuracy_history = [self.accuracy(Y,Y_pred)]
         # iterate over epochs
-        for epoch in range(1,epochs+1):
+        loss_history = []
+        accuracy_history = []
+        for epoch in range(epochs):
+            self.forward_propagate(X)
             self.back_propagate(X,Y)
-            self.update_param(self.optimizer)
+            self.update_param()
             Y_pred = self.predict(X)
             loss_history.append(self.compute_loss(Y))
             accuracy_history.append(self.accuracy(Y,Y_pred))

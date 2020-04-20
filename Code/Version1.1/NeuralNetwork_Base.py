@@ -8,9 +8,9 @@ class NeuralNetwork_Base:
     def __init__(self):
         pass 
 
-    def compile(self,optimizer,loss_fun):
-        self.optimizer = optimizer
+    def compile(self,loss_fun,optimizer):
         self.loss = loss_fun
+        self.optimizer = optimizer
 
     def forward_propagate(self,X):
         pass

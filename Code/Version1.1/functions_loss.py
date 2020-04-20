@@ -1,5 +1,5 @@
 # functions_loss.py
-#
+
 import numpy as np
 
 def loss(loss_fun,A,Y):

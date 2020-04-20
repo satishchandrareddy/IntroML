@@ -3,13 +3,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def plot_results_history(history,key):
+def plot_results_history(history,key_list):
     plt.figure()
-    epoch_array = np.arange(0,history[key].shape[0])
-    plt.plot(epoch_array,history["loss"],'r-')
+    epoch_array = np.arange(0,history[key_list[0]].shape[0])
+    for key in key_list:
+        plt.plot(epoch_array,history["loss"],'r-',label=key)
     plt.xlabel("Epoch")
-    plt.ylabel(key)
-    plt.title(key)
+    plt.ylabel(",".join(key_list))
+    plt.title(",".join(key_list))
+    plt.legend(loc="upper right")
 
 def plot_results_linear(model,Xtrain,Ytrain):
     # plot results in plane

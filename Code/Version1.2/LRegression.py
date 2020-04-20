@@ -1,11 +1,11 @@
 # LRegression.py
-#
+
 import functions_activation
 import functions_loss
-import NeuralNetwork
+import NeuralNetwork_Base
 import numpy as np
 
-class LRegression(NeuralNetwork.NeuralNetwork_Base):
+class LRegression(NeuralNetwork_Base.NeuralNetwork_Base):
     def __init__(self,nfeature,activation):
         self.nlayer = 1
         self.info = [{"nIn": nfeature, "nOut": 1, "activation": activation}]
