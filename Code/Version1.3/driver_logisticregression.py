@@ -15,15 +15,16 @@ Y = (X[0,:] + X[1,:] - 0.75 > 0).astype(float)
 Y = np.expand_dims(Y,axis=0)
 # (2) Define model
 model = LRegression.LRegression(2,"sigmoid")
-optimizer = Optimizer.GradientDescent(2.0)
-model.compile(optimizer,"binarycrossentropy")
-epochs = 300
-print("Before fit")
-model.train(X,Y,epochs)
-print("After fit")
-W = model.get_params(0,"params","W")
-b = model.get_params(0,"params","b")
-print("W: {}".format(W))
-print("b: {}".format(b))
+# (3) Compile model
+optimizer = Optimizer.GradientDescent(0.5)
+model.compile("binarycrossentropy",optimizer)
+# (4) Train model
+epochs = 50
+history = model.train(X,Y,epochs)
+# (5) Results
+# plot loss and accuracy
+plot_results.plot_results_history(history,["loss"])
+plot_results.plot_results_history(history,["accuracy"])
+# plot heatmap in x0-x1 plane
 plot_results.plot_results_logistic(model,X,Y,n_class)
 plt.show()

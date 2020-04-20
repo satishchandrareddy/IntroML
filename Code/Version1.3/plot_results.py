@@ -3,22 +3,22 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def plot_results_loss(history):
+def plot_results_history(history,key_list):
     plt.figure()
-    epoch_array = np.arange(1,history["loss"].shape[0]+1)
-    plt.semilogy(epoch_array,history["loss"],'r-')
+    epoch_array = np.arange(0,history[key_list[0]].shape[0])
+    for key in key_list:
+        plt.plot(epoch_array,history[key],'r-',label=key)
     plt.xlabel("Epoch")
-    plt.ylabel("Loss")
-    plt.title("Loss")
+    plt.ylabel(",".join(key_list))
+    plt.title(",".join(key_list))
+    plt.legend()
 
 def plot_results_linear(model,Xtrain,Ytrain):
     # plot results in plane
-    x0 = Xtrain[0,:]
-    x0min = np.min(x0)
-    x0max = np.max(x0)
-    ymin = np.min(Ytrain)
-    ymax = np.max(Ytrain)
-    Xtest = np.reshape(np.array([x0min,x0max]),(1,2))
+    X0 = Xtrain[0,:]
+    X0min = np.min(X0)
+    X0max = np.max(X0)
+    Xtest = np.reshape(np.array([X0min,X0max]),(1,2))
     Ytest_pred = model.predict(Xtest)
     # exact solution
     Xb = np.concatenate((Xtrain,np.ones(Ytrain.shape)),axis=0)
@@ -27,8 +27,6 @@ def plot_results_linear(model,Xtrain,Ytrain):
     Yb = np.dot(wb,Xtestb)
     # plot regression results
     plt.figure()
-    plt.xlim(x0min,x0max)
-    plt.ylim(ymin,ymax)
     plt.xlabel("X")
     plt.ylabel("Y")
     plt.title("Linear Regression")
@@ -38,36 +36,31 @@ def plot_results_linear(model,Xtrain,Ytrain):
     plt.legend(loc = "upper left")
 
 def plot_results_logistic(model,Xtrain,Ytrain,nclass):
-    # plot data and results in 2d
+    # plot heat map of model results
     x0 = Xtrain[0,:]
     x1 = Xtrain[1,:]
-    x0min = np.min(x0)
-    x0max = np.max(x0)
-    x1min = np.min(x1)
-    x1max = np.max(x1)
     npoints = 100
-    x0lin = np.linspace(x0min,x0max,npoints)
-    x1lin = np.linspace(x1min,x1max,npoints)
+    # create 1d grids in x0 and x1 directions
+    x0lin = np.linspace(np.min(x0),np.max(x0),npoints)
+    x1lin = np.linspace(np.min(x1),np.max(x1),npoints)
+    # create 2d grads for x0 and x1 and reshape into 1d grids 
     x0grid,x1grid = np.meshgrid(x0lin,x1lin)
     x0reshape = np.reshape(x0grid,(1,npoints*npoints))
     x1reshape = np.reshape(x1grid,(1,npoints*npoints))
+    # predict results 
     yreshape = model.predict(np.concatenate((x0reshape,x1reshape),axis=0))
-    ygrid = np.reshape(yreshape,(npoints,npoints))
+    # reshape results into 2d grid and plot heatmap
+    heatmap = np.reshape(yreshape,(npoints,npoints))
     plt.figure()
-    plt.pcolormesh(x0grid,x1grid,ygrid)
+    plt.pcolormesh(x0grid,x1grid,heatmap)
     plt.colorbar()
-    symbol_train = ["ro","bo","go","co"]
-    #symbol_test = ["r+","b+","g+","c+"]
-    #label = [" train", " test"]
-    label = ["train"]
+    # plot training data - loop over labels (0, 1) and points in dataset which have those labels
+    # Y=0 points (red) and Y=1 points (blue)
+    symbol_train = ["ro","bo"]
     for count in range(nclass):
         idx_train = np.where(np.squeeze(np.absolute(Ytrain-count))<1e-10)
-        strlabeltrain = "Y = " + str(count) + label[0]
+        strlabeltrain = "Y = " + str(count) + " train"
         plt.plot(np.squeeze(Xtrain[0,idx_train]),np.squeeze(Xtrain[1,idx_train]),symbol_train[count],label=strlabeltrain)
-        #idx_test = np.where(np.squeeze(np.absolute(Ytest-count))<1e-10)
-        #strlabeltest = "Y = " + str(count) + label[1]
-        #plt.plot(np.squeeze(Xtest[0,idx_test]),np.squeeze(Xtest[1,idx_test]),symbol_test[count],label=strlabeltest)
     plt.xlabel("Feature 0")
     plt.ylabel("Feature 1")
     plt.title("Heatmap of Training Data and Results")
-    plt.legend(loc="upper left")

@@ -1,5 +1,5 @@
 # driver_linearregression.py
-#
+
 import LRegression
 import matplotlib.pyplot as plt
 import numpy as np
@@ -10,17 +10,19 @@ import plot_results
 m = 1000
 X = np.random.rand(1,m)
 Y = 0.5*X + 0.25
-Y = Y + 0.1*np.random.randn(1,m)
+Y = Y + 0.1*np.random.randn(m)
 # (2) Define model
 model = LRegression.LRegression(1,"linear")
-optimizer = Optimizer.GradientDescent(0.1)
-model.compile(optimizer,"meansquarederror")
-# (3) Fit model
-epochs = 200
+# (3) Compile model
+optimizer = Optimizer.GradientDescent(0.5)
+model.compile("meansquarederror",optimizer)
+# (4) Train model
+epochs = 50
 history = model.train(X,Y,epochs)
-# (4) Results
+# (5) Results
 # plot results
 plot_results.plot_results_linear(model,X,Y)
 # plot loss
-plot_results.plot_results_loss(history)
+plot_results.plot_results_history(history,["loss"])
+plot_results.plot_results_history(history,["accuracy"])
 plt.show()
