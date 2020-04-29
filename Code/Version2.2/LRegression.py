@@ -21,7 +21,7 @@ class LRegression(NeuralNetwork_Base.NeuralNetwork_Base):
         # compute derivative of loss
         dloss_dA = functions_loss.loss_der(self.loss,self.get_A(0),Y)
         # multiply by derivative of A
-        dloss_dZ = dloss_dA*functions_activation.activation_der(self.info[0]["activation"],self.get_A(0))
+        dloss_dZ = functions_activation.activation_der(self.info[0]["activation"],self.get_A(0),dloss_dA)
         # compute grad_W L and grad_b L
         self.info[0]["param_der"]["b"] = np.sum(dloss_dZ,axis=1,keepdims=True)
         self.info[0]["param_der"]["W"] = np.dot(dloss_dZ,X.T)

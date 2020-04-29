@@ -7,7 +7,7 @@ def plot_results_history(history,key_list):
     plt.figure()
     epoch_array = np.arange(0,history[key_list[0]].shape[0])
     for key in key_list:
-        plt.plot(epoch_array,history["loss"],'r-',label=key)
+        plt.plot(epoch_array,history[key],'r-',label=key)
     plt.xlabel("Epoch")
     plt.ylabel(",".join(key_list))
     plt.title(",".join(key_list))

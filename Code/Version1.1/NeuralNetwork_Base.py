@@ -1,6 +1,5 @@
-# NeuralNetwork.py
-#
-# NeuralNetwork Base class
+# NeuralNetwork_Base.py
+
 import numpy as np
 import functions_loss
 

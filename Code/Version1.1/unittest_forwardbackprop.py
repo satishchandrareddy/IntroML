@@ -7,11 +7,11 @@ import unittest
 class Test_functions(unittest.TestCase):
     
     def test_LinearRegression(self):
+        nfeature = 8
         m = 1000
-        n_feature = 8
-        X = np.random.rand(n_feature,m)
+        X = np.random.rand(nfeature,m)
         Y = np.sum(X,axis=0) + 7
-        model = LRegression.LRegression(n_feature,"linear")
+        model = LRegression.LRegression(nfeature,"linear")
         optimizer = None
         model.compile("meansquarederror",optimizer)
         eps = 1e-5

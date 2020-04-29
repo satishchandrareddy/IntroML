@@ -96,3 +96,15 @@ class NeuralNetwork_Base:
             return np.mean(np.absolute(Y - Y_pred))
         elif self.loss == "binarycrossentropy":
             return 1 - np.mean(np.absolute(Y-Y_pred))
+
+    def summary(self):
+        print(" ")
+        print("Layer\tUnits In\tUnits Out\tParameters")
+        nparameter_total = 0
+        for layer in range(self.nlayer):
+            nparameter = (self.info[layer]["nIn"]+1)*self.info[layer]["nOut"]
+            nparameter_total += nparameter
+            print("{}\t{}\t\t{}\t\t{}".format(layer,self.info[layer]["nIn"],self.info[layer]["nOut"],nparameter))
+        print
+        print("Total parameters: {}".format(nparameter_total))
+        print(" ")

@@ -1,5 +1,5 @@
 # functions_activation.py
-#
+
 import numpy as np
 
 def activation(activation_fun,Z):

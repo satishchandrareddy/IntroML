@@ -1,8 +1,10 @@
 # NeuralNetwork_Base.py
 
-import numpy as np
 import functions_loss
+import numpy as np
+import onehot
 import Optimizer
+
 class NeuralNetwork_Base:
     def __init__(self):
         pass 
@@ -90,9 +92,28 @@ class NeuralNetwork_Base:
             return np.round(self.get_A(self.nlayer-1),0)
         elif self.info[self.nlayer-1]["activation"]=="linear":
             return self.get_A(self.nlayer-1)
+        elif self.info[self.nlayer-1]["activation"]=="softmax":
+            return np.argmax(self.get_A(self.nlayer-1),0)
 
     def accuracy(self,Y,Y_pred):
         if self.loss == "meansquarederror":
-            return np.mean(np.absolute(Y - Y_pred))
+            return np.mean(np.absolute(Y - Y_pred)<1e-7)
         elif self.loss == "binarycrossentropy":
             return 1 - np.mean(np.absolute(Y-Y_pred))
+        elif self.loss == "crossentropy":
+            if Y.shape[0]>1:
+                return np.mean(np.absolute(onehot.onehot_inverse(Y)-Y_pred)<1e-7)
+            else:
+                return np.mean(np.absolute(Y-Y_pred)<1e-7)
+           
+    def summary(self):
+        print(" ")
+        print("Layer\tUnits In\tUnits Out\tParameters")
+        nparameter_total = 0
+        for layer in range(self.nlayer):
+            nparameter = (self.info[layer]["nIn"]+1)*self.info[layer]["nOut"]
+            nparameter_total += nparameter
+            print("{}\t{}\t\t{}\t\t{}".format(layer,self.info[layer]["nIn"],self.info[layer]["nOut"],nparameter))
+        print
+        print("Total parameters: {}".format(nparameter_total))
+        print(" ")

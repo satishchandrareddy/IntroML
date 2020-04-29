@@ -11,6 +11,7 @@ class LRegression(NeuralNetwork_Base.NeuralNetwork_Base):
         self.info = [{"nIn": nfeature, "nOut": 1, "activation": activation}]
         self.info[0]["param"] = {"W": np.random.randn(1,self.info[0]["nIn"]), "b": np.random.randn(1,1)}
         self.info[0]["param_der"] = {"W": np.zeros((1,self.info[0]["nIn"])), "b": np.zeros((1,1))}
+        self.info[0]["optimizer"] = {"W": None, "b": None}
 
     def forward_propagate(self,X):
         Z = np.dot(self.get_param(0,"param","W"),X) + self.get_param(0,"param","b")

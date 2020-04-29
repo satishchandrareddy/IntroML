@@ -2,14 +2,17 @@
 
 import numpy as np
 import functions_loss
+import Optimizer
 
 class NeuralNetwork_Base:
     def __init__(self):
         pass 
 
-    def compile(self,loss_fun,optimizer):
+    def compile(self,loss_fun,dict_opt):
         self.loss = loss_fun
-        self.optimizer = optimizer
+        for layer in range(self.nlayer):
+            for label in self.get_param_label(layer):
+                self.info[layer]["optimizer"][label] = Optimizer.constructor(dict_opt)
 
     def forward_propagate(self,X):
         pass
@@ -66,7 +69,7 @@ class NeuralNetwork_Base:
     def update_param(self):
         for layer in range(self.nlayer):
             for label in self.get_param_label(layer):
-                self.info[layer]["param"][label] += self.optimizer.update(self.get_param(layer,"param_der",label))
+                self.info[layer]["param"][label] += self.info[layer]["optimizer"][label].update(self.get_param(layer,"param_der",label))
 
     def train(self,X,Y,epochs):
         # iterate over epochs
