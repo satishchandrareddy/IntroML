@@ -17,7 +17,7 @@ model = LRegression.LRegression(1,"linear")
 optimizer = {"method": "GradientDescent", "learning_rate": 0.5}
 model.compile("meansquarederror",optimizer)
 # (4) Train model
-epochs = 50
+epochs = 10
 history = model.train(X,Y,epochs)
 # (5) Results
 # plot results

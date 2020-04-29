@@ -97,7 +97,7 @@ class NeuralNetwork_Base:
 
     def accuracy(self,Y,Y_pred):
         if self.loss == "meansquarederror":
-            return np.mean(np.absolute(Y - Y_pred)<1e-7)
+            return np.mean(np.absolute(Y - Y_pred))
         elif self.loss == "binarycrossentropy":
             return 1 - np.mean(np.absolute(Y-Y_pred))
         elif self.loss == "crossentropy":

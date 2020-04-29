@@ -10,7 +10,7 @@ import plot_results
 
 # (1) Set up data
 nfeature = 2
-m = 1000
+m = 2000
 case = "linear"
 nclass = 3
 X,Y = example_classification.example(nfeature,m,case,nclass)
