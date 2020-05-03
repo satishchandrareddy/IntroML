@@ -14,7 +14,7 @@ m = 1000
 case = "quadratic"
 nclass = 3
 X,Y = example_classification.example(nfeature,m,case,nclass)
-Y_onehot = onehot.onehot(Y,nclass)
+Yonehot = onehot.onehot(Y,nclass)
 # (2) Define model
 model = NeuralNetwork.NeuralNetwork(nfeature)
 model.add_layer(11,"tanh")
@@ -27,7 +27,7 @@ optimizer = {"method": "Momentum", "learning_rate": 0.05, "beta": 0.9}
 model.compile("crossentropy",optimizer)
 # (4) Train model
 epochs = 200
-history = model.train(X,Y_onehot,epochs)
+history = model.train(X,Yonehot,epochs)
 # (5) Results
 # plot loss and accuracy
 plot_results.plot_results_history(history,["loss"])
