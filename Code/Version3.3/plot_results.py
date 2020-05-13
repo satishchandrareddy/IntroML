@@ -5,13 +5,14 @@ import numpy as np
 
 def plot_results_history(history,key_list):
     plt.figure()
+    linemarker = ["r-","b-","k-","g-","c-"]
     epoch_array = np.arange(0,history[key_list[0]].shape[0])
-    for key in key_list:
-        plt.plot(epoch_array,history[key],'r-',label=key)
+    for count in range(len(key_list)):
+        plt.plot(epoch_array,history[key_list[count]],linemarker[count],label=key_list[count])
     plt.xlabel("Epoch")
     plt.ylabel(",".join(key_list))
     plt.title(",".join(key_list))
-    plt.legend(loc="upper right")
+    plt.legend()
 
 def plot_results_linear(model,Xtrain,Ytrain):
     # plot results in plane
@@ -35,7 +36,7 @@ def plot_results_linear(model,Xtrain,Ytrain):
     plt.plot(np.squeeze(Xtest),np.squeeze(Yb),"k-",label="Normal Equation Prediction")
     plt.legend(loc = "upper left")
 
-def plot_results_classification(Xtrain,Ytrain,nclass):
+def plot_results_classification(model,Xtrain,Ytrain,nclass=2):
     # plot heat map of model results
     x0 = Xtrain[0,:]
     x1 = Xtrain[1,:]
@@ -47,16 +48,16 @@ def plot_results_classification(Xtrain,Ytrain,nclass):
     x0grid,x1grid = np.meshgrid(x0lin,x1lin)
     x0reshape = np.reshape(x0grid,(1,npoints*npoints))
     x1reshape = np.reshape(x1grid,(1,npoints*npoints))
-    # predict results (concatenated x0 and x1 1-d grids to create feature matrix
+    # predict results 
     yreshape = model.predict(np.concatenate((x0reshape,x1reshape),axis=0))
     # reshape results into 2d grid and plot heatmap
     heatmap = np.reshape(yreshape,(npoints,npoints))
     plt.figure()
     plt.pcolormesh(x0grid,x1grid,heatmap)
     plt.colorbar()
-    # plot training data - loop over labels (0, 1) and points in dataset which have those labels
+    # plot training data - loop over labels plot points in dataset
     # Y=0 points (red) and Y=1 points (blue)
-    symbol_train = ["ro","bo"]
+    symbol_train = ["ro","bo","co","go"]
     for count in range(nclass):
         idx_train = np.where(np.squeeze(np.absolute(Ytrain-count))<1e-10)
         strlabeltrain = "Y = " + str(count) + " train"
@@ -64,4 +65,4 @@ def plot_results_classification(Xtrain,Ytrain,nclass):
     plt.xlabel("Feature 0")
     plt.ylabel("Feature 1")
     plt.legend()
-    plt.title("Training Data and Heatmap of Results")
+    plt.title("Training Data and Heatmap of Prediction Results")

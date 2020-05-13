@@ -14,13 +14,14 @@ X = np.random.randn(n_features,m)
 Y = (X[0,:] + X[1,:] - 0.75 > 0).astype(float)
 Y = np.expand_dims(Y,axis=0)
 # (2) Define model
-model = LRegression.LRegression(2,"sigmoid")
+lamb = 0.01
+model = LRegression.LRegression(2,"sigmoid",lamb)
 # (3) Compile model
 optimizer = {"method": "GradientDescent", "learning_rate": 0.5}
 model.compile("binarycrossentropy",optimizer)
 # (4) Train model
 epochs = 100
-history = model.train(X,Y,epochs)
+history = model.train(X,Y,epochs,batchsize=64)
 # (5) Results
 # plot loss and accuracy
 plot_results.plot_results_history(history,["loss"])

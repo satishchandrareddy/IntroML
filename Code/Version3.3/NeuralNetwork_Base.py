@@ -72,19 +72,43 @@ class NeuralNetwork_Base:
             for label in self.get_param_label(layer):
                 self.info[layer]["param"][label] += self.info[layer]["optimizer"][label].update(self.get_param(layer,"param_der",label))
 
-    def train(self,X,Y,epochs):
+    def train(self,X,Y,epochs,**kwargs):
         # iterate over epochs
-        loss_history = []
-        accuracy_history = []
+        loss = []
+        accuracy = []
+        if "validation_data" in kwargs:
+            loss_valid = []
+            accuracy_valid = []
+        #get mini-batches
+        if "batchsize" in kwargs:
+            mini_batch = self.mini_batch(X,Y,kwargs["batchsize"])
+        else:
+            mini_batch = [(X,Y)]
+        # train
         for epoch in range(epochs):
-            self.forward_propagate(X)
-            self.back_propagate(X,Y)
-            self.update_param()
+            # train using mini-batches
+            for (Xbatch,Ybatch) in mini_batch:
+                self.forward_propagate(Xbatch)
+                self.back_propagate(Xbatch,Ybatch)
+                self.update_param()
+            # compute loss and accuracy after cycling through mini-batches
             Y_pred = self.predict(X)
-            loss_history.append(self.compute_loss(Y))
-            accuracy_history.append(self.accuracy(Y,Y_pred))
-            print("Epoch: {} - Cost: {} - Accuracy: {}".format(epoch,loss_history[epoch],accuracy_history[epoch]))
-        return {"loss":np.array(loss_history),"accuracy":np.array(accuracy_history)}
+            loss.append(self.compute_loss(Y))
+            accuracy.append(self.accuracy(Y,Y_pred))
+            # compute loss and accuracy for test set
+            if "validation_data" in kwargs:
+                self.forward_propagate(kwargs["validation_data"][0])
+                loss_valid.append(self.compute_loss(kwargs["validation_data"][1]))
+                Ytest_pred = self.predict(kwargs["validation_data"][0])
+                accuracy_valid.append(self.accuracy(kwargs["validation_data"][1],Ytest_pred))
+                print("Epoch: {} - loss: {} - accuracy: {} - loss_valid: {} - accuracy_valid: {}".format(epoch+1,loss[epoch],accuracy[epoch],loss_valid[epoch],accuracy_valid[epoch]))
+            else:
+                print("Epoch: {} - Cost: {} - Accuracy: {}".format(epoch,loss[epoch],accuracy[epoch]))
+        if "validation_data" in kwargs:
+            return {"loss":np.array(loss),"accuracy":np.array(accuracy),"loss_valid":np.array(loss_valid),"accuracy_valid":np.array(accuracy_valid)}
+        else:
+            return {"loss":np.array(loss),"accuracy":np.array(accuracy)}
+
 
     def predict(self,X):
         self.forward_propagate(X)
@@ -93,7 +117,7 @@ class NeuralNetwork_Base:
         elif self.info[self.nlayer-1]["activation"]=="linear":
             return self.get_A(self.nlayer-1)
         elif self.info[self.nlayer-1]["activation"]=="softmax":
-            return np.argmax(self.get_A(self.nlayer-1),0)
+            return np.expand_dims(np.argmax(self.get_A(self.nlayer-1),0),axis=0)
 
     def accuracy(self,Y,Y_pred):
         if self.loss == "meansquarederror":
@@ -102,6 +126,15 @@ class NeuralNetwork_Base:
             return np.mean(np.absolute(Y-Y_pred)<1e-7)
         elif self.loss == "crossentropy":
             return np.mean(np.absolute(Y-Y_pred)<1e-7)
+
+    def f1score(self,Y,Y_pred):
+        idx_truepositive = np.where((np.absolute(Y-1)<1e-7)&(np.absolute(Y_pred-1)<1e-7))
+        idx_actualpositive = np.where(np.absolute(Y-1)<1e-7)
+        idx_predpositive = np.where(np.absolute(Y_pred-1)<1e-7)
+        precision = np.size(idx_truepositive)/(np.size(idx_predpositive)+1e-7)
+        recall = np.size(idx_truepositive)/(np.size(idx_actualpositive)+1e-7)
+        f1score = 2*precision*recall/(precision + recall)
+        return f1score,precision,recall
            
     def summary(self):
         print(" ")
@@ -114,3 +147,18 @@ class NeuralNetwork_Base:
         print
         print("Total parameters: {}".format(nparameter_total))
         print(" ")
+    
+    def mini_batch(self,X,Y,batchsize):
+        m = Y.shape[1]
+        # determine number of mini-batches
+        if m % batchsize == 0:
+            n = int(m/batchsize)
+        else:
+            n = int(m/batchsize) + 1
+        # create mini-batches
+        mini_batch = []
+        for count in range(n):
+            start = count*batchsize
+            end = start + min(start+batchsize,m)
+            mini_batch.append((X[:,start:end],Y[:,start:end]))
+        return mini_batch

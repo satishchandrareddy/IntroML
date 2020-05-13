@@ -1,30 +1,31 @@
-# driver_neuralnetwork_binary.py
+# driver_neuralnetwork_multiclass.py
 
 import NeuralNetwork
 import example_classification
 import matplotlib.pyplot as plt
 import numpy as np
+import onehot
 import Optimizer
 import plot_results
 
 # (1) Set up data
 nfeature = 2
-m = 2000
+m = 1000
 case = "quadratic"
-nclass = 2
+nclass = 3
 X,Y = example_classification.example(nfeature,m,case,nclass)
 # (2) Define model
 model = NeuralNetwork.NeuralNetwork(nfeature)
 model.add_layer(11,"tanh")
-model.add_layer(8,"tanh")
-model.add_layer(4,"tanh")
-model.add_layer(1,"sigmoid")
-# (3) Compile model and print summary
-optimizer = {"method": "GradientDescent", "learning_rate": 0.1}
-model.compile("binarycrossentropy",optimizer)
-model.summary()
+model.add_layer(9,"tanh")
+model.add_layer(6,"tanh")
+model.add_layer(3,"tanh")
+model.add_layer(nclass,"softmax")
+# (3) Compile model
+optimizer = {"method": "Momentum", "learning_rate": 0.05, "beta": 0.9}
+model.compile("crossentropy",optimizer)
 # (4) Train model
-epochs = 300
+epochs = 100
 history = model.train(X,Y,epochs)
 # (5) Results
 # plot loss and accuracy

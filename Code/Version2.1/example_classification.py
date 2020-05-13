@@ -1,5 +1,5 @@
 # example_classification.py
-#
+
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -10,7 +10,7 @@ def example(nfeature,m,case,nclass=2):
 	elif case == "quadratic":
 		Y = X[1,:] - np.square(X[0,:]) + 1.5
 	elif case == "cubic":
-		Y = X[1,:] - np.power(X[0,:],3) + 1.5
+		Y = X[1,:] - np.power(X[0,:],3) - 2*np.power(X[0,:],2)+ 1.5
 	elif case == "disk":
 		Y = np.square(X[0,:])+np.square(X[1,:])-1
 	elif case == "ring":

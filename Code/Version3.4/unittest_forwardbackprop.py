@@ -13,7 +13,7 @@ class Test_functions(unittest.TestCase):
         nfeature = 8
         X = np.random.rand(nfeature,m)
         Y = np.sum(X,axis=0) + 7
-        model = LRegression.LRegression(nfeature,"linear")
+        model = LRegression.LRegression(nfeature,"linear",0.01)
         optimizer = None
         model.compile("meansquarederror",optimizer)
         eps = 1e-5
@@ -27,7 +27,7 @@ class Test_functions(unittest.TestCase):
         X = np.random.rand(nfeature,m)
         Y = (X[0,:] + X[1,:] - 0.75 > 0).astype(float)
         Y = np.expand_dims(Y,axis=0)
-        model = LRegression.LRegression(nfeature,"sigmoid")
+        model = LRegression.LRegression(nfeature,"sigmoid",0.02)
         optimizer = None
         model.compile("binarycrossentropy",optimizer)
         eps = 1e-5
@@ -42,9 +42,9 @@ class Test_functions(unittest.TestCase):
         Y = (X[0,:] + X[1,:] - 0.75 > 0).astype(float)
         Y = np.expand_dims(Y,axis=0)
         model = NeuralNetwork.NeuralNetwork(nfeature)
-        model.add_layer(5,"softplus")
-        model.add_layer(3,"tanh")
-        model.add_layer(1,"sigmoid")
+        model.add_layer(5,"softplus",0.01)
+        model.add_layer(3,"tanh",0.02)
+        model.add_layer(1,"sigmoid",0.03)
         optimizer = None
         model.compile("binarycrossentropy",optimizer)
         eps = 1e-5
@@ -59,9 +59,9 @@ class Test_functions(unittest.TestCase):
         nclass = 3
         X,Y = example_classification.example(nfeature,m,case,nclass)
         model = NeuralNetwork.NeuralNetwork(nfeature)
-        model.add_layer(5,"softplus")
-        model.add_layer(3,"tanh")
-        model.add_layer(nclass,"softmax")
+        model.add_layer(5,"softplus",0.01)
+        model.add_layer(3,"tanh",0.02)
+        model.add_layer(nclass,"softmax",0.03)
         optimizer = None
         model.compile("crossentropy",optimizer)
         eps = 1e-5

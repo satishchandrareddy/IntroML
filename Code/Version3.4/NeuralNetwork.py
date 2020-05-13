@@ -11,7 +11,7 @@ class NeuralNetwork(NeuralNetwork_Base.NeuralNetwork_Base):
         self.nfeature = nfeature
         self.info = []
 
-    def add_layer(self,nunit,activation):
+    def add_layer(self,nunit,activation,lamb=0):
         if self.nlayer == 0:
             nIn = self.nfeature
         else:
@@ -20,6 +20,7 @@ class NeuralNetwork(NeuralNetwork_Base.NeuralNetwork_Base):
         linfo["param"] = {"W": np.random.randn(nunit,nIn), "b": np.random.randn(nunit,1)}
         linfo["param_der"] = {"W": np.zeros((nunit,nIn)), "b": np.zeros((nunit,1))}
         linfo["optimizer"] = {"W": None, "b": None}
+        linfo["lambda"] = lamb
         self.info.append(linfo)
         self.nlayer += 1
 
@@ -43,10 +44,10 @@ class NeuralNetwork(NeuralNetwork_Base.NeuralNetwork_Base):
             # compute grad_W L and grad_b L
             self.info[layer]["param_der"]["b"] = np.sum(dloss_dZ,axis=1,keepdims=True)
             if layer > 0:
-                self.info[layer]["param_der"]["W"] = np.dot(dloss_dZ,self.get_A(layer-1).T)
+                self.info[layer]["param_der"]["W"] = np.dot(dloss_dZ,self.get_A(layer-1).T)+self.info[layer]["lambda"]*self.get_param(layer,"param","W")
                 dloss_dA = np.dot(self.get_param(layer,"param","W").T,dloss_dZ)
             else:
-                self.info[layer]["param_der"]["W"] = np.dot(dloss_dZ,X.T)
+                self.info[layer]["param_der"]["W"] = np.dot(dloss_dZ,X.T)+self.info[layer]["lambda"]*self.get_param(layer,"param","W")
 
     def concatenate_param(self,order):
         flat = np.zeros((1,0))

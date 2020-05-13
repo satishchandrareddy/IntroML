@@ -24,8 +24,8 @@ optimizer = {"method": "GradientDescent", "learning_rate": 0.1}
 model.compile("binarycrossentropy",optimizer)
 model.summary()
 # (4) Train model
-epochs = 300
-history = model.train(X,Y,epochs)
+epochs = 100
+history = model.train(X,Y,epochs,batchsize=32)
 # (5) Results
 # plot loss and accuracy
 plot_results.plot_results_history(history,["loss"])

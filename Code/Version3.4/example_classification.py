@@ -3,8 +3,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def example(nfeature,m,case,nclass=2):
-	X = 4*np.random.rand(nfeature,m)-2
+def example(nfeature,m,case,nclass=2,testpercent=0):
+	X = 4*np.random.rand(nfeature,int(m*(1+testpercent)))-2
 	if case == "linear":
 		Y = X[0,:] + X[1,:] - 0.25
 	elif case == "quadratic":
@@ -13,6 +13,8 @@ def example(nfeature,m,case,nclass=2):
 		Y = X[1,:] - np.power(X[0,:],3) - 2*np.power(X[0,:],2)+ 1.5
 	elif case == "disk":
 		Y = np.square(X[0,:])+np.square(X[1,:])-1
+	elif case == "smalldisk":
+		Y = np.square(X[0,:])+np.square(X[1,:])+0.48
 	elif case == "band":
 		Y = X[0,:] + X[1,:] 
 		Y = np.fmod(Y,nclass)
@@ -20,7 +22,11 @@ def example(nfeature,m,case,nclass=2):
 	Y = np.round(Y)
 	Y = np.minimum(Y,nclass-1)
 	Y = np.expand_dims(Y,axis=0)
-	return X,Y
+	# train and validation/test sets
+	if testpercent == 0:
+		return X,Y
+	else:
+		return X[:,:m], Y[:,0:m], X[:,m:], Y[:,m:]
 
 def plot_results_classification(Xtrain,Ytrain,nclass):
     # plot heat map of model results
@@ -38,9 +44,13 @@ def plot_results_classification(Xtrain,Ytrain,nclass):
 
 if __name__ == "__main__":
 	nfeature = 2
-	m = 5000
+	m = 1000
 	case = "quadratic"
 	nclass = 3
-	X,Y = example(nfeature,m,case,nclass)
-	plot_results_classification(X,Y,nclass)
-	plt.show()
+	Xtrain,Ytrain,Xtest,Ytest = example(nfeature,m,case,nclass,0.2)
+	print("Xtrain.shape: {}".format(Xtrain.shape))
+	print("Ytrain.shape: {}".format(Ytrain.shape))
+	print("Xtest.shape: {}".format(Xtest.shape))
+	print("Ytest.shape: {}".format(Ytest.shape))
+	#plot_results_classification(Xtrain,Ytrain,nclass)
+	#plt.show()

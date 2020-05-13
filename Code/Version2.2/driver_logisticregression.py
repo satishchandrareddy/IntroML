@@ -1,5 +1,5 @@
-# driver_linearregression.py
-#
+# driver_logisticregression.py
+
 import LRegression
 import matplotlib.pyplot as plt
 import numpy as np

@@ -1,5 +1,5 @@
-# driver_neuralnetwork.py
-#
+# driver_neuralnetwork_binary.py
+
 import NeuralNetwork
 import example_classification
 import matplotlib.pyplot as plt
