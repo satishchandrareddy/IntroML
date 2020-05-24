@@ -1,7 +1,7 @@
 # NeuralNetwork_Base.py
 
-import numpy as np
 import functions_loss
+import numpy as np
 import Optimizer
 class NeuralNetwork_Base:
     def __init__(self):
@@ -95,7 +95,7 @@ class NeuralNetwork_Base:
         if self.loss == "meansquarederror":
             return np.mean(np.absolute(Y - Y_pred))
         elif self.loss == "binarycrossentropy":
-            return 1 - np.mean(np.absolute(Y-Y_pred))
+            return np.mean(np.absolute(Y-Y_pred)<1e-7)
 
     def summary(self):
         print(" ")

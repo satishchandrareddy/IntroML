@@ -93,7 +93,7 @@ class NeuralNetwork_Base:
         elif self.info[self.nlayer-1]["activation"]=="linear":
             return self.get_A(self.nlayer-1)
         elif self.info[self.nlayer-1]["activation"]=="softmax":
-            return np.argmax(self.get_A(self.nlayer-1),0)
+            return np.expand_dims(np.argmax(self.get_A(self.nlayer-1),0),axis=0)
 
     def accuracy(self,Y,Y_pred):
         if self.loss == "meansquarederror":

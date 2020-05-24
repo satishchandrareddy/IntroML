@@ -72,14 +72,23 @@ class NeuralNetwork_Base:
             for label in self.get_param_label(layer):
                 self.info[layer]["param"][label] += self.info[layer]["optimizer"][label].update(self.get_param(layer,"param_der",label))
 
-    def train(self,X,Y,epochs):
+    def train(self,X,Y,epochs,**kwargs):
         # iterate over epochs
         loss_history = []
         accuracy_history = []
+        # get mini-batches
+        if "batchsize" in kwargs:
+            mini_batch = self.mini_batch(X,Y,kwargs["batchsize"])
+        else:
+            mini_batch = [(X,Y)]
+        # train
         for epoch in range(epochs):
-            self.forward_propagate(X)
-            self.back_propagate(X,Y)
-            self.update_param()
+            # train using mini-batches
+            for (Xbatch,Ybatch) in mini_batch:
+                self.forward_propagate(Xbatch)
+                self.back_propagate(Xbatch,Ybatch)
+                self.update_param()
+            # compute loss and accuracy after cycling through all mini-batches    
             Y_pred = self.predict(X)
             loss_history.append(self.compute_loss(Y))
             accuracy_history.append(self.accuracy(Y,Y_pred))
@@ -115,4 +124,17 @@ class NeuralNetwork_Base:
         print("Total parameters: {}".format(nparameter_total))
         print(" ")
 
-    
+    def mini_batch(self,X,Y,batchsize):
+        m = Y.shape[1]
+        # determine number of mini-batches
+        if m % batchsize == 0:
+            n = int(m/batchsize)
+        else:
+            n = int(m/batchsize) + 1
+        # create mini-batches
+        mini_batch = []
+        for count in range(n):
+            start = count*batchsize
+            end = start + min(start+batchsize,m)
+            mini_batch.append((X[:,start:end],Y[:,start:end]))
+        return mini_batch

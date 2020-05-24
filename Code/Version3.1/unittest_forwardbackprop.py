@@ -9,8 +9,8 @@ import unittest
 class Test_functions(unittest.TestCase):
     
     def test_LinearRegression(self):
-        m = 1000
         nfeature = 8
+        m = 1000
         X = np.random.rand(nfeature,m)
         Y = np.sum(X,axis=0) + 7
         model = LRegression.LRegression(nfeature,"linear")
@@ -22,8 +22,8 @@ class Test_functions(unittest.TestCase):
         self.assertLessEqual(error,1e-7)
   
     def test_LogisticRegression(self):
+        nfeature = 2
         m = 1000
-        nfeature = 8
         X = np.random.rand(nfeature,m)
         Y = (X[0,:] + X[1,:] - 0.75 > 0).astype(float)
         Y = np.expand_dims(Y,axis=0)
@@ -36,8 +36,8 @@ class Test_functions(unittest.TestCase):
         self.assertLessEqual(error,1e-7)
 
     def test_NeuralNetwork_binary(self):
-        m = 1000
         nfeature = 8
+        m = 1000
         X = np.random.rand(nfeature,m)
         Y = (X[0,:] + X[1,:] - 0.75 > 0).astype(float)
         Y = np.expand_dims(Y,axis=0)

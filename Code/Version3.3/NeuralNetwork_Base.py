@@ -31,7 +31,10 @@ class NeuralNetwork_Base:
         return self.info[layer]["A"]
 
     def compute_loss(self,Y):
-        return functions_loss.loss(self.loss,self.get_A(self.nlayer-1),Y)
+        Loss = 0
+        for layer in range(self.nlayer):
+            Loss += 0.5*self.info[layer]["lambda"]*np.sum(np.square(self.get_param(layer,"param","W")))
+        return Loss+functions_loss.loss(self.loss,self.get_A(self.nlayer-1),Y)
 
     def test_derivative(self,X,Y,eps):
         # compute gradients
@@ -76,6 +79,9 @@ class NeuralNetwork_Base:
         # iterate over epochs
         loss = []
         accuracy = []
+        output = True
+        if "verbose" in kwargs:
+            output = kwargs["verbose"]
         if "validation_data" in kwargs:
             loss_valid = []
             accuracy_valid = []
@@ -101,9 +107,11 @@ class NeuralNetwork_Base:
                 loss_valid.append(self.compute_loss(kwargs["validation_data"][1]))
                 Ytest_pred = self.predict(kwargs["validation_data"][0])
                 accuracy_valid.append(self.accuracy(kwargs["validation_data"][1],Ytest_pred))
-                print("Epoch: {} - loss: {} - accuracy: {} - loss_valid: {} - accuracy_valid: {}".format(epoch+1,loss[epoch],accuracy[epoch],loss_valid[epoch],accuracy_valid[epoch]))
+                if output:
+                    print("Epoch: {} - loss: {} - accuracy: {} - loss_valid: {} - accuracy_valid: {}".format(epoch+1,loss[epoch],accuracy[epoch],loss_valid[epoch],accuracy_valid[epoch]))
             else:
-                print("Epoch: {} - Cost: {} - Accuracy: {}".format(epoch,loss[epoch],accuracy[epoch]))
+                if output:
+                    print("Epoch: {} - Cost: {} - Accuracy: {}".format(epoch,loss[epoch],accuracy[epoch]))
         if "validation_data" in kwargs:
             return {"loss":np.array(loss),"accuracy":np.array(accuracy),"loss_valid":np.array(loss_valid),"accuracy_valid":np.array(accuracy_valid)}
         else:
@@ -147,7 +155,7 @@ class NeuralNetwork_Base:
         print
         print("Total parameters: {}".format(nparameter_total))
         print(" ")
-    
+
     def mini_batch(self,X,Y,batchsize):
         m = Y.shape[1]
         # determine number of mini-batches
@@ -162,3 +170,19 @@ class NeuralNetwork_Base:
             end = start + min(start+batchsize,m)
             mini_batch.append((X[:,start:end],Y[:,start:end]))
         return mini_batch
+
+    def confusion_matrix(self,Y,Y_pred,nclass):
+        print("\t\tConfusion Matrix")
+        print("\t\tActual")
+        strhead = [" \t\t"] + [str(i)+"\t" for i in range(nclass)]
+        print("".join(strhead))
+        for pred in range(nclass):
+            idx_pred = np.where(np.squeeze(np.absolute(Y_pred-pred)<1e-7))
+            if pred == 0:
+                str_row = ["Predicted  0\t"]
+            else:
+                str_row = ["           "+str(pred)+"\t"]
+            for actual in range(nclass):
+                idx_act = np.where(np.squeeze(np.absolute(Y[0,idx_pred]-actual)<1e-7))
+                str_row.append(str(np.size(idx_act))+"\t")
+            print("".join(str_row))

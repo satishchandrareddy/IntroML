@@ -3,6 +3,7 @@
 import numpy as np
 import functions_loss
 import Optimizer
+
 class NeuralNetwork_Base:
     def __init__(self):
         pass 
@@ -81,18 +82,18 @@ class NeuralNetwork_Base:
             Y_pred = self.predict(X)
             loss_history.append(self.compute_loss(Y))
             accuracy_history.append(self.accuracy(Y,Y_pred))
-            print("Epoch: {} - Cost: {} - Accuracy: {}".format(epoch,loss_history[epoch],accuracy_history[epoch]))
+            print("Epoch: {} - Cost: {} - Accuracy: {}".format(epoch+1,loss_history[epoch],accuracy_history[epoch]))
         return {"loss":np.array(loss_history),"accuracy":np.array(accuracy_history)}
 
     def predict(self,X):
         self.forward_propagate(X)
-        if self.info[self.nlayer-1]["activation"]=="sigmoid":
-            return np.round(self.get_A(self.nlayer-1),0)
-        elif self.info[self.nlayer-1]["activation"]=="linear":
+        if self.info[self.nlayer-1]["activation"]=="linear":
             return self.get_A(self.nlayer-1)
+        elif self.info[self.nlayer-1]["activation"]=="sigmoid":
+            return np.round(self.get_A(self.nlayer-1),0)
 
     def accuracy(self,Y,Y_pred):
         if self.loss == "meansquarederror":
             return np.mean(np.absolute(Y - Y_pred))
         elif self.loss == "binarycrossentropy":
-            return 1 - np.mean(np.absolute(Y-Y_pred))
+            return np.mean(np.absolute(Y-Y_pred)<1e-7)

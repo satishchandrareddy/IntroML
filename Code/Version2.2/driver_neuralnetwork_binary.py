@@ -20,16 +20,16 @@ model.add_layer(8,"tanh")
 model.add_layer(4,"tanh")
 model.add_layer(1,"sigmoid")
 # (3) Compile model and print summary
-optimizer = {"method": "GradientDescent", "learning_rate": 0.1}
+optimizer = {"method": "GradientDescent", "learning_rate": 0.3}
 model.compile("binarycrossentropy",optimizer)
 model.summary()
 # (4) Train model
-epochs = 300
+epochs = 100
 history = model.train(X,Y,epochs)
 # (5) Results
 # plot loss and accuracy
 plot_results.plot_results_history(history,["loss"])
 plot_results.plot_results_history(history,["accuracy"])
 # plot heatmap in x0-x1 plane
-plot_results.plot_results_classification(model,X,Y,nclass)
+plot_results.plot_results_classification((X,Y),model,nclass)
 plt.show()

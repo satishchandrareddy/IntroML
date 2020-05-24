@@ -82,7 +82,7 @@ class NeuralNetwork_Base:
             Y_pred = self.predict(X)
             loss_history.append(self.compute_loss(Y))
             accuracy_history.append(self.accuracy(Y,Y_pred))
-            print("Epoch: {} - Cost: {} - Accuracy: {}".format(epoch,loss_history[epoch],accuracy_history[epoch]))
+            print("Epoch: {} - Cost: {} - Accuracy: {}".format(epoch+1,loss_history[epoch],accuracy_history[epoch]))
         return {"loss":np.array(loss_history),"accuracy":np.array(accuracy_history)}
 
     def predict(self,X):
@@ -93,4 +93,3 @@ class NeuralNetwork_Base:
     def accuracy(self,Y,Y_pred):
         if self.loss == "meansquarederror":
             return np.mean(np.absolute(Y - Y_pred))
-        return accuracy

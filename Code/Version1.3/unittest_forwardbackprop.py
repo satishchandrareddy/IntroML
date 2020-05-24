@@ -20,12 +20,12 @@ class Test_functions(unittest.TestCase):
         self.assertLessEqual(error,1e-7)
   
     def test_LogisticRegression(self):
+        nfeature = 2
         m = 1000
-        n_feature = 2
-        X = np.random.rand(n_feature,m)
+        X = np.random.rand(nfeature,m)
         Y = (X[0,:] + X[1,:] - 0.75 > 0).astype(float)
         Y = np.expand_dims(Y,axis=0)
-        model = LRegression.LRegression(n_feature,"sigmoid")
+        model = LRegression.LRegression(nfeature,"sigmoid")
         optimizer = None
         model.compile("binarycrossentropy",optimizer)
         eps = 1e-5

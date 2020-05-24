@@ -7,6 +7,7 @@ import numpy as np
 import onehot
 import Optimizer
 import plot_results
+import time
 
 # (1) Set up data
 nfeature = 2
@@ -22,15 +23,17 @@ model.add_layer(6,"tanh")
 model.add_layer(3,"tanh")
 model.add_layer(nclass,"softmax")
 # (3) Compile model
-optimizer = {"method": "Momentum", "learning_rate": 0.05, "beta": 0.9}
+optimizer = {"method": "Adam", "learning_rate": 0.02, "beta1": 0.9, "beta2": 0.999,  "epsilon": 1e-8}
 model.compile("crossentropy",optimizer)
 # (4) Train model
 epochs = 100
-history = model.train(X,Y,epochs)
+time_start = time.time()
+history = model.train(X,Y,epochs,batchsize=64)
+time_end = time.time()
+print("Train time: {}".format(time_end - time_start))
 # (5) Results
-# plot loss and accuracy
+# plot loss and accuracy and heatmap in x0-x1 plane
 plot_results.plot_results_history(history,["loss"])
 plot_results.plot_results_history(history,["accuracy"])
-# plot heatmap in x0-x1 plane
-plot_results.plot_results_classification(model,X,Y,nclass)
+plot_results.plot_results_classification((X,Y),model,nclass)
 plt.show()

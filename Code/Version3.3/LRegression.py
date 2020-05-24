@@ -6,12 +6,13 @@ import NeuralNetwork_Base
 import numpy as np
 
 class LRegression(NeuralNetwork_Base.NeuralNetwork_Base):
-    def __init__(self,nfeature,activation):
+    def __init__(self,nfeature,activation,lamb):
         self.nlayer = 1
         self.info = [{"nIn": nfeature, "nOut": 1, "activation": activation}]
         self.info[0]["param"] = {"W": np.random.randn(1,self.info[0]["nIn"]), "b": np.random.randn(1,1)}
         self.info[0]["param_der"] = {"W": np.zeros((1,self.info[0]["nIn"])), "b": np.zeros((1,1))}
         self.info[0]["optimizer"] = {"W": None, "b": None}
+        self.info[0]["lambda"] = lamb
 
     def forward_propagate(self,X):
         Z = np.dot(self.get_param(0,"param","W"),X) + self.get_param(0,"param","b")
@@ -24,7 +25,7 @@ class LRegression(NeuralNetwork_Base.NeuralNetwork_Base):
         dloss_dZ = functions_activation.activation_der(self.info[0]["activation"],self.get_A(0),dloss_dA)
         # compute grad_W L and grad_b L
         self.info[0]["param_der"]["b"] = np.sum(dloss_dZ,axis=1,keepdims=True)
-        self.info[0]["param_der"]["W"] = np.dot(dloss_dZ,X.T)
+        self.info[0]["param_der"]["W"] = np.dot(dloss_dZ,X.T)+self.info[0]["lambda"]*self.get_param(0,"param","W")
 
     def concatenate_param(self,order):
         return np.concatenate((self.get_param(0,order,"W"),self.get_param(0,order,"b")),axis=1)

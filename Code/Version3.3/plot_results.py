@@ -36,7 +36,37 @@ def plot_results_linear(model,Xtrain,Ytrain):
     plt.plot(np.squeeze(Xtest),np.squeeze(Yb),"k-",label="Normal Equation Prediction")
     plt.legend(loc = "upper left")
 
-def plot_results_classification(model,Xtrain,Ytrain,nclass=2):
+def plot_results_classification(data_train,model,nclass=2,**kwargs):
+    if "validation_data" in kwargs:
+        plot_results_data(data_train,nclass,validation_data=kwargs["validation_data"])
+    else:
+        plot_results_data(data_train,nclass)
+    plot_results_heatmap(model,data_train[0])
+
+def plot_results_data(data_train,nclass=2,**kwargs):
+    # plot training data - loop over labels (0, 1) and points in dataset which have those labels
+    Xtrain = data_train[0]
+    Ytrain = data_train[1]
+    plt.figure()
+    symbol_train = ["ro","bo","go","co"]
+    for count in range(nclass):
+        idx_train = np.where(np.squeeze(np.absolute(Ytrain-count))<1e-10)
+        strlabeltrain = "Y = " + str(count) + " train"
+        plt.plot(np.squeeze(Xtrain[0,idx_train]),np.squeeze(Xtrain[1,idx_train]),symbol_train[count],label=strlabeltrain)
+    if "validation_data" in kwargs:
+        Xvalid = kwargs["validation_data"][0]
+        Yvalid = kwargs["validation_data"][1]
+        symbol_valid = ["r^","b^","g^","c^"]
+        for count in range(nclass):
+            idx_valid = np.where(np.squeeze(np.absolute(Yvalid-count))<1e-10)
+            strlabelvalid = "Y = " + str(count) + " valid"
+            plt.plot(np.squeeze(Xvalid[0,idx_valid]),np.squeeze(Xvalid[1,idx_valid]),symbol_valid[count],label=strlabelvalid)
+    plt.xlabel("Feature 0")
+    plt.ylabel("Feature 1")
+    plt.legend(loc="upper left")
+    plt.title("Data")
+
+def plot_results_heatmap(model,Xtrain):
     # plot heat map of model results
     x0 = Xtrain[0,:]
     x1 = Xtrain[1,:]
@@ -48,21 +78,10 @@ def plot_results_classification(model,Xtrain,Ytrain,nclass=2):
     x0grid,x1grid = np.meshgrid(x0lin,x1lin)
     x0reshape = np.reshape(x0grid,(1,npoints*npoints))
     x1reshape = np.reshape(x1grid,(1,npoints*npoints))
-    # predict results 
+    # predict results (concatenated x0 and x1 1-d grids to create feature matrix
     yreshape = model.predict(np.concatenate((x0reshape,x1reshape),axis=0))
     # reshape results into 2d grid and plot heatmap
     heatmap = np.reshape(yreshape,(npoints,npoints))
-    plt.figure()
     plt.pcolormesh(x0grid,x1grid,heatmap)
     plt.colorbar()
-    # plot training data - loop over labels plot points in dataset
-    # Y=0 points (red) and Y=1 points (blue)
-    symbol_train = ["ro","bo","co","go"]
-    for count in range(nclass):
-        idx_train = np.where(np.squeeze(np.absolute(Ytrain-count))<1e-10)
-        strlabeltrain = "Y = " + str(count) + " train"
-        plt.plot(np.squeeze(Xtrain[0,idx_train]),np.squeeze(Xtrain[1,idx_train]),symbol_train[count],label=strlabeltrain)
-    plt.xlabel("Feature 0")
-    plt.ylabel("Feature 1")
-    plt.legend()
-    plt.title("Training Data and Heatmap of Prediction Results")
+    plt.title("Data and Heatmap of Prediction Results")

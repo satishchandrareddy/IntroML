@@ -1,7 +1,5 @@
 # Optimizer.py
 
-import numpy as np
-
 def constructor(dict_opt):
     if dict_opt != None:
         if dict_opt["method"] == "GradientDescent":

@@ -22,7 +22,7 @@ model.add_layer(6,"tanh")
 model.add_layer(3,"tanh")
 model.add_layer(nclass,"softmax")
 # (3) Compile model
-optimizer = {"method": "GradientDescent", "learning_rate": 0.05}
+optimizer = {"method": "GradientDescent", "learning_rate": 0.3}
 model.compile("crossentropy",optimizer)
 # (4) Train model
 epochs = 200
@@ -32,5 +32,5 @@ history = model.train(X,Y,epochs)
 plot_results.plot_results_history(history,["loss"])
 plot_results.plot_results_history(history,["accuracy"])
 # plot heatmap in x0-x1 plane
-plot_results.plot_results_classification(model,X,Y,nclass)
+plot_results.plot_results_classification((X,Y),model,nclass)
 plt.show()

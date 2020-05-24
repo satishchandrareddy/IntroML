@@ -5,8 +5,8 @@ import numpy as np
 
 def plot_results_history(history,key_list):
     plt.figure()
-    epoch_array = np.arange(0,history[key_list[0]].shape[0])
     for key in key_list:
+        epoch_array = np.arange(1,history[key].shape[0]+1)
         plt.plot(epoch_array,history[key],'r-',label=key)
     plt.xlabel("Epoch")
     plt.ylabel(",".join(key_list))

@@ -2,22 +2,29 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+import plot_results
 
-def example(nfeature,m,case,nclass=2,testpercent=0):
+def example(nfeature,m,case,nclass=2,noise=False,testpercent=0):
 	X = 4*np.random.rand(nfeature,int(m*(1+testpercent)))-2
 	if case == "linear":
 		Y = X[0,:] + X[1,:] - 0.25
+	if case == "linearwave":
+		Y = X[1,:] - np.sin(3.14*X[0,:])
 	elif case == "quadratic":
 		Y = X[1,:] - np.square(X[0,:]) + 1.5
 	elif case == "cubic":
 		Y = X[1,:] - np.power(X[0,:],3) - 2*np.power(X[0,:],2)+ 1.5
 	elif case == "disk":
 		Y = np.square(X[0,:])+np.square(X[1,:])-1
-	elif case == "smalldisk":
-		Y = np.square(X[0,:])+np.square(X[1,:])+0.48
-	elif case == "band":
-		Y = X[0,:] + X[1,:] 
+	elif case == "ring":
+		Y = 1.25*np.sqrt(np.square(X[0,:])+np.square(X[1,:]))
 		Y = np.fmod(Y,nclass)
+	elif case == "band":
+		Y = X[0,:] + X[1,:]
+		Y = np.fmod(Y,nclass)
+	# add noise if requested
+	if noise:
+		Y = Y + 0.3*np.random.randn(X.shape[1])
 	Y = np.maximum(Y,0.0)
 	Y = np.round(Y)
 	Y = np.minimum(Y,nclass-1)
@@ -28,29 +35,13 @@ def example(nfeature,m,case,nclass=2,testpercent=0):
 	else:
 		return X[:,:m], Y[:,0:m], X[:,m:], Y[:,m:]
 
-def plot_results_classification(Xtrain,Ytrain,nclass):
-    # plot heat map of model results
-    plt.figure()
-    # plot training data - loop over labels plot points in dataset
-    # Y=0 points (red) and Y=1 points (blue)
-    symbol_train = ["ro","bo","co","go"]
-    for count in range(nclass):
-        idx_train = np.where(np.squeeze(np.absolute(Ytrain-count))<1e-10)
-        strlabeltrain = "Y = " + str(count) + " train"
-        plt.plot(np.squeeze(Xtrain[0,idx_train]),np.squeeze(Xtrain[1,idx_train]),symbol_train[count],label=strlabeltrain)
-    plt.xlabel("Feature 0")
-    plt.ylabel("Feature 1")
-    plt.title("Training Data")
-
 if __name__ == "__main__":
 	nfeature = 2
 	m = 1000
 	case = "quadratic"
-	nclass = 3
-	Xtrain,Ytrain,Xtest,Ytest = example(nfeature,m,case,nclass,0.2)
-	print("Xtrain.shape: {}".format(Xtrain.shape))
-	print("Ytrain.shape: {}".format(Ytrain.shape))
-	print("Xtest.shape: {}".format(Xtest.shape))
-	print("Ytest.shape: {}".format(Ytest.shape))
-	#plot_results_classification(Xtrain,Ytrain,nclass)
-	#plt.show()
+	nclass = 2
+	noise = True
+	np.random.seed(10)
+	Xtrain,Ytrain,Xvalid,Yvalid = example(nfeature,m,case,nclass,noise,0.2)
+	plot_results.plot_results_data((Xtrain,Ytrain),nclass)
+	plt.show()
