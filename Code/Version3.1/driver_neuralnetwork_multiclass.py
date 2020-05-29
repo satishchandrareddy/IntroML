@@ -3,8 +3,6 @@
 import NeuralNetwork
 import example_classification
 import matplotlib.pyplot as plt
-import numpy as np
-import onehot
 import Optimizer
 import plot_results
 import time
@@ -28,7 +26,7 @@ model.compile("crossentropy",optimizer)
 # (4) Train model
 epochs = 100
 time_start = time.time()
-history = model.train(X,Y,epochs,batchsize=64)
+history = model.fit(X,Y,epochs,batchsize=64)
 time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Results

@@ -31,10 +31,10 @@ class NeuralNetwork_Base:
         return self.info[layer]["A"]
 
     def compute_loss(self,Y):
-        Loss = 0
+        Loss = functions_loss.loss(self.loss,self.get_A(self.nlayer-1),Y)
         for layer in range(self.nlayer):
-            Loss += 0.5*self.info[layer]["lambda"]*np.sum(np.square(self.get_param(layer,"param","W")))
-        return Loss+functions_loss.loss(self.loss,self.get_A(self.nlayer-1),Y)
+            Loss += self.info[layer]["lambda"]*np.sum(np.square(self.get_param(layer,"param","W")))
+        return Loss
 
     def test_derivative(self,X,Y,eps):
         # compute gradients
@@ -75,16 +75,19 @@ class NeuralNetwork_Base:
             for label in self.get_param_label(layer):
                 self.info[layer]["param"][label] += self.info[layer]["optimizer"][label].update(self.get_param(layer,"param_der",label))
 
-    def train(self,X,Y,epochs,**kwargs):
+    def fit(self,X,Y,epochs,**kwargs):
         # iterate over epochs
         loss = []
         accuracy = []
+        output = True
+        if "verbose" in kwargs:
+            output = kwargs["verbose"]
         if "validation_data" in kwargs:
-            loss_valid = []
-            accuracy_valid = []
+            valid_loss = []
+            valid_accuracy = []
         #get mini-batches
-        if "batchsize" in kwargs:
-            mini_batch = self.mini_batch(X,Y,kwargs["batchsize"])
+        if "batch_size" in kwargs:
+            mini_batch = self.mini_batch(X,Y,kwargs["batch_size"])
         else:
             mini_batch = [(X,Y)]
         # train
@@ -101,14 +104,16 @@ class NeuralNetwork_Base:
             # compute loss and accuracy for test set
             if "validation_data" in kwargs:
                 self.forward_propagate(kwargs["validation_data"][0])
-                loss_valid.append(self.compute_loss(kwargs["validation_data"][1]))
+                valid_loss.append(self.compute_loss(kwargs["validation_data"][1]))
                 Ytest_pred = self.predict(kwargs["validation_data"][0])
-                accuracy_valid.append(self.accuracy(kwargs["validation_data"][1],Ytest_pred))
-                print("Epoch: {} - loss: {} - accuracy: {} - loss_valid: {} - accuracy_valid: {}".format(epoch+1,loss[epoch],accuracy[epoch],loss_valid[epoch],accuracy_valid[epoch]))
+                valid_accuracy.append(self.accuracy(kwargs["validation_data"][1],Ytest_pred))
+                if output:
+                    print("Epoch: {} - loss: {} - accuracy: {} - valid_loss: {} - valid_accuracy: {}".format(epoch+1,loss[epoch],accuracy[epoch],valid_loss[epoch],valid_accuracy[epoch]))
             else:
-                print("Epoch: {} - Cost: {} - Accuracy: {}".format(epoch,loss[epoch],accuracy[epoch]))
+                if output:
+                    print("Epoch: {} - Cost: {} - Accuracy: {}".format(epoch+1,loss[epoch],accuracy[epoch]))
         if "validation_data" in kwargs:
-            return {"loss":np.array(loss),"accuracy":np.array(accuracy),"loss_valid":np.array(loss_valid),"accuracy_valid":np.array(accuracy_valid)}
+            return {"loss":np.array(loss),"accuracy":np.array(accuracy),"valid_loss":np.array(valid_loss),"valid_accuracy":np.array(valid_accuracy)}
         else:
             return {"loss":np.array(loss),"accuracy":np.array(accuracy)}
 
@@ -130,15 +135,6 @@ class NeuralNetwork_Base:
         elif self.loss == "crossentropy":
             return np.mean(np.absolute(Y-Y_pred)<1e-7)
 
-    def f1score(self,Y,Y_pred):
-        idx_truepositive = np.where((np.absolute(Y-1)<1e-7)&(np.absolute(Y_pred-1)<1e-7))
-        idx_actualpositive = np.where(np.absolute(Y-1)<1e-7)
-        idx_predpositive = np.where(np.absolute(Y_pred-1)<1e-7)
-        precision = np.size(idx_truepositive)/(np.size(idx_predpositive)+1e-7)
-        recall = np.size(idx_truepositive)/(np.size(idx_actualpositive)+1e-7)
-        f1score = 2*precision*recall/(precision + recall)
-        return f1score,precision,recall
-           
     def summary(self):
         print(" ")
         print("Layer\tUnits In\tUnits Out\tParameters")
@@ -146,22 +142,22 @@ class NeuralNetwork_Base:
         for layer in range(self.nlayer):
             nparameter = (self.info[layer]["nIn"]+1)*self.info[layer]["nOut"]
             nparameter_total += nparameter
-            print("{}\t{}\t\t{}\t\t{}".format(layer,self.info[layer]["nIn"],self.info[layer]["nOut"],nparameter))
+            print("{}\t{}\t\t{}\t\t{}".format(layer+1,self.info[layer]["nIn"],self.info[layer]["nOut"],nparameter))
         print
         print("Total parameters: {}".format(nparameter_total))
         print(" ")
-    
-    def mini_batch(self,X,Y,batchsize):
+
+    def mini_batch(self,X,Y,batch_size):
         m = Y.shape[1]
         # determine number of mini-batches
-        if m % batchsize == 0:
-            n = int(m/batchsize)
+        if m % batch_size == 0:
+            n = int(m/batch_size)
         else:
-            n = int(m/batchsize) + 1
+            n = int(m/batch_size) + 1
         # create mini-batches
         mini_batch = []
         for count in range(n):
-            start = count*batchsize
-            end = start + min(start+batchsize,m)
+            start = count*batch_size
+            end = start + min(start+batch_size,m)
             mini_batch.append((X[:,start:end],Y[:,start:end]))
         return mini_batch

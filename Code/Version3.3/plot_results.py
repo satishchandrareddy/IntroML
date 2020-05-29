@@ -6,7 +6,7 @@ import numpy as np
 def plot_results_history(history,key_list):
     plt.figure()
     linemarker = ["r-","b-","k-","g-","c-"]
-    epoch_array = np.arange(0,history[key_list[0]].shape[0])
+    epoch_array = np.arange(1,len(history[key_list[0]])+1)
     for count in range(len(key_list)):
         plt.plot(epoch_array,history[key_list[count]],linemarker[count],label=key_list[count])
     plt.xlabel("Epoch")
@@ -36,17 +36,17 @@ def plot_results_linear(model,Xtrain,Ytrain):
     plt.plot(np.squeeze(Xtest),np.squeeze(Yb),"k-",label="Normal Equation Prediction")
     plt.legend(loc = "upper left")
 
-def plot_results_classification(data_train,model,nclass=2,**kwargs):
+def plot_results_classification(train_data,model,nclass=2,**kwargs):
     if "validation_data" in kwargs:
-        plot_results_data(data_train,nclass,validation_data=kwargs["validation_data"])
+        plot_results_data(train_data,nclass,validation_data=kwargs["validation_data"])
     else:
-        plot_results_data(data_train,nclass)
-    plot_results_heatmap(model,data_train[0])
+        plot_results_data(train_data,nclass)
+    plot_results_heatmap(model,train_data[0])
 
-def plot_results_data(data_train,nclass=2,**kwargs):
+def plot_results_data(train_data,nclass=2,**kwargs):
     # plot training data - loop over labels (0, 1) and points in dataset which have those labels
-    Xtrain = data_train[0]
-    Ytrain = data_train[1]
+    Xtrain = train_data[0]
+    Ytrain = train_data[1]
     plt.figure()
     symbol_train = ["ro","bo","go","co"]
     for count in range(nclass):

@@ -25,7 +25,7 @@ class LRegression(NeuralNetwork_Base.NeuralNetwork_Base):
         dloss_dZ = functions_activation.activation_der(self.info[0]["activation"],self.get_A(0),dloss_dA)
         # compute grad_W L and grad_b L
         self.info[0]["param_der"]["b"] = np.sum(dloss_dZ,axis=1,keepdims=True)
-        self.info[0]["param_der"]["W"] = np.dot(dloss_dZ,X.T)+self.info[0]["lambda"]*self.get_param(0,"param","W")
+        self.info[0]["param_der"]["W"] = np.dot(dloss_dZ,X.T)+2*self.info[0]["lambda"]*self.get_param(0,"param","W")
 
     def concatenate_param(self,order):
         return np.concatenate((self.get_param(0,order,"W"),self.get_param(0,order,"b")),axis=1)

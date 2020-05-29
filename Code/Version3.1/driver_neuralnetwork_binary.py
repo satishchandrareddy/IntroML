@@ -3,14 +3,13 @@
 import NeuralNetwork
 import example_classification
 import matplotlib.pyplot as plt
-import numpy as np
 import Optimizer
 import plot_results
 import time
 
 # (1) Set up data
 nfeature = 2
-m = 2000
+m = 1000
 case = "quadratic"
 nclass = 2
 X,Y = example_classification.example(nfeature,m,case,nclass)
@@ -27,7 +26,7 @@ model.summary()
 # (4) Train model
 epochs = 20
 time_start = time.time()
-history = model.train(X,Y,epochs,batchsize=64)
+history = model.fit(X,Y,epochs,batch_size=64)
 time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Results

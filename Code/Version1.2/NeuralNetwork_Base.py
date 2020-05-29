@@ -71,19 +71,19 @@ class NeuralNetwork_Base:
             for label in self.get_param_label(layer):
                 self.info[layer]["param"][label] += self.info[layer]["optimizer"][label].update(self.get_param(layer,"param_der",label))
 
-    def train(self,X,Y,epochs):
+    def fit(self,X,Y,epochs):
         # iterate over epochs
-        loss_history = []
-        accuracy_history = []
+        loss = []
+        accuracy = []
         for epoch in range(epochs):
             self.forward_propagate(X)
             self.back_propagate(X,Y)
             self.update_param()
             Y_pred = self.predict(X)
-            loss_history.append(self.compute_loss(Y))
-            accuracy_history.append(self.accuracy(Y,Y_pred))
-            print("Epoch: {} - Cost: {} - Accuracy: {}".format(epoch+1,loss_history[epoch],accuracy_history[epoch]))
-        return {"loss":np.array(loss_history),"accuracy":np.array(accuracy_history)}
+            loss.append(self.compute_loss(Y))
+            accuracy.append(self.accuracy(Y,Y_pred))
+            print("Epoch: {} - Cost: {} - Accuracy: {}".format(epoch+1,loss[epoch],accuracy[epoch]))
+        return {"loss":np.array(loss),"accuracy":np.array(accuracy)}
 
     def predict(self,X):
         self.forward_propagate(X)

@@ -11,7 +11,7 @@ def plot_results_history(history,key_list):
     plt.xlabel("Epoch")
     plt.ylabel(",".join(key_list))
     plt.title(",".join(key_list))
-    plt.legend(loc="upper right")
+    plt.legend(loc="upper left")
 
 def plot_results_linear(model,Xtrain,Ytrain):
     # plot results in plane
@@ -35,14 +35,14 @@ def plot_results_linear(model,Xtrain,Ytrain):
     plt.plot(np.squeeze(Xtest),np.squeeze(Yb),"k-",label="Normal Equation Prediction")
     plt.legend(loc = "upper left")
 
-def plot_results_classification(data_train,model,nclass=2):
-    plot_results_data(data_train,nclass)
-    plot_results_heatmap(model,data_train[0])
+def plot_results_classification(train_data,model,nclass=2):
+    plot_results_data(train_data,nclass)
+    plot_results_heatmap(model,train_data[0])
 
-def plot_results_data(data_train,nclass=2):
+def plot_results_data(train_data,nclass=2):
     # plot training data - loop over labels (0, 1) and points in dataset which have those labels
-    Xtrain = data_train[0]
-    Ytrain = data_train[1]
+    Xtrain = train_data[0]
+    Ytrain = train_data[1]
     plt.figure()
     symbol_train = ["ro","bo","go","co"]
     for count in range(nclass):
@@ -51,8 +51,8 @@ def plot_results_data(data_train,nclass=2):
         plt.plot(np.squeeze(Xtrain[0,idx_train]),np.squeeze(Xtrain[1,idx_train]),symbol_train[count],label=strlabeltrain)
     plt.xlabel("Feature 0")
     plt.ylabel("Feature 1")
-    plt.legend()
-    plt.title("Training Data and Heatmap of Results")
+    plt.legend(loc="upper left")
+    plt.title("Data")
 
 def plot_results_heatmap(model,Xtrain):
     # plot heat map of model results
@@ -72,3 +72,4 @@ def plot_results_heatmap(model,Xtrain):
     heatmap = np.reshape(yreshape,(npoints,npoints))
     plt.pcolormesh(x0grid,x1grid,heatmap)
     plt.colorbar()
+    plt.title("Data and Heatmap of Prediction Results")

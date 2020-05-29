@@ -44,10 +44,10 @@ class NeuralNetwork(NeuralNetwork_Base.NeuralNetwork_Base):
             # compute grad_W L and grad_b L
             self.info[layer]["param_der"]["b"] = np.sum(dloss_dZ,axis=1,keepdims=True)
             if layer > 0:
-                self.info[layer]["param_der"]["W"] = np.dot(dloss_dZ,self.get_A(layer-1).T)+self.info[layer]["lambda"]*self.get_param(layer,"param","W")
+                self.info[layer]["param_der"]["W"] = np.dot(dloss_dZ,self.get_A(layer-1).T)+2*self.info[layer]["lambda"]*self.get_param(layer,"param","W")
                 dloss_dA = np.dot(self.get_param(layer,"param","W").T,dloss_dZ)
             else:
-                self.info[layer]["param_der"]["W"] = np.dot(dloss_dZ,X.T)+self.info[layer]["lambda"]*self.get_param(layer,"param","W")
+                self.info[layer]["param_der"]["W"] = np.dot(dloss_dZ,X.T)+2*self.info[layer]["lambda"]*self.get_param(layer,"param","W")
 
     def concatenate_param(self,order):
         flat = np.zeros((1,0))

@@ -26,7 +26,7 @@ optimizer = {"method": "GradientDescent", "learning_rate": 0.3}
 model.compile("crossentropy",optimizer)
 # (4) Train model
 epochs = 200
-history = model.train(X,Y,epochs)
+history = model.fit(X,Y,epochs)
 # (5) Results
 # plot loss and accuracy
 plot_results.plot_results_history(history,["loss"])
