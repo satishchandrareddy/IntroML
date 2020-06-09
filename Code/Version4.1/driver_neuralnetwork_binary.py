@@ -33,7 +33,7 @@ model.summary()
 # (4) Train model
 epochs = 300
 time_start = time.time()
-history = model.train(Xtrain,Ytrain,epochs,verbose=True,batch_size=1000,validation_data=(Xvalid,Yvalid))
+history = model.fit(Xtrain,Ytrain,epochs,verbose=True,batch_size=1000,validation_data=(Xvalid,Yvalid))
 time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Results

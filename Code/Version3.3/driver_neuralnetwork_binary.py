@@ -19,7 +19,7 @@ np.random.seed(10)
 Xtrain,Ytrain,Xvalid,Yvalid = example_classification.example(nfeature,m,case,nclass,noise,0.2)
 # (2) Define model
 np.random.seed(100)
-lamb = 0.02
+lamb = 0.0
 model = NeuralNetwork.NeuralNetwork(nfeature)
 model.add_layer(15,"tanh",lamb)
 model.add_layer(11,"tanh",lamb)
