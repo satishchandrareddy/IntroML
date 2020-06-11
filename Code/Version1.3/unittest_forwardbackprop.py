@@ -10,7 +10,7 @@ class Test_functions(unittest.TestCase):
         nfeature = 8
         m = 1000
         X = np.random.rand(nfeature,m)
-        Y = np.sum(X,axis=0) + 7
+        Y = np.sum(X,axis=0,keepdims=True) + 7
         model = LRegression.LRegression(nfeature,"linear")
         optimizer = None
         model.compile("meansquarederror",optimizer)

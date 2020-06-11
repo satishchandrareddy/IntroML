@@ -26,6 +26,7 @@ class LRegression(NeuralNetwork_Base.NeuralNetwork_Base):
         self.info[0]["param_der"]["W"] = np.dot(dloss_dZ,X.T)
 
     def concatenate_param(self,order):
+        # concatenate W and b or (grad W and grad b) into single row 
         return np.concatenate((self.get_param(0,order,"W"),self.get_param(0,order,"b")),axis=1)
 
     def load_param(self,flat,order):

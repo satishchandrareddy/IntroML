@@ -33,3 +33,9 @@ class LRegression(NeuralNetwork_Base.NeuralNetwork_Base):
         ncol = self.info[0]["nIn"]
         self.info[0][order]["W"]=flat[:,0:ncol]
         self.info[0][order]["b"]=flat[:,ncol:ncol+1]
+
+    def update_param(self):
+        gradW = self.get_param(0,"param_der","W")
+        self.info[0]["param"]["W"] += self.info[0]["optimizer"]["W"].update(gradW)
+        gradb = self.get_param(0,"param_der","b")
+        self.info[0]["param"]["b"] += self.info[0]["optimizer"]["b"].update(gradb)
