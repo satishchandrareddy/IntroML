@@ -1,4 +1,4 @@
-# Chapter1.4_Optimization1.py
+# Chapter1.7_Optimization1.py
 
 import numpy as np
 

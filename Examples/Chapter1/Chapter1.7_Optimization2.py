@@ -1,4 +1,4 @@
-# Chapter1.4_Optimization2.py
+# Chapter1.7_Optimization2.py
 
 import numpy as np
 import matplotlib.pyplot as plt
