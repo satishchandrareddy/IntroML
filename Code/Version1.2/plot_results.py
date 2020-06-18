@@ -14,23 +14,25 @@ def plot_results_history(history,key_list):
     plt.legend(loc="upper right")
 
 def plot_results_linear(model,Xtrain,Ytrain):
-    # plot results in plane
+    # plot training data, normal equations solution, machine learning solution
+    # determine machine learning prediction
     X0 = Xtrain[0,:]
     X0min = np.min(X0)
     X0max = np.max(X0)
-    Xtest = np.reshape(np.array([X0min,X0max]),(1,2))
+    Xtest = np.array([[X0min,X0max]])
     Ytest_pred = model.predict(Xtest)
-    # exact solution
+    # normal equation solution
     Xb = np.concatenate((Xtrain,np.ones(Ytrain.shape)),axis=0)
-    wb = np.dot(np.dot(Ytrain,Xb.T),np.linalg.inv(np.dot(Xb,Xb.T)))
-    Xtestb = np.concatenate((Xtest,np.ones((1,2))),axis=0)
-    Yb = np.dot(wb,Xtestb)
-    # plot regression results
+    Wb = np.dot(np.dot(Ytrain,Xb.T),np.linalg.inv(np.dot(Xb,Xb.T)))
+    W = Wb[0,0]
+    b = Wb[0,1]
+    Ynorm = W*Xtest+b
+    # plot results
     plt.figure()
     plt.xlabel("X")
     plt.ylabel("Y")
     plt.title("Linear Regression")
     plt.plot(np.squeeze(Xtrain),np.squeeze(Ytrain),"bo",label="Training Points")
-    plt.plot(np.squeeze(Xtest),np.squeeze(Ytest_pred),"r-",label="Model Prediction")
-    plt.plot(np.squeeze(Xtest),np.squeeze(Yb),"k-",label="Normal Equation Prediction")
+    plt.plot(np.squeeze(Xtest),np.squeeze(Ytest_pred),"r-",label="Machine Learning Prediction")
+    plt.plot(np.squeeze(Xtest),np.squeeze(Ynorm),"k-",label="Normal Equation Prediction")
     plt.legend(loc = "upper left")

@@ -64,12 +64,6 @@ class NeuralNetwork_Base:
         error = min(np.max(abs_error),np.max(rel_error))
         return error
 
-    def update_param_lr(self):
-        gradW = self.get_param(0,"param_der","W")
-        self.info[0]["param"]["W"] += self.info[0]["optimizer"]["W"].update(gradW)
-        gradb = self.get_param(0,"param_der","b")
-        self.info[0]["param"]["b"] += self.info[0]["optimizer"]["b"].update(gradb)
-
     def update_param(self):
         # Update the parameter matrices W and b for each layer in neural network
         for layer in range(self.nlayer):
