@@ -14,7 +14,11 @@ class LRegression(NeuralNetwork_Base.NeuralNetwork_Base):
         self.info[0]["optimizer"] = {"W": None, "b": None}
 
     def forward_propagate(self,X):
-        Z = np.dot(self.get_param(0,"param","W"),X) + self.get_param(0,"param","b")
+        W = self.get_param(0,"param","W")
+        b = self.get_param(0,"param","b")
+        # linear part
+        Z = np.dot(W,X) + b
+        # activation
         self.info[0]["A"] = functions_activation.activation(self.info[0]["activation"],Z)
 
     def back_propagate(self,X,Y):
@@ -27,9 +31,12 @@ class LRegression(NeuralNetwork_Base.NeuralNetwork_Base):
         self.info[0]["param_der"]["W"] = np.dot(dloss_dZ,X.T)
 
     def concatenate_param(self,order):
+        # concatenate W and b or (grad W and grad b) into single row 
         return np.concatenate((self.get_param(0,order,"W"),self.get_param(0,order,"b")),axis=1)
 
     def load_param(self,flat,order):
         ncol = self.info[0]["nIn"]
+        # W consists of the first set of entries
         self.info[0][order]["W"]=flat[:,0:ncol]
+        # b is the final entry
         self.info[0][order]["b"]=flat[:,ncol:ncol+1]

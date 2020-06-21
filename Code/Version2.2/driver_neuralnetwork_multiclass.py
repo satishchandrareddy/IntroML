@@ -4,7 +4,6 @@ import NeuralNetwork
 import example_classification
 import matplotlib.pyplot as plt
 import numpy as np
-import onehot
 import Optimizer
 import plot_results
 
@@ -22,7 +21,7 @@ model.add_layer(6,"tanh")
 model.add_layer(3,"tanh")
 model.add_layer(nclass,"softmax")
 # (3) Compile model
-optimizer = {"method": "GradientDescent", "learning_rate": 0.3}
+optimizer = Optimizer.GradientDescent(0.3)
 model.compile("crossentropy",optimizer)
 # (4) Train model
 epochs = 200

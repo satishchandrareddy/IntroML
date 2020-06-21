@@ -5,7 +5,6 @@ import example_classification
 import matplotlib.pyplot as plt
 import metrics
 import numpy as np
-import onehot
 import Optimizer
 import plot_results
 import time
@@ -26,7 +25,7 @@ model.add_layer(6,"tanh",lamb)
 model.add_layer(3,"tanh",lamb)
 model.add_layer(nclass,"softmax",lamb)
 # (3) Compile model
-optimizer = {"method": "Momentum", "learning_rate": 0.05, "beta": 0.9}
+optimizer = Optimizer.Momentum(0.05,0.9)
 model.compile("crossentropy",optimizer)
 # (4) Train model
 epochs = 100

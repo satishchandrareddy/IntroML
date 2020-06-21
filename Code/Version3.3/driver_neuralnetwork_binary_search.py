@@ -16,7 +16,7 @@ def nn(nfeature,lamb,seed,learning_rate,beta):
 	model.add_layer(8,"tanh",lamb)
 	model.add_layer(4,"tanh",lamb)
 	model.add_layer(1,"sigmoid",lamb)
-	optimizer = {"method": "Momentum", "learning_rate": learning_rate, "beta": beta}
+	optimizer = Optimizer.Momentum(learning_rate,beta)
 	model.compile("binarycrossentropy",optimizer)
 	return model
 

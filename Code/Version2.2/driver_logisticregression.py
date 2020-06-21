@@ -16,7 +16,7 @@ Y = np.expand_dims(Y,axis=0)
 # (2) Define model
 model = LRegression.LRegression(nfeature,"sigmoid")
 # (3) Compile model
-optimizer = {"method": "GradientDescent", "learning_rate": 0.5}
+optimizer = Optimizer.GradientDescent(0.5)
 model.compile("binarycrossentropy",optimizer)
 # (4) Train model
 epochs = 100

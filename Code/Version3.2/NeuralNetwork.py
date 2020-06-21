@@ -30,7 +30,9 @@ class NeuralNetwork(NeuralNetwork_Base.NeuralNetwork_Base):
                 Ain = X
             else:
                 Ain = self.get_A(layer-1)
-            Z = np.dot(self.get_param(layer,"param","W"),Ain)+self.get_param(layer,"param","b")
+            W = self.get_param(layer,"param","W")
+            b = self.get_param(layer,"param","b")
+            Z = np.dot(W,Ain)+b
             # activation
             self.info[layer]["A"] = functions_activation.activation(self.info[layer]["activation"],Z)
 

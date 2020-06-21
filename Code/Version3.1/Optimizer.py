@@ -2,17 +2,6 @@
 
 import numpy as np
 
-def constructor(dict_opt):
-    if dict_opt != None:
-        if dict_opt["method"] == "GradientDescent":
-            return GradientDescent(dict_opt["learning_rate"])
-        elif dict_opt["method"] == "Momentum":
-            return Momentum(dict_opt["learning_rate"],dict_opt["beta"])
-        elif dict_opt["method"] == "RmsProp":
-            return RmsProp(dict_opt["learning_rate"],dict_opt["beta"],dict_opt["epsilon"])
-        elif dict_opt["method"] == "Adam":
-            return Adam(dict_opt["learning_rate"],dict_opt["beta1"],dict_opt["beta2"],dict_opt["epsilon"])
-
 class Optimizer_Base:
     def __init__(self):
         pass

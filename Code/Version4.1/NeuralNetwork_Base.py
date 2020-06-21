@@ -1,7 +1,8 @@
 # NeuralNetwork_Base.py
 
-import functions_loss
+from copy import deepcopy
 import numpy as np
+import functions_loss
 import onehot
 import Optimizer
 
@@ -9,11 +10,12 @@ class NeuralNetwork_Base:
     def __init__(self):
         pass 
 
-    def compile(self,loss_fun,dict_opt):
+    def compile(self,loss_fun,optimizer_object):
         self.loss = loss_fun
+        # assign deepcopy of optimizer object to W and b for each layer
         for layer in range(self.nlayer):
-            for label in self.get_param_label(layer):
-                self.info[layer]["optimizer"][label] = Optimizer.constructor(dict_opt)
+            self.info[layer]["optimizer"]["W"] = deepcopy(optimizer_object)
+            self.info[layer]["optimizer"]["b"] = deepcopy(optimizer_object)
 
     def forward_propagate(self,X):
         pass
@@ -29,6 +31,9 @@ class NeuralNetwork_Base:
 
     def get_A(self,layer):
         return self.info[layer]["A"]
+
+    def get_Afinal(self):
+        return self.info[self.nlayer-1]["A"]
 
     def compute_loss(self,Y):
         Loss = functions_loss.loss(self.loss,self.get_A(self.nlayer-1),Y)
@@ -67,13 +72,12 @@ class NeuralNetwork_Base:
         error = min(np.max(abs_error),np.max(rel_error))
         return error
 
-    def get_param_label(self,layer):
-        return self.info[layer]["param"].keys()
-
     def update_param(self):
+        # Update the parameter matrices W and b for each layer in neural network
         for layer in range(self.nlayer):
-            for label in self.get_param_label(layer):
-                self.info[layer]["param"][label] += self.info[layer]["optimizer"][label].update(self.get_param(layer,"param_der",label))
+            # paramter_guess= i = parameter_guess=i-1 + update_guess=i-1
+            self.info[layer]["param"]["W"] += self.info[layer]["optimizer"]["W"].update(self.get_param(layer,"param_der","W"))
+            self.info[layer]["param"]["b"] += self.info[layer]["optimizer"]["b"].update(self.get_param(layer,"param_der","b"))
 
     def fit(self,X,Y,epochs,**kwargs):
         # iterate over epochs
@@ -97,7 +101,7 @@ class NeuralNetwork_Base:
                 self.forward_propagate(Xbatch)
                 self.back_propagate(Xbatch,Ybatch)
                 self.update_param()
-            # compute loss and accuracy after cycling through mini-batches
+            # compute loss and accuracy after cycling through all mini-batches    
             Y_pred = self.predict(X)
             loss.append(self.compute_loss(Y))
             accuracy.append(self.accuracy(Y,Y_pred))
@@ -120,10 +124,10 @@ class NeuralNetwork_Base:
 
     def predict(self,X):
         self.forward_propagate(X)
-        if self.info[self.nlayer-1]["activation"]=="sigmoid":
-            return np.round(self.get_A(self.nlayer-1),0)
-        elif self.info[self.nlayer-1]["activation"]=="linear":
+        if self.info[self.nlayer-1]["activation"]=="linear":
             return self.get_A(self.nlayer-1)
+        elif self.info[self.nlayer-1]["activation"]=="sigmoid":
+            return np.round(self.get_A(self.nlayer-1),0)
         elif self.info[self.nlayer-1]["activation"]=="softmax":
             return np.expand_dims(np.argmax(self.get_A(self.nlayer-1),0),axis=0)
 

@@ -1,5 +1,6 @@
 # NeuralNetwork_Base.py
 
+from copy import deepcopy
 import numpy as np
 import functions_loss
 import Optimizer
@@ -8,12 +9,12 @@ class NeuralNetwork_Base:
     def __init__(self):
         pass 
 
-    def compile(self,loss_fun,dict_opt):
+    def compile(self,loss_fun,optimizer_object):
         self.loss = loss_fun
-        # create a optimizer object for W and b for each layer of neural network
+        # assign deepcopy of optimizer object to W and b for each layer
         for layer in range(self.nlayer):
-            self.info[layer]["optimizer"]["W"] = Optimizer.constructor(dict_opt)
-            self.info[layer]["optimizer"]["b"] = Optimizer.constructor(dict_opt)
+            self.info[layer]["optimizer"]["W"] = deepcopy(optimizer_object)
+            self.info[layer]["optimizer"]["b"] = deepcopy(optimizer_object)
 
     def forward_propagate(self,X):
         pass

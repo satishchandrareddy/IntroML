@@ -5,6 +5,7 @@ import NeuralNetwork
 import numpy as np
 import matplotlib.pyplot as plt
 import metrics
+import Optimizer
 import plot_results
 import text_results
 import time
@@ -21,7 +22,7 @@ model.add_layer(200,"tanh")
 model.add_layer(50,"tanh")
 model.add_layer(1,"sigmoid")
 # (3) Compile model
-optimizer = {"method": "Adam", "learning_rate": 0.02, "beta1": 0.9, "beta2": 0.999, "epsilon": 1e-7}
+optimizer = Optimizer.Adam(0.02,0.9,0.999,1e-7)
 model.compile("binarycrossentropy",optimizer)
 model.summary()
 # (4) Train model

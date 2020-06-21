@@ -23,7 +23,7 @@ model.add_layer(6,"tanh")
 model.add_layer(3,"tanh")
 model.add_layer(nclass,"softmax")
 # (3) Compile model
-optimizer = {"method": "Momentum", "learning_rate": 0.05, "beta": 0.9}
+optimizer = Optimizer.Momentum(0.05,0.9)
 model.compile("crossentropy",optimizer)
 # (4) Train model
 epochs = 100
@@ -35,8 +35,9 @@ print("Train time: {}".format(time_end - time_start))
 # confusion matrix
 Yvalid_pred = model.predict(Xvalid)
 metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
-# plot loss and accuracy and heatmap in x0-x1 plane
+# plot loss and accuracy
 plot_results.plot_results_history(history,["loss","valid_loss"])
 plot_results.plot_results_history(history,["accuracy","valid_accuracy"])
+# plot heatmap in x0-x1 plane
 plot_results.plot_results_classification((Xtrain,Ytrain),model,nclass,validation_data=(Xvalid,Yvalid))
 plt.show()

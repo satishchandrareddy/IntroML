@@ -21,7 +21,7 @@ model.add_layer(6,"tanh")
 model.add_layer(3,"tanh")
 model.add_layer(nclass,"softmax")
 # (3) Compile model
-optimizer = {"method": "Adam", "learning_rate": 0.02, "beta1": 0.9, "beta2": 0.999,  "epsilon": 1e-8}
+optimizer = Optimizer.Adam(0.02,0.9,0.999,1e-8)
 model.compile("crossentropy",optimizer)
 # (4) Train model
 epochs = 100
@@ -30,8 +30,9 @@ history = model.fit(X,Y,epochs,batchsize=64)
 time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Results
-# plot loss and accuracy and heatmap in x0-x1 plane
+# plot loss and accuracy
 plot_results.plot_results_history(history,["loss"])
 plot_results.plot_results_history(history,["accuracy"])
+# plot heatmap in x0-x1 plane
 plot_results.plot_results_classification((X,Y),model,nclass)
 plt.show()

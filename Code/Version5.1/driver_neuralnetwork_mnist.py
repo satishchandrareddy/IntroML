@@ -5,6 +5,7 @@ import NeuralNetwork
 import matplotlib.pyplot as plt
 import numpy as np
 import metrics
+import Optimizer
 import plot_results
 import time
 
@@ -20,7 +21,7 @@ model = NeuralNetwork.NeuralNetwork(784)
 model.add_layer(128,"tanh",lamb)
 model.add_layer(nclass,"softmax",lamb)
 # (3) Compile model
-optimizer = {"method": "Adam", "learning_rate": 0.02, "beta1": 0.9, "beta2": 0.999, "epsilon": 1e-7}
+optimizer = Optimizer.Adam(0.02,0.9,0.999,1e-7)
 model.compile("crossentropy",optimizer)
 model.summary()
 # (4) Train model
@@ -33,8 +34,11 @@ print("Train time: {}".format(time_end - time_start))
 # confusion matrix
 Yvalid_pred = model.predict(Xvalid)
 metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
-# plot loss, accuracy, and animation of results
+# plot loss, accuracy
 plot_results.plot_results_history(history,["loss","valid_loss"])
 plot_results.plot_results_history(history,["accuracy","valid_accuracy"])
+# plot digit and bar chart
+plot_results.plot_results_mnist(Xvalid,Yvalid,Yvalid_pred,model.get_Afinal(),0)
+# plot animation of results
 plot_results.plot_results_mnist_animation(Xvalid,Yvalid,Yvalid_pred,100)
 plt.show()

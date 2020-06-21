@@ -14,7 +14,7 @@ Y = Y + 0.1*np.random.randn(m)
 # (2) Define model
 model = LRegression.LRegression(1,"linear")
 # (3) Compile model
-optimizer = {"method": "GradientDescent", "learning_rate": 0.5}
+optimizer = Optimizer.GradientDescent(0.5)
 model.compile("meansquarederror",optimizer)
 # (4) Train model
 epochs = 50

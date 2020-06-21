@@ -27,7 +27,7 @@ model.add_layer(8,"tanh",lamb)
 model.add_layer(4,"tanh",lamb)
 model.add_layer(1,"sigmoid",lamb)
 # (3) Compile model and print summary
-optimizer = {"method": "Momentum", "learning_rate": 0.3, "beta": 0.9}
+optimizer = Optimizer.Momentum(0.3,0.9)
 model.compile("binarycrossentropy",optimizer)
 model.summary()
 # (4) Train model

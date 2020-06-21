@@ -1,10 +1,5 @@
 # Optimizer.py
 
-def constructor(dict_opt):
-    if dict_opt != None:
-        if dict_opt["method"] == "GradientDescent":
-            return GradientDescent(dict_opt["learning_rate"])
-
 class Optimizer_Base:
     def __init__(self):
         pass
