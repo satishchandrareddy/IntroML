@@ -26,7 +26,7 @@ def plot_results_linear(model,Xtrain,Ytrain):
     wb = np.dot(np.dot(Ytrain,Xb.T),np.linalg.inv(np.dot(Xb,Xb.T)))
     Xtestb = np.concatenate((Xtest,np.ones((1,2))),axis=0)
     Yb = np.dot(wb,Xtestb)
-    # plot regression results
+    # plot results
     plt.figure()
     plt.xlabel("X")
     plt.ylabel("Y")
@@ -72,4 +72,5 @@ def plot_results_heatmap(model,Xtrain):
     # reshape results into 2d grid and plot heatmap
     heatmap = np.reshape(yreshape,(npoints,npoints))
     plt.pcolormesh(x0grid,x1grid,heatmap)
+    plt.title("Data and Heatmap")
     plt.colorbar()

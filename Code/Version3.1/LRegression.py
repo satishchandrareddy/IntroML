@@ -22,13 +22,13 @@ class LRegression(NeuralNetwork_Base.NeuralNetwork_Base):
         self.info[0]["A"] = functions_activation.activation(self.info[0]["activation"],Z)
 
     def back_propagate(self,X,Y):
-        # compute derivative of loss
-        dloss_dA = functions_loss.loss_der(self.loss,self.get_A(0),Y)
-        # multiply by derivative of A
-        dloss_dZ = functions_activation.activation_der(self.info[0]["activation"],self.get_A(0),dloss_dA)
+        # compute gradient of loss with respect to A
+        grad_A_L = functions_loss.loss_der(self.loss,self.get_A(0),Y)
+        # compute gradient of loss with respect to Z
+        grad_Z_L = functions_activation.activation_der(self.info[0]["activation"],self.get_A(0),grad_A_L)
         # compute grad_W L and grad_b L
-        self.info[0]["param_der"]["b"] = np.sum(dloss_dZ,axis=1,keepdims=True)
-        self.info[0]["param_der"]["W"] = np.dot(dloss_dZ,X.T)
+        self.info[0]["param_der"]["b"] = np.sum(grad_Z_L,axis=1,keepdims=True)
+        self.info[0]["param_der"]["W"] = np.dot(grad_Z_L,X.T)
 
     def concatenate_param(self,order):
         # concatenate W and b or (grad W and grad b) into single row 
