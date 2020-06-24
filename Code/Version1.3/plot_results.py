@@ -52,8 +52,8 @@ def plot_results_data(data_train,nclass=2):
         plt.plot(np.squeeze(Xtrain[0,idx_train]),np.squeeze(Xtrain[1,idx_train]),symbol_train[count],label=strlabeltrain)
     plt.xlabel("Feature 0")
     plt.ylabel("Feature 1")
-    plt.legend()
-    plt.title("Training Data and Heatmap of Results")
+    plt.legend(loc="upper left")
+    plt.title("Data")
 
 def plot_results_heatmap(model,Xtrain):
     # plot heat map of model results
@@ -72,4 +72,5 @@ def plot_results_heatmap(model,Xtrain):
     # reshape results into 2d grid and plot heatmap
     heatmap = np.reshape(yreshape,(npoints,npoints))
     plt.pcolormesh(x0grid,x1grid,heatmap)
+    plt.title("Data and Heatmap")
     plt.colorbar()

@@ -94,7 +94,7 @@ class NeuralNetwork_Base:
         elif self.info[self.nlayer-1]["activation"]=="sigmoid":
             return np.round(self.get_A(self.nlayer-1),0)
         elif self.info[self.nlayer-1]["activation"]=="softmax":
-            return np.expand_dims(np.argmax(self.get_A(self.nlayer-1),0),axis=0)
+            return onehot.onehot_inverse(self.get_A(self.nlayer-1))
 
     def accuracy(self,Y,Y_pred):
         if self.loss == "meansquarederror":

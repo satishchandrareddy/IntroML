@@ -3,9 +3,9 @@
 import numpy as np
 
 def activation(activation_fun,Z):
-	if activation_fun=="linear":
+	if activation_fun == "linear":
 		return Z
-	if activation_fun=="sigmoid":
+	elif activation_fun == "sigmoid":
 		return 1/(1+np.exp(-Z))
 
 def activation_der(activation_fun,A):
