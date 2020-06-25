@@ -24,10 +24,8 @@ class LRegression(NeuralNetwork_Base.NeuralNetwork_Base):
     def back_propagate(self,X,Y):
         # compute gradient of loss with respect to A
         grad_A_L = functions_loss.loss_der(self.loss,self.get_A(0),Y)
-        # compute derivative of A with respect to Z
-        dA_dZ = functions_activation.activation_der(self.info[0]["activation"],self.get_A(0))
-        # multiply above to get gradient with of loss with respect to 
-        grad_Z_L = grad_A_L*dA_dZ
+        # compute gradient of loss with respect to Z
+        grad_Z_L = functions_activation.activation_der(self.info[0]["activation"],self.get_A(0),grad_A_L)
         # compute grad_W L and grad_b L
         self.info[0]["param_der"]["b"] = np.sum(grad_Z_L,axis=1,keepdims=True)
         self.info[0]["param_der"]["W"] = np.dot(grad_Z_L,X.T)

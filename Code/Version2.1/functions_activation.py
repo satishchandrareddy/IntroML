@@ -14,14 +14,14 @@ def activation(activation_fun,Z):
 	elif activation_fun == "softplus":
 		return np.log(1+np.exp(Z))
 
-def activation_der(activation_fun,A):
+def activation_der(activation_fun,A,dA):
 	if activation_fun == "linear":
-		return np.ones(A.shape)
+		return dA*np.ones(A.shape)
 	elif activation_fun == "sigmoid":
-		return A - np.square(A)
+		return dA*(A - np.square(A))
 	elif activation_fun == "relu":
-		return np.piecewise(A,[A<0,A>=0],[0,1])
+		return dA*(np.piecewise(A,[A<0,A>=0],[0,1]))
 	elif activation_fun == "tanh":
-		return 1 - np.square(A)
+		return dA*(1 - np.square(A))
 	elif activation_fun == "softplus":
-		return 1 - np.exp(-A)
+		return dA*(1 - np.exp(-A))

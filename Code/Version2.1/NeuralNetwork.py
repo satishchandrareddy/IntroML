@@ -41,7 +41,7 @@ class NeuralNetwork(NeuralNetwork_Base.NeuralNetwork_Base):
         grad_A_L = functions_loss.loss_der(self.loss,self.get_A(self.nlayer-1),Y)
         for layer in range(self.nlayer-1,-1,-1):
             # multiply by derivative of A
-            grad_Z_L = grad_A_L*functions_activation.activation_der(self.info[layer]["activation"],self.get_A(layer))
+            grad_Z_L = functions_activation.activation_der(self.info[layer]["activation"],self.get_A(layer),grad_A_L)
             # compute grad_W L and grad_b L
             self.info[layer]["param_der"]["b"] = np.sum(grad_Z_L,axis=1,keepdims=True)
             if layer > 0:

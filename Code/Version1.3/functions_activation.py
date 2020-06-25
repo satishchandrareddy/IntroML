@@ -8,8 +8,8 @@ def activation(activation_fun,Z):
 	elif activation_fun == "sigmoid":
 		return 1/(1+np.exp(-Z))
 
-def activation_der(activation_fun,A):
+def activation_der(activation_fun,A,dA):
 	if activation_fun == "linear":
-		return np.ones(A.shape)
+		return dA*np.ones(A.shape)
 	elif activation_fun == "sigmoid":
-		return A - np.square(A)
+		return dA*(A - np.square(A))
