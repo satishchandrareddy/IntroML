@@ -66,9 +66,9 @@ class Test_functions(unittest.TestCase):
        # (1) create input/output training data X and Y
         nfeature = 2
         m = 1000
+        nclass = 4
         X = np.random.rand(nfeature,m)
-        Y = np.round(np.random.rand(1,m))
-        nclass = 3
+        Y = np.round((nclass-1)*np.random.rand(1,m))
         # (2) define neural network
         model = NeuralNetwork.NeuralNetwork(nfeature)
         model.add_layer(5,"softplus")
