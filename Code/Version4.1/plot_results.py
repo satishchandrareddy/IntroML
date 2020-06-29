@@ -1,8 +1,7 @@
 # plot_results.py
 
-import load_mnist
-import matplotlib.animation as animation
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 import numpy as np
 
 def plot_results_history(history,key_list):
@@ -22,21 +21,22 @@ def plot_results_linear(model,Xtrain,Ytrain):
     X0 = Xtrain[0,:]
     X0min = np.min(X0)
     X0max = np.max(X0)
-    Xtest = np.reshape(np.array([X0min,X0max]),(1,2))
+    Xtest = np.array([[X0min,X0max]])
     Ytest_pred = model.predict(Xtest)
     # normal equation solution
     Xb = np.concatenate((Xtrain,np.ones(Ytrain.shape)),axis=0)
-    wb = np.dot(np.dot(Ytrain,Xb.T),np.linalg.inv(np.dot(Xb,Xb.T)))
-    Xtestb = np.concatenate((Xtest,np.ones((1,2))),axis=0)
-    Yb = np.dot(wb,Xtestb)
-    # plot regression results
+    Wb = np.dot(np.dot(Ytrain,Xb.T),np.linalg.inv(np.dot(Xb,Xb.T)))
+    W = Wb[0,0]
+    b = Wb[0,1]
+    Ynorm = W*Xtest+b
+    # plot results
     plt.figure()
     plt.xlabel("X")
     plt.ylabel("Y")
     plt.title("Linear Regression")
     plt.plot(np.squeeze(Xtrain),np.squeeze(Ytrain),"bo",label="Training Points")
     plt.plot(np.squeeze(Xtest),np.squeeze(Ytest_pred),"r-",label="Machine Learning Prediction")
-    plt.plot(np.squeeze(Xtest),np.squeeze(Yb),"k-",label="Normal Equation Prediction")
+    plt.plot(np.squeeze(Xtest),np.squeeze(Ynorm),"k-",label="Normal Equation Prediction")
     plt.legend(loc = "upper left")
 
 def plot_results_classification(data_train,model,nclass=2,**kwargs):
@@ -51,7 +51,7 @@ def plot_results_data(data_train,nclass=2,**kwargs):
     Xtrain = data_train[0]
     Ytrain = data_train[1]
     plt.figure()
-    symbol_train = ["ro","bo","go","co"]
+    symbol_train = ["ro","bo","go","co","yo"]
     for count in range(nclass):
         idx_train = np.where(np.squeeze(np.absolute(Ytrain-count))<1e-10)
         strlabeltrain = "Y = " + str(count) + " train"

@@ -4,7 +4,6 @@ import NeuralNetwork
 import example_classification
 import matplotlib.pyplot as plt
 import metrics
-import numpy as np
 import Optimizer
 import plot_results
 import time

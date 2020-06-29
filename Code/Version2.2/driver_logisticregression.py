@@ -1,18 +1,18 @@
 # driver_logisticregression.py
 
 import LRegression
+import example_classification
 import matplotlib.pyplot as plt
 import numpy as np
 import Optimizer
 import plot_results
 
 # (1) Set up data
-m = 1000
 nfeature = 2
-nclass=2
-X = np.random.randn(nfeature,m)
-Y = (X[0,:] + X[1,:] - 0.75 > 0).astype(float)
-Y = np.expand_dims(Y,axis=0)
+m = 1000
+case = "linear"
+nclass = 2
+X,Y = example_classification.example(nfeature,m,case,nclass)
 # (2) Define model
 model = LRegression.LRegression(nfeature,"sigmoid")
 # (3) Compile model

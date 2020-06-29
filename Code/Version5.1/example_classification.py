@@ -8,8 +8,6 @@ def example(nfeature,m,case,nclass=2,noise=False,testpercent=0):
 	X = 4*np.random.rand(nfeature,int(m*(1+testpercent)))-2
 	if case == "linear":
 		Y = X[0,:] + X[1,:] - 0.25
-	if case == "linearwave":
-		Y = X[1,:] - np.sin(3.14*X[0,:])
 	elif case == "quadratic":
 		Y = X[1,:] - np.square(X[0,:]) + 1.5
 	elif case == "cubic":

@@ -14,8 +14,9 @@ def activation(activation_fun,Z):
 	elif activation_fun == "softplus":
 		return np.log(1+np.exp(Z))
 	elif activation_fun == "softmax":
-		denominator = np.sum(np.exp(Z),axis=0)
-		return np.exp(Z)/denominator
+		numerator = np.exp(Z)
+		denominator = np.sum(numerator,axis=0)
+		return numerator/denominator
 
 def activation_der(activation_fun,A,dA):
 	if activation_fun == "linear":
