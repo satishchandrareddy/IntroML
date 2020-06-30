@@ -21,12 +21,15 @@ model.add_layer(6,"tanh")
 model.add_layer(3,"tanh")
 model.add_layer(nclass,"softmax")
 # (3) Compile model
-optimizer = Optimizer.Adam(0.02,0.9,0.999,1e-8)
+optimizer = Optimizer.GradientDescent(0.3)
+#optimizer = Optimizer.Momentum(0.3,0.9)
+#optimizer = Optimizer.RmsProp(0.02,0.9,1e-8)
+#optimizer = Optimizer.Adam(0.02,0.9,0.999,1e-8)
 model.compile("crossentropy",optimizer)
 # (4) Train model
 epochs = 100
 time_start = time.time()
-history = model.fit(X,Y,epochs,batchsize=64)
+history = model.fit(X,Y,epochs,batch_size=1000)
 time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Results
