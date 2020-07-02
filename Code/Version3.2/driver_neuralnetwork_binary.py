@@ -14,7 +14,8 @@ m = 1000
 case = "quadratic"
 nclass = 2
 noise = False
-Xtrain,Ytrain,Xvalid,Yvalid = example_classification.example(nfeature,m,case,nclass,noise,0.1)
+validperc = 0.1
+Xtrain,Ytrain,Xvalid,Yvalid = example_classification.example(nfeature,m,case,nclass,noise,validperc)
 # (2) Define model
 model = NeuralNetwork.NeuralNetwork(nfeature)
 model.add_layer(11,"tanh")
@@ -26,16 +27,16 @@ optimizer = Optimizer.Momentum(0.1,0.9)
 model.compile("binarycrossentropy",optimizer)
 model.summary()
 # (4) Train model
-epochs = 100
+epochs = 30
 time_start = time.time()
-history = model.fit(Xtrain,Ytrain,epochs,batch_size=32,validation_data=(Xvalid,Yvalid))
+history = model.fit(Xtrain,Ytrain,epochs,batch_size=64,validation_data=(Xvalid,Yvalid))
 time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Results
 # f1score
 Yvalid_pred = model.predict(Xvalid)
 f1score,precision,recall=metrics.f1score(Yvalid,Yvalid_pred)
-print("F1Score: {} - Precision: {} - Recall: {}".format(f1score,precision,recall))
+print("For validation data: F1Score: {} - Precision: {} - Recall: {}".format(f1score,precision,recall))
 # confusion matrix
 metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
 # plot loss and accuracy and heatmap in x0-x1 plane

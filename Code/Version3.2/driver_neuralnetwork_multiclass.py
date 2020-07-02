@@ -14,7 +14,8 @@ m = 1000
 case = "quadratic"
 nclass = 3
 noise = False
-Xtrain,Ytrain,Xvalid,Yvalid = example_classification.example(nfeature,m,case,nclass,noise,0.1)
+validperc = 0.1
+Xtrain,Ytrain,Xvalid,Yvalid = example_classification.example(nfeature,m,case,nclass,noise,validperc)
 # (2) Define model
 model = NeuralNetwork.NeuralNetwork(nfeature)
 model.add_layer(11,"tanh")
@@ -23,12 +24,15 @@ model.add_layer(6,"tanh")
 model.add_layer(3,"tanh")
 model.add_layer(nclass,"softmax")
 # (3) Compile model
-optimizer = Optimizer.Momentum(0.05,0.9)
+#optimizer = Optimizer.GradientDescent(0.3)
+optimizer = Optimizer.Momentum(0.3,0.9)
+#optimizer = Optimizer.RmsProp(0.02,0.9,1e-8)
+#optimizer = Optimizer.Adam(0.02,0.9,0.999,1e-8)
 model.compile("crossentropy",optimizer)
 # (4) Train model
 epochs = 100
 time_start = time.time()
-history = model.fit(Xtrain,Ytrain,epochs,batch_size=32,validation_data=(Xvalid,Yvalid))
+history = model.fit(Xtrain,Ytrain,epochs,batch_size=1000,validation_data=(Xvalid,Yvalid))
 time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Results

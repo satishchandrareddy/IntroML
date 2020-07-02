@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import plot_results
 
-def example(nfeature,m,case,nclass=2,noise=False,testpercent=0):
-	X = 4*np.random.rand(nfeature,int(m*(1+testpercent)))-2
+def example(nfeature,m,case,nclass=2,noise=False,validpercent=0):
+	X = 4*np.random.rand(nfeature,int(m*(1+validpercent)))-2
 	if case == "linear":
 		Y = X[0,:] + X[1,:] - 0.25
 	elif case == "quadratic":
@@ -18,7 +18,7 @@ def example(nfeature,m,case,nclass=2,noise=False,testpercent=0):
 		Y = 1.25*np.sqrt(np.square(X[0,:])+np.square(X[1,:]))
 		Y = np.fmod(Y,nclass)
 	elif case == "band":
-		Y = X[0,:] + X[1,:]
+		Y = X[0,:] + X[1,:] 
 		Y = np.fmod(Y,nclass)
 	# add noise if requested
 	if noise:
@@ -28,7 +28,7 @@ def example(nfeature,m,case,nclass=2,noise=False,testpercent=0):
 	Y = np.minimum(Y,nclass-1)
 	Y = np.expand_dims(Y,axis=0)
 	# train and validation/test sets
-	if testpercent == 0:
+	if validpercent == 0:
 		return X,Y
 	else:
 		return X[:,:m], Y[:,0:m], X[:,m:], Y[:,m:]
