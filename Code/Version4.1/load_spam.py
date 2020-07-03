@@ -1,10 +1,10 @@
-# load_mnist.py
+# load_spam.py
 
 import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 
-def load_spam(ntrain,nvalid):
+def load_spam(train_pct):
 	# load data from csv file
 	df = pd.read_csv("../Data_Spam/SMSSpamCollection.csv")
 	# Get labels from first column and convert to 0 and 1
@@ -23,12 +23,14 @@ def load_spam(ntrain,nvalid):
 	print("Xfit_array.shape: {}".format(Xfit_array.shape))
 	data_analysis(Xfit_array,Y,10,vectorizer)
 	# create training and validation datasets - return also raw messages
+	nrows = len(df)
+	ntrain = int(train_pct * nrows)
 	Xtrain = Xfit_array[:,:ntrain]
 	Ytrain = Y[:,:ntrain]
-	Xvalid = Xfit_array[:,ntrain:ntrain+nvalid]
-	Yvalid = Y[:,ntrain:ntrain+nvalid]
+	Xvalid = Xfit_array[:,ntrain:]
+	Yvalid = Y[:,ntrain:]
 	Xtrain_raw = X[:ntrain].values
-	Xvalid_raw = X[ntrain:ntrain+nvalid].values
+	Xvalid_raw = X[ntrain:].values
 	print("Xtrain.shape: {}".format(Xtrain.shape))
 	print("Ytrain.shape: {}".format(Ytrain.shape))
 	print("Xvalid.shape: {}".format(Xvalid.shape))
