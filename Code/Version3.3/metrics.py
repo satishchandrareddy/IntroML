@@ -17,7 +17,8 @@ def f1score(Y,Y_pred):
 def confusion_matrix(Y,Y_pred,nclass):
     # prints confusion matrix
     # Y = 2d numpy array dim(1,# samples) of actual labels
-    # Y_pred = 2d numpy array dim(, # samples) of predicted labels
+    # Y_pred = 2d numpy array dim(1,# samples) of predicted labels
+    # nclass = number of classes
     print("\t\tConfusion Matrix")
     print("\t\tActual")
     strhead = [" \t\t"] + [str(i)+"\t" for i in range(nclass)]

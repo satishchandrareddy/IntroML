@@ -84,6 +84,8 @@ class NeuralNetwork_Base:
         if "verbose" in kwargs:
             output = kwargs["verbose"]
         if "validation_data" in kwargs:
+            Xvalid = kwargs["validation_data"][0]
+            Yvalid = kwargs["validation_data"][1]
             valid_loss = []
             valid_accuracy = []
         #get mini-batches
@@ -102,21 +104,20 @@ class NeuralNetwork_Base:
             Y_pred = self.predict(X)
             loss.append(self.compute_loss(Y))
             accuracy.append(self.accuracy(Y,Y_pred))
-            # compute loss and accuracy for test set
+            # compute loss and accuracy for validation data_set
             if "validation_data" in kwargs:
-                self.forward_propagate(kwargs["validation_data"][0])
-                valid_loss.append(self.compute_loss(kwargs["validation_data"][1]))
-                Ytest_pred = self.predict(kwargs["validation_data"][0])
-                valid_accuracy.append(self.accuracy(kwargs["validation_data"][1],Ytest_pred))
+                Yvalid_pred = self.predict(Xvalid)
+                valid_loss.append(self.compute_loss(Yvalid))
+                valid_accuracy.append(self.accuracy(Yvalid,Yvalid_pred))
                 if output:
                     print("Epoch: {} - loss: {} - accuracy: {} - valid_loss: {} - valid_accuracy: {}".format(epoch+1,loss[epoch],accuracy[epoch],valid_loss[epoch],valid_accuracy[epoch]))
             else:
                 if output:
-                    print("Epoch: {} - Cost: {} - Accuracy: {}".format(epoch+1,loss[epoch],accuracy[epoch]))
+                    print("Epoch: {} - loss: {} - Accuracy: {}".format(epoch+1,loss[epoch],accuracy[epoch]))
         if "validation_data" in kwargs:
-            return {"loss":np.array(loss),"accuracy":np.array(accuracy),"valid_loss":np.array(valid_loss),"valid_accuracy":np.array(valid_accuracy)}
+            return {"loss":loss,"accuracy":accuracy,"valid_loss":valid_loss,"valid_accuracy":valid_accuracy}
         else:
-            return {"loss":np.array(loss),"accuracy":np.array(accuracy)}
+            return {"loss":loss,"accuracy":accuracy}
 
 
     def predict(self,X):

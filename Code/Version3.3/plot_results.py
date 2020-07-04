@@ -6,13 +6,13 @@ import numpy as np
 def plot_results_history(history,key_list):
     plt.figure()
     linemarker = ["r-","b-","k-","g-","c-"]
-    epoch_array = list(range(1,len(history[key_list[0]])+1))
     for count in range(len(key_list)):
+        epoch_array = list(range(1,len(history[key_list[count]])+1))
         plt.plot(epoch_array,history[key_list[count]],linemarker[count],label=key_list[count])
     plt.xlabel("Epoch")
     plt.ylabel(",".join(key_list))
     plt.title(",".join(key_list))
-    plt.legend(loc="upper left")
+    plt.legend(loc="upper right")
 
 def plot_results_linear(model,Xtrain,Ytrain):
     # plot training data, normal equations solution, machine learning solution
@@ -58,7 +58,7 @@ def plot_results_data(data_train,nclass=2,**kwargs):
     if "validation_data" in kwargs:
         Xvalid = kwargs["validation_data"][0]
         Yvalid = kwargs["validation_data"][1]
-        symbol_valid = ["r^","b^","g^","c^"]
+        symbol_valid = ["r^","b^","g^","c^","y^"]
         for count in range(nclass):
             idx_valid = np.where(np.squeeze(np.absolute(Yvalid-count))<1e-10)
             strlabelvalid = "Y = " + str(count) + " valid"

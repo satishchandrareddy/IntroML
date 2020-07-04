@@ -6,7 +6,7 @@ import NeuralNetwork_Base
 import numpy as np
 
 class LRegression(NeuralNetwork_Base.NeuralNetwork_Base):
-    def __init__(self,nfeature,activation,lamb):
+    def __init__(self,nfeature,activation,lamb=0):
         self.nlayer = 1
         self.info = [{"nIn": nfeature, "nOut": 1, "activation": activation}]
         self.info[0]["param"] = {"W": np.random.randn(1,self.info[0]["nIn"]), "b": np.random.randn(1,1)}
