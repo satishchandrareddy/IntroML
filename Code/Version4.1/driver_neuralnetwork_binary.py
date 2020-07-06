@@ -16,7 +16,8 @@ case = "quadratic"
 nclass = 2
 noise = True
 np.random.seed(10)
-Xtrain,Ytrain,Xvalid,Yvalid = example_classification.example(nfeature,m,case,nclass,noise,0.2)
+validperc = 0.2
+Xtrain,Ytrain,Xvalid,Yvalid = example_classification.example(nfeature,m,case,nclass,noise,validperc)
 # (2) Define model
 np.random.seed(100)
 lamb = 0.0
@@ -33,14 +34,14 @@ model.summary()
 # (4) Train model
 epochs = 300
 time_start = time.time()
-history = model.fit(Xtrain,Ytrain,epochs,verbose=True,batch_size=1000,validation_data=(Xvalid,Yvalid))
+history = model.fit(Xtrain,Ytrain,epochs,batch_size=1000,validation_data=(Xvalid,Yvalid))
 time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Results
 # f1score
 Yvalid_pred = model.predict(Xvalid)
 f1score,precision,recall=metrics.f1score(Yvalid,Yvalid_pred)
-print("F1Score: {} - Precision: {} - Recall: {}".format(f1score,precision,recall))
+print("For validation data: F1Score: {} - Precision: {} - Recall: {}".format(f1score,precision,recall))
 # confusion matrix
 metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
 # plot loss and accuracy and heatmap in x0-x1 plane

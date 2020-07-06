@@ -1,4 +1,4 @@
-# driver_neuralnetwork_mnist.py
+# driver_neuralnetwork_spam.py
 
 import load_spam
 import NeuralNetwork
@@ -11,9 +11,8 @@ import text_results
 import time
 
 # (1) Set up data
-ntrain = 5000
-nvalid = 500
-Xtrain,Ytrain,Xvalid,Yvalid,Xtrain_raw,Xvalid_raw = load_spam.load_spam(ntrain,nvalid)
+ntrain_pct = 0.8
+Xtrain,Ytrain,Xvalid,Yvalid,Xtrain_raw,Xvalid_raw = load_spam.load_spam(ntrain_pct)
 # (2) Define model
 nfeature = Xtrain.shape[0]
 np.random.seed(10)
@@ -28,6 +27,7 @@ model.summary()
 # (4) Train model
 epochs = 20
 time_start = time.time()
+ntrain = Xtrain.shape[1]
 history = model.fit(Xtrain,Ytrain,epochs,batch_size=ntrain,validation_data=(Xvalid,Yvalid))
 time_end = time.time()
 # (5) Predictions and plotting

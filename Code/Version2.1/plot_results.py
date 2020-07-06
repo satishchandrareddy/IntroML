@@ -73,5 +73,5 @@ def plot_results_heatmap(model,Xtrain):
     # reshape results into 2d grid and plot heatmap
     heatmap = np.reshape(yreshape,(npoints,npoints))
     plt.pcolormesh(x0grid,x1grid,heatmap)
-    plt.title("Data and Heatmap")
     plt.colorbar()
+    plt.title("Data and Heatmap of Prediction Results")

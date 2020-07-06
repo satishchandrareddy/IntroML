@@ -112,9 +112,9 @@ class NeuralNetwork_Base:
                 if output:
                     print("Epoch: {} - loss: {} - Accuracy: {}".format(epoch+1,loss[epoch],accuracy[epoch]))
         if "validation_data" in kwargs:
-            return {"loss":np.array(loss),"accuracy":np.array(accuracy),"valid_loss":np.array(valid_loss),"valid_accuracy":np.array(valid_accuracy)}
+            return {"loss":loss,"accuracy":accuracy,"valid_loss":valid_loss,"valid_accuracy":valid_accuracy}
         else:
-            return {"loss":np.array(loss),"accuracy":np.array(accuracy)}
+            return {"loss":loss,"accuracy":accuracy}
 
 
     def predict(self,X):

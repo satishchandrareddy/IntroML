@@ -28,9 +28,9 @@ def example(nfeature,m,case,nclass=2):
 
 if __name__ == "__main__":
 	nfeature = 2
-	m = 1000
-	case = "quadratic"
-	nclass = 3
+	m = 2000
+	case = "ring"
+	nclass = 2
 	X,Y = example(nfeature,m,case,nclass)
 	plot_results.plot_results_data((X,Y),nclass)
 	plt.show()
