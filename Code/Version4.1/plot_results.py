@@ -110,7 +110,7 @@ def plot_results_mnist(X,Y,Y_pred,Afinal,idx):
     plt.ylim(0,1)
     plt.text(4.5,1.01,"Probability of Prediction",size=10,ha="center")
 
-def plot_results_mnist_animation(X,Y,Y_pred,nframe):
+def plot_results_mnist_animation(X,Y,Y_pred,Afinal,nframe):
     # number of data points
     m = X.shape[1]
     # determine number of frames
@@ -123,17 +123,29 @@ def plot_results_mnist_animation(X,Y,Y_pred,nframe):
     x0 = np.linspace(0,1,npixel_width)
     x1 = np.linspace(0,1,npixel_height)
     x0grid,x1grid = np.meshgrid(x0,x1)
-    # details for barchart
+    # list of frames
     container = []
     for idx in range(nplot):
+        # digit plot (left)
+        plt.subplot(121)
         # need flipud or else image will be upside down
         digit_image = np.flipud(np.reshape(X[:,idx],(npixel_width,npixel_height)))
-        pc = ax.pcolormesh(x0grid,x1grid,digit_image,cmap="Greys")
-        title = ax.text(0.5,1.05,"Image: {0} Actual: {1}  Predicted: {2}".format(idx,Y[0,idx],Y_pred[0,idx]),
-                            size=plt.rcParams["axes.titlesize"],ha="center")
-        #xticks = ax2.xticks(position,label)
-        container.append([pc,title])
-    ani = animation.ArtistAnimation(fig,container,interval = 1000, repeat = False, blit=False)
+        pc = plt.pcolormesh(x0grid,x1grid,digit_image,cmap="Greys")
+        digit_title = plt.text(0.5,1.01,"Image: {0} Actual: {1} Predicted: {2}".format(idx,Y[0,idx],Y_pred[0,idx]),
+             size=10,ha="center")
+        # probability plot (right)
+        plt.subplot(122)
+        label = [str(i) for i in range(Afinal.shape[0])]
+        bars = plt.bar(np.arange(Afinal.shape[0]),Afinal[:,idx],tick_label=label,color='blue')
+        plt.ylim(0,1)
+        prob_title = plt.text(4.5,1.01,"Probability of Prediction",
+             size=10,ha="center")
+        # list of plots for each observation (a single frame)
+        frame = [pc, digit_title, prob_title]
+        frame.extend(list(bars))
+        container.append(frame)
+
+    ani = animation.ArtistAnimation(fig,container,interval=1500,repeat=True,blit=False)
     plt.show()
     plt.close()
 
