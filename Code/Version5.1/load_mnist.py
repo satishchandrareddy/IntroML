@@ -24,7 +24,7 @@ def load_mnist(ntrain,nvalid):
 	Xtrain = Xtrain[:,:ntrain]
 	Ytrain = Ytrain[:,:ntrain]
 	# Get validation data
-	dfvalid = pd.read_csv("../Data_MNIST/MNIST_valid_10K.csv")
+	dfvalid = pd.read_csv(ROOT_DIR / "Data_MNIST/MNIST_valid_10K.csv")
 	Yvalid = dfvalid["label"]
 	Yvalid = np.expand_dims(Yvalid,axis=1)
 	Yvalid = np.reshape(Yvalid,(1,Yvalid.shape[0]))
