@@ -2,11 +2,13 @@
 
 import numpy as np
 import pandas as pd
+from pathlib import Path
 
 def load_mnist(ntrain,nvalid):
 	# read data from train files
-	dftrain1 = pd.read_csv("../Data_MNIST/MNIST_train_set1_30K.csv")
-	dftrain2 = pd.read_csv("../Data_MNIST/MNIST_train_set2_30K.csv")
+	ROOT_DIR = Path(__file__).resolve().parent.parent
+	dftrain1 = pd.read_csv(ROOT_DIR / "Data_MNIST/MNIST_train_set1_30K.csv")
+	dftrain2 = pd.read_csv(ROOT_DIR / "Data_MNIST/MNIST_train_set2_30K.csv")
 	# get labels
 	Ytrain1 = dftrain1["label"]
 	Ytrain2 = dftrain2["label"]

@@ -2,10 +2,13 @@
 
 import numpy as np
 import pandas as pd
+from pathlib import Path
 
 def load_house(train_pct,transform=True,standardize=True):
 	# read data file
-	data = pd.read_csv("../Data_HousePrices/houseprices.csv")
+	ROOT_DIR = Path(__file__).resolve().parent.parent
+	path = ROOT_DIR / "Data_HousePrices/houseprices.csv"
+	data = pd.read_csv(path)
 	# explanatory variables
 	features = ['house-age', 'dist-to-nearest-MRT', 'num-of-stores']
 	# response variable
