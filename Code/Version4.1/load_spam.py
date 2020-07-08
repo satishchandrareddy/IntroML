@@ -58,4 +58,4 @@ def data_analysis(X,Y,nmostcommon,vectorizer):
 	print("Most common words in spam messages: {}".format(np.array(vectorizer.get_feature_names())[word_idx_1]))
 
 if __name__ == "__main__":
-	Xtrain,Ytrain,Xvalid,Yvalid,Xtrain_raw,Xvalid_raw=load_spam(5000,500)
+	Xtrain,Ytrain,Xvalid,Yvalid,Xtrain_raw,Xvalid_raw=load_spam(0.85)

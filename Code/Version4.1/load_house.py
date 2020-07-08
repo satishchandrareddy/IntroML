@@ -3,9 +3,9 @@
 import numpy as np
 import pandas as pd
 
-def load_house(train_pct,transform=True,standardize=True):
+def load_house(train_pct,transform=True,standardizeX=True,standardizeY=True):
 	# read data file
-	data = pd.read_csv("../Data_HousePrices/houseprices.csv")
+	data = pd.read_csv("../Data_House/house.csv")
 	# explanatory variables
 	features = ['house-age', 'dist-to-nearest-MRT', 'num-of-stores']
 	# response variable
@@ -14,43 +14,38 @@ def load_house(train_pct,transform=True,standardize=True):
 	X_df = data[features]
 	# response vector as dataframe
 	Y_df = data[outcome]
-
 	# apply transformations
 	if transform:
-		X_df['dist-to-nearest-MRT'] = np.log(X_df['dist-to-nearest-MRT'])
-		X_df['house-age'] = np.sqrt(X_df['house-age'])
-		Y_df = np.log(Y_df)
+		X0 = np.log(X_df[['dist-to-nearest-MRT']]).T
+		X1 = np.sqrt(X_df[['house-age']]).T
+		X2 = X_df[['num-of-stores']].values.T
+		X = np.concatenate((X0,X1,X2),axis=0)
+	else:
+		X = X_df.values.T
 
-	# set seed for reproducibility
-	np.random.seed(10)
-
-	# shuffle data
-	nrows = len(data)
-	shuffled_indices = np.arange(nrows)
-	np.random.shuffle(shuffled_indices)
-	X_df = X_df.iloc[shuffled_indices].values
-	Y_df = Y_df.iloc[shuffled_indices].values
-
+	Y = Y_df.values.T
 	# extract training and validation data
+	nrows = len(data)
 	ntrain = int(train_pct * nrows)
-	Xtrain = X_df[:ntrain,:]
-	Xvalid = X_df[ntrain:,:]
-	Ytrain = Y_df[:ntrain,:]
-	Yvalid = Y_df[ntrain:,:]
-
+	Xtrain = X[:,:ntrain]
+	Xvalid = X[:,ntrain:]
+	Ytrain = Y[:,:ntrain]
+	Yvalid = Y[:,ntrain:]
 	# standardize training and validation data using training mean and std
-	if standardize:
-	    Xtrain_means = Xtrain.mean(axis=0)
-	    Xtrain_std = Xtrain.std(axis=0)
+	if standardizeX:
+	    Xtrain_means = Xtrain.mean(axis=1,keepdims=True)
+	    Xtrain_std = Xtrain.std(axis=1,keepdims=True)
 	    Xtrain = (Xtrain-Xtrain_means) / Xtrain_std
 	    Xvalid = (Xvalid-Xtrain_means) / Xtrain_std
-
-	# transpose data for training
-	Xtrain = Xtrain.T
-	Xvalid = Xvalid.T
-	Ytrain = Ytrain.T
-	Yvalid = Yvalid.T
+	# standardize Y
+	if standardizeY:
+		Ytrain_max = np.max(Ytrain)
+		Ytrain = Ytrain/Ytrain_max
+		Yvalid = Yvalid/Ytrain_max
+	# print and return
 	print("Xtrain.shape: {} - Ytrain.shape: {}".format(Xtrain.shape,Ytrain.shape))
 	print("Xvalid.shape: {} - Yvalid.shape: {}".format(Xvalid.shape,Yvalid.shape))
-
 	return Xtrain,Ytrain,Xvalid,Yvalid
+
+if __name__ == "__main__":
+	load_house(0.80,True,True,True)

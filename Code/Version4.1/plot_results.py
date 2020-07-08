@@ -92,17 +92,12 @@ def plot_results_heatmap(model,Xtrain):
 def plot_results_mnist(X,Y,Y_pred,Afinal,idx):
     plt.figure()
     plt.subplot(121)
-    npixel_width = 28
-    npixel_height = 28
     # create 1-d grids for x and and y directions
     npixel_width = 28
     npixel_height = 28
-    x0 = np.linspace(0,1,npixel_width)
-    x1 = np.linspace(0,1,npixel_height)
-    x0grid,x1grid = np.meshgrid(x0,x1)
     digit_image = np.flipud(np.reshape(X[:,idx],(npixel_width,npixel_height)))
-    plt.pcolormesh(x0grid,x1grid,digit_image,cmap="Greys")
-    plt.text(0.5,1.01,"Image: {0} Actual: {1} Predicted: {2}".format(idx,Y[0,idx],Y_pred[0,idx]),
+    plt.pcolormesh(digit_image,cmap="Greys")
+    plt.text(14,28.3,"Image: {0} Actual: {1} Predicted: {2}".format(idx,Y[0,idx],Y_pred[0,idx]),
              size=10,ha="center")
     plt.subplot(122)
     label = [str(idx) for idx in range(Afinal.shape[0])]
@@ -120,9 +115,6 @@ def plot_results_mnist_animation(X,Y,Y_pred,Afinal,nframe):
     # create 1-d grids for x and and y directions
     npixel_width = 28
     npixel_height = 28
-    x0 = np.linspace(0,1,npixel_width)
-    x1 = np.linspace(0,1,npixel_height)
-    x0grid,x1grid = np.meshgrid(x0,x1)
     # list of frames
     container = []
     for idx in range(nplot):
@@ -130,8 +122,8 @@ def plot_results_mnist_animation(X,Y,Y_pred,Afinal,nframe):
         plt.subplot(121)
         # need flipud or else image will be upside down
         digit_image = np.flipud(np.reshape(X[:,idx],(npixel_width,npixel_height)))
-        pc = plt.pcolormesh(x0grid,x1grid,digit_image,cmap="Greys")
-        digit_title = plt.text(0.5,1.01,"Image: {0} Actual: {1} Predicted: {2}".format(idx,Y[0,idx],Y_pred[0,idx]),
+        pc = plt.pcolormesh(digit_image,cmap="Greys")
+        digit_title = plt.text(14,28.3,"Image: {0} Actual: {1} Predicted: {2}".format(idx,Y[0,idx],Y_pred[0,idx]),
              size=10,ha="center")
         # probability plot (right)
         plt.subplot(122)
@@ -145,12 +137,6 @@ def plot_results_mnist_animation(X,Y,Y_pred,Afinal,nframe):
         frame.extend(list(bars))
         container.append(frame)
 
-    ani = animation.ArtistAnimation(fig,container,interval=1500,repeat=True,blit=False)
+    ani = animation.ArtistAnimation(fig,container,interval=2000,repeat=False,blit=False)
     plt.show()
     plt.close()
-
-
-
-if __name__ == "__main__":
-    Xtrain,Ytrain,Xvalid,Yvalid = load_mnist.load_mnist(100,100)
-    plot_results_mnist_animation(Xvalid,Yvalid,Yvalid,100)

@@ -11,7 +11,7 @@ import text_results
 import time
 
 # (1) Set up data
-ntrain_pct = 0.8
+ntrain_pct = 0.85
 Xtrain,Ytrain,Xvalid,Yvalid,Xtrain_raw,Xvalid_raw = load_spam.load_spam(ntrain_pct)
 # (2) Define model
 nfeature = Xtrain.shape[0]

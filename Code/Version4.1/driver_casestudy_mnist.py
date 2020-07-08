@@ -37,6 +37,6 @@ metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
 # plot loss, accuracy
 plot_results.plot_results_history(history,["loss","valid_loss"])
 plot_results.plot_results_history(history,["accuracy","valid_accuracy"])
-# plot animation of results
+# plot animation of first 100 validation samples
 plot_results.plot_results_mnist_animation(Xvalid,Yvalid,Yvalid_pred,model.get_Afinal(),100)
 plt.show()
