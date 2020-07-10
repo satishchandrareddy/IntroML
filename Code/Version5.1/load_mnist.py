@@ -2,11 +2,13 @@
 
 import numpy as np
 import pandas as pd
+from pathlib import Path
 
 def load_mnist(ntrain,nvalid):
 	# read data from train files
-	dftrain1 = pd.read_csv("../Data_MNIST/MNIST_train_set1_30K.csv")
-	dftrain2 = pd.read_csv("../Data_MNIST/MNIST_train_set2_30K.csv")
+	root_dir = Path(__file__).resolve().parent.parent
+	dftrain1 = pd.read_csv(root_dir / "Data_MNIST/MNIST_train_set1_30K.csv")
+	dftrain2 = pd.read_csv(root_dir / "Data_MNIST/MNIST_train_set2_30K.csv")
 	# get labels
 	Ytrain1 = dftrain1["label"]
 	Ytrain2 = dftrain2["label"]
@@ -22,7 +24,7 @@ def load_mnist(ntrain,nvalid):
 	Xtrain = Xtrain[:,:ntrain]
 	Ytrain = Ytrain[:,:ntrain]
 	# Get validation data
-	dfvalid = pd.read_csv("../Data_MNIST/MNIST_valid_10K.csv")
+	dfvalid = pd.read_csv(root_dir / "Data_MNIST/MNIST_valid_10K.csv")
 	Yvalid = dfvalid["label"]
 	Yvalid = np.expand_dims(Yvalid,axis=1)
 	Yvalid = np.reshape(Yvalid,(1,Yvalid.shape[0]))

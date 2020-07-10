@@ -2,11 +2,13 @@
 
 import numpy as np
 import pandas as pd
+from pathlib import Path
 from sklearn.feature_extraction.text import CountVectorizer
 
 def load_spam(train_pct):
 	# load data from csv file
-	df = pd.read_csv("../Data_Spam/SMSSpamCollection.csv")
+	root_dir = Path(__file__).resolve().parent.parent
+	df = pd.read_csv(root_dir / "Data_Spam/SMSSpamCollection.csv")
 	# Get labels from first column and convert to 0 and 1
 	Y = np.array(df["label"].map({"ham": 0, "spam": 1}))
 	# convert to 1 x nmessages numpy array
