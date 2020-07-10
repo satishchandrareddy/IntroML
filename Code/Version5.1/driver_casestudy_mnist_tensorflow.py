@@ -1,4 +1,4 @@
-# driver_neuralnetwork_mnist.py
+# driver_neuralnetwork_mnist_tensorflow.py
 
 import load_mnist
 import matplotlib.pyplot as plt

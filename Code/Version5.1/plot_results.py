@@ -111,32 +111,33 @@ def plot_results_mnist_animation(X,Y,Y_pred,Afinal,nframe):
     # determine number of frames
     nplot = min(m,nframe)
     # set up plot
-    fig,ax = plt.subplots()
+    fig, (ax1, ax2) = plt.subplots(1, 2)
     # create 1-d grids for x and and y directions
     npixel_width = 28
     npixel_height = 28
+    x0 = np.linspace(0,1,npixel_width)
+    x1 = np.linspace(0,1,npixel_height)
+    x0grid,x1grid = np.meshgrid(x0,x1)
     # list of frames
     container = []
     for idx in range(nplot):
         # digit plot (left)
-        plt.subplot(121)
         # need flipud or else image will be upside down
         digit_image = np.flipud(np.reshape(X[:,idx],(npixel_width,npixel_height)))
-        pc = plt.pcolormesh(digit_image,cmap="Greys")
-        digit_title = plt.text(14,28.3,"Image: {0} Actual: {1} Predicted: {2}".format(idx,Y[0,idx],Y_pred[0,idx]),
-             size=10,ha="center")
+        pc = ax1.pcolormesh(x0grid,x1grid,digit_image,cmap="Greys", animated=True)
+        digit_title = ax1.text(0.5,1.01,"Image: {0} Actual: {1} Predicted: {2}".format(idx,Y[0,idx],Y_pred[0,idx]),
+             size=10,ha="center", animated=True)
         # probability plot (right)
-        plt.subplot(122)
         label = [str(i) for i in range(Afinal.shape[0])]
-        bars = plt.bar(np.arange(Afinal.shape[0]),Afinal[:,idx],tick_label=label,color='blue')
+        bars = ax2.bar(np.arange(Afinal.shape[0]),Afinal[:,idx],tick_label=label,color='blue', animated=True)
         plt.ylim(0,1)
-        prob_title = plt.text(4.5,1.01,"Probability of Prediction",
-             size=10,ha="center")
+        prob_title = ax2.text(4.5,1.01,"Probability of Prediction",
+             size=10,ha="center", animated=True)
         # list of plots for each observation (a single frame)
         frame = [pc, digit_title, prob_title]
         frame.extend(list(bars))
         container.append(frame)
-
-    ani = animation.ArtistAnimation(fig,container,interval=2000,repeat=False,blit=False)
+  
+    ani = animation.ArtistAnimation(fig,container,interval=1500,repeat=True,blit=False)
     plt.show()
     plt.close()
