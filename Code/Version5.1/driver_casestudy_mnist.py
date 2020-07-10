@@ -34,9 +34,8 @@ print("Train time: {}".format(time_end - time_start))
 # confusion matrix
 Yvalid_pred = model.predict(Xvalid)
 metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
-# plot loss, accuracy
+# plot loss, accuracy, and animation of results
 plot_results.plot_results_history(history,["loss","valid_loss"])
 plot_results.plot_results_history(history,["accuracy","valid_accuracy"])
-# plot animation of first 100 validation samples
 plot_results.plot_results_mnist_animation(Xvalid,Yvalid,Yvalid_pred,model.get_Afinal(),100)
 plt.show()

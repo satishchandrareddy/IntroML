@@ -4,6 +4,7 @@ import load_mnist
 import matplotlib.pyplot as plt
 import metrics
 import numpy as np
+import onehot
 import plot_results
 import tensorflow as tf
 import time
@@ -34,10 +35,12 @@ history = model.fit(XtrainT,YtrainT,epochs=epochs,batch_size=ntrain,validation_d
 time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Predictions and plotting
-Yvalid_pred = np.expand_dims(np.argmax(model.predict(XvalidT),axis=1),axis=0)
+# confusion matrix
+Afinal = model.predict(XvalidT).T
+Yvalid_pred = onehot.onehot_inverse(Afinal)
 metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
 # plot loss, accuracy, and animation of results
 plot_results.plot_results_history(history.history,["loss","val_loss"])
-plot_results.plot_results_history(history.history,["acc","val_acc"])
-plot_results.plot_results_mnist_animation(Xvalid,Yvalid,Yvalid_pred,100)
+plot_results.plot_results_history(history.history,["accuracy","val_accuracy"])
+plot_results.plot_results_mnist_animation(Xvalid,Yvalid,Yvalid_pred,Afinal,100)
 plt.show()
