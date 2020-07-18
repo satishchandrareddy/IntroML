@@ -26,8 +26,11 @@ class NeuralNetwork_Base:
     def get_A(self,layer):
         return self.info[layer]["A"]
 
+    def get_Afinal(self):
+        return self.info[self.nlayer-1]["A"]
+
     def compute_loss(self,Y):
-        return functions_loss.loss(self.loss,self.get_A(self.nlayer-1),Y)
+        return functions_loss.loss(self.loss,self.get_Afinal(),Y)
 
     def test_derivative(self,X,Y,eps):
         # compute gradients

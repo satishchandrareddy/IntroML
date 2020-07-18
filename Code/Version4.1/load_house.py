@@ -7,8 +7,7 @@ from pathlib import Path
 def load_house(train_pct,transform=True,standardizeX=True,standardizeY=True):
 	# read data file
 	root_dir = Path(__file__).resolve().parent.parent
-	file_path = root_dir / "Data_House/house.csv"
-	data = pd.read_csv(file_path)
+	data = pd.read_csv(root_dir / "Data_House/house.csv")
 	# explanatory variables
 	features = ['house-age', 'dist-to-nearest-MRT', 'num-of-stores']
 	# response variable

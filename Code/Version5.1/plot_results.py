@@ -115,17 +115,14 @@ def plot_results_mnist_animation(X,Y,Y_pred,Afinal,nframe):
     # create 1-d grids for x and and y directions
     npixel_width = 28
     npixel_height = 28
-    x0 = np.linspace(0,1,npixel_width)
-    x1 = np.linspace(0,1,npixel_height)
-    x0grid,x1grid = np.meshgrid(x0,x1)
     # list of frames
     container = []
     for idx in range(nplot):
         # digit plot (left)
         # need flipud or else image will be upside down
         digit_image = np.flipud(np.reshape(X[:,idx],(npixel_width,npixel_height)))
-        pc = ax1.pcolormesh(x0grid,x1grid,digit_image,cmap="Greys", animated=True)
-        digit_title = ax1.text(0.5,1.01,"Image: {0} Actual: {1} Predicted: {2}".format(idx,Y[0,idx],Y_pred[0,idx]),
+        pc = ax1.pcolormesh(digit_image,cmap="Greys",animated=True)
+        digit_title = ax1.text(14,28.3,"Image: {0} Actual: {1} Predicted: {2}".format(idx,Y[0,idx],Y_pred[0,idx]),
              size=10,ha="center", animated=True)
         # probability plot (right)
         label = [str(i) for i in range(Afinal.shape[0])]
@@ -137,7 +134,7 @@ def plot_results_mnist_animation(X,Y,Y_pred,Afinal,nframe):
         frame = [pc, digit_title, prob_title]
         frame.extend(list(bars))
         container.append(frame)
-  
-    ani = animation.ArtistAnimation(fig,container,interval=1500,repeat=True,blit=False)
+
+    ani = animation.ArtistAnimation(fig,container,interval=2000,repeat=False,blit=False)
     plt.show()
     plt.close()

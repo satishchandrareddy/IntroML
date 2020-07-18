@@ -20,9 +20,9 @@ model.compile("meansquarederror",optimizer)
 epochs = 50
 history = model.fit(X,Y,epochs)
 # (5) Results
-# plot results
-plot_results.plot_results_linear(model,X,Y)
-# plot loss
+# plot loss and accuracy
 plot_results.plot_results_history(history,["loss"])
 plot_results.plot_results_history(history,["accuracy"])
+# plot results
+plot_results.plot_results_linear(model,X,Y)
 plt.show()

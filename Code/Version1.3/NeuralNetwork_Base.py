@@ -31,8 +31,11 @@ class NeuralNetwork_Base:
     def get_A(self,layer):
         return self.info[layer]["A"]
 
+    def get_Afinal(self):
+        return self.info[self.nlayer-1]["A"]
+
     def compute_loss(self,Y):
-        return functions_loss.loss(self.loss,self.get_A(self.nlayer-1),Y)
+        return functions_loss.loss(self.loss,self.get_Afinal(),Y)
 
     def test_derivative(self,X,Y,eps):
         # compute gradients
@@ -68,7 +71,8 @@ class NeuralNetwork_Base:
     def update_param(self):
         # Update the parameter matrices W and b for each layer in neural network
         for layer in range(self.nlayer):
-            # paramter_guess= i = parameter_guess=i-1 + update_guess=i-1
+            # parameter_guess= i = parameter_guess=i-1 + update_guess=i-1
+            # use the += operation
             self.info[layer]["param"]["W"] += self.info[layer]["optimizer"]["W"].update(self.get_param(layer,"param_der","W"))
             self.info[layer]["param"]["b"] += self.info[layer]["optimizer"]["b"].update(self.get_param(layer,"param_der","b"))
 
@@ -89,9 +93,9 @@ class NeuralNetwork_Base:
     def predict(self,X):
         self.forward_propagate(X)
         if self.info[self.nlayer-1]["activation"]=="linear":
-            return self.get_A(self.nlayer-1)
+            return self.get_Afinal()
         elif self.info[self.nlayer-1]["activation"]=="sigmoid":
-            return np.round(self.get_A(self.nlayer-1),0)
+            return np.round(self.get_Afinal(),0)
 
     def accuracy(self,Y,Y_pred):
         if self.loss == "meansquarederror":
