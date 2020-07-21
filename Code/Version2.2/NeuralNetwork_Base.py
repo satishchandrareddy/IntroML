@@ -88,16 +88,16 @@ class NeuralNetwork_Base:
             Y_pred = self.predict(X)
             loss.append(self.compute_loss(Y))
             accuracy.append(self.accuracy(Y,Y_pred))
-            print("Epoch: {} - Cost: {} - Accuracy: {}".format(epoch+1,loss[epoch],accuracy[epoch]))
+            print("Epoch: {} - Loss: {} - Accuracy: {}".format(epoch+1,loss[epoch],accuracy[epoch]))
         return {"loss":loss,"accuracy":accuracy}
 
     def predict(self,X):
         self.forward_propagate(X)
-        if self.info[self.nlayer-1]["activation"]=="linear":
+        if self.loss=="meansquarederror":
             return self.get_Afinal()
-        elif self.info[self.nlayer-1]["activation"]=="sigmoid":
+        elif self.loss=="binarycrossentropy":
             return np.round(self.get_Afinal(),0)
-        elif self.info[self.nlayer-1]["activation"]=="softmax":
+        elif self.loss=="crossentropy":
             return onehot.onehot_inverse(self.get_Afinal())
 
     def accuracy(self,Y,Y_pred):

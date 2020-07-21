@@ -117,7 +117,7 @@ class NeuralNetwork_Base:
                     print("Epoch: {} - loss: {} - accuracy: {} - valid_loss: {} - valid_accuracy: {}".format(epoch+1,loss[epoch],accuracy[epoch],valid_loss[epoch],valid_accuracy[epoch]))
             else:
                 if output:
-                    print("Epoch: {} - loss: {} - Accuracy: {}".format(epoch+1,loss[epoch],accuracy[epoch]))
+                    print("Epoch: {} - loss: {} - accuracy: {}".format(epoch+1,loss[epoch],accuracy[epoch]))
         if "validation_data" in kwargs:
             return {"loss":loss,"accuracy":accuracy,"valid_loss":valid_loss,"valid_accuracy":valid_accuracy}
         else:
@@ -126,11 +126,11 @@ class NeuralNetwork_Base:
 
     def predict(self,X):
         self.forward_propagate(X)
-        if self.info[self.nlayer-1]["activation"]=="linear":
+        if self.loss=="meansquarederror":
             return self.get_Afinal()
-        elif self.info[self.nlayer-1]["activation"]=="sigmoid":
+        elif self.loss=="binarycrossentropy":
             return np.round(self.get_Afinal(),0)
-        elif self.info[self.nlayer-1]["activation"]=="softmax":
+        elif self.loss=="crossentropy":
             return onehot.onehot_inverse(self.get_Afinal())
 
     def accuracy(self,Y,Y_pred):
@@ -140,7 +140,7 @@ class NeuralNetwork_Base:
             return np.mean(np.absolute(Y-Y_pred)<1e-7)
         elif self.loss == "crossentropy":
             return np.mean(np.absolute(Y-Y_pred)<1e-7)
-
+           
     def summary(self):
         print(" ")
         print("Layer\tUnits In\tUnits Out\tParameters")
