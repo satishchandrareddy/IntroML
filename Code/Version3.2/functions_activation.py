@@ -22,16 +22,16 @@ def activation(activation_fun,Z):
 		denominator = np.sum(numerator,axis=0)
 		return numerator/denominator
 
-def activation_der(activation_fun,A,dA):
+def activation_der(activation_fun,A,grad_A_L):
 	if activation_fun == "linear":
-		return dA*np.ones(A.shape)
+		return grad_A_L*np.ones(A.shape)
 	elif activation_fun == "sigmoid":
-		return dA*(A - np.square(A))
+		return grad_A_L*(A - np.square(A))
 	elif activation_fun == "relu":
-		return dA*(np.piecewise(A,[A<0,A>=0],[0,1]))
+		return grad_A_L*(np.piecewise(A,[A<0,A>=0],[0,1]))
 	elif activation_fun == "tanh":
-		return dA*(1 - np.square(A))
+		return grad_A_L*(1 - np.square(A))
 	elif activation_fun == "softplus":
-		return dA*(1 - np.exp(-A))
+		return grad_A_L*(1 - np.exp(-A))
 	elif activation_fun == "softmax":
-		return dA*A - A*np.sum(dA*A,axis=0)
+		return grad_A_L*A - A*np.sum(grad_A_L*A,axis=0)
