@@ -32,6 +32,7 @@ history = model.fit(Xtrain,Ytrain,epochs,batch_size=ntrain,validation_data=(Xval
 time_end = time.time()
 # (5) Predictions and plotting
 # confusiont matrix
+print("Metrics for Validation Dataset")
 Yvalid_pred = model.predict(Xvalid)
 metrics.confusion_matrix(Yvalid,Yvalid_pred,2)
 f1score,precision,recall = metrics.f1score(Yvalid,Yvalid_pred)

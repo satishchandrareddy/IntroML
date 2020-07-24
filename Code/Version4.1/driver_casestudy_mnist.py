@@ -15,9 +15,10 @@ nvalid = 1000
 nclass = 10
 Xtrain,Ytrain,Xvalid,Yvalid = load_mnist.load_mnist(ntrain,nvalid)
 # (2) Define model
+nfeature = Xtrain.shape[0]
 np.random.seed(10)
 lamb = 0.0
-model = NeuralNetwork.NeuralNetwork(784)
+model = NeuralNetwork.NeuralNetwork(nfeature)
 model.add_layer(128,"relu",lamb)
 model.add_layer(nclass,"softmax",lamb)
 # (3) Compile model
@@ -32,6 +33,7 @@ time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Predictions and plotting
 # confusion matrix
+print("Metrics for Validation Dataset")
 Yvalid_pred = model.predict(Xvalid)
 metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
 # plot loss, accuracy, and animation of results

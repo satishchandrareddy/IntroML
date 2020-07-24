@@ -15,7 +15,6 @@ ntrain_pct = 0.85
 Xtrain,Ytrain,Xvalid,Yvalid,Xtrain_raw,Xvalid_raw = load_spam.load_spam(ntrain_pct)
 # (2) Define model
 nfeature = Xtrain.shape[0]
-nclass = 2
 np.random.seed(10)
 model = NeuralNetwork.NeuralNetwork(nfeature)
 model.add_layer(1,"sigmoid",lamb=0.0005)
@@ -32,6 +31,7 @@ time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Predictions and plotting
 # confusiont matrix
+print("Metrics for Validation Dataset")
 Yvalid_pred = model.predict(Xvalid)
 metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
 f1score,precision,recall = metrics.f1score(Yvalid,Yvalid_pred)

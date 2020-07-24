@@ -8,10 +8,10 @@ import plot_results
 import load_house
 
 # (1) Set up data
-nfeature = 3
 ntrain_pct = 0.8
-Xtrain,Ytrain,Xvalid,Yvalid = load_house.load_house(0.8,True,True,True)
+Xtrain,Ytrain,Xvalid,Yvalid = load_house.load_house(ntrain_pct,True,True,True)
 # (2) Define model
+nfeature = Xtrain.shape[0]
 np.random.seed(10)
 lamb = 0.0001
 model = LRegression.LRegression(nfeature,"linear",lamb)
