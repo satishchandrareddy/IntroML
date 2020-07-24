@@ -1,4 +1,4 @@
-# driver_casestudy_houseprice_tensorflow.py
+# driver_casestudy_house_tensorflow.py
 
 import matplotlib.pyplot as plt
 import numpy as np

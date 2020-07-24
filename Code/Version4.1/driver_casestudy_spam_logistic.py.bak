@@ -1,7 +1,7 @@
 # driver_casestudy_spam_logistic.py
 
 import load_spam
-import NeuralNetwork
+import LRegression
 import numpy as np
 import matplotlib.pyplot as plt
 import metrics
@@ -17,8 +17,7 @@ Xtrain,Ytrain,Xvalid,Yvalid,Xtrain_raw,Xvalid_raw = load_spam.load_spam(ntrain_p
 nfeature = Xtrain.shape[0]
 nclass = 2
 np.random.seed(10)
-model = NeuralNetwork.NeuralNetwork(nfeature)
-model.add_layer(1,"sigmoid",lamb=0.0005)
+model = LRegression.LRegression(nfeature,"sigmoid",lamb=0.0005)
 # (3) Compile model
 optimizer = Optimizer.Adam(0.02,0.9,0.999,1e-7)
 model.compile("binarycrossentropy",optimizer)

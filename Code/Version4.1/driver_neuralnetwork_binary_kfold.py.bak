@@ -21,17 +21,17 @@ def nn(nfeature,seed,learning_rate,beta):
 
 # (1) Set up data
 nfeature = 2
-m = 1200
+m = 1000
 case = "quadratic"
 nclass = 2
 noise = True
 np.random.seed(10)
-Xtrain,Ytrain = example_classification.example(nfeature,m,case,nclass,noise)
+Xtrain,Ytrain,Xvalid,Yvalid = example_classification.example(nfeature,m,case,nclass,noise,0.2)
 seed = 100
 lr = 0.03
 beta = 0.9
 epochs = 300
-K = 6
+K = 5
 ntrain = Xtrain.shape[1]
 fold_size = ntrain // K
 train_acc_cv = 0
@@ -40,7 +40,6 @@ val_acc_cv = 0
 shuffled_indices = list(range(ntrain))
 np.random.shuffle(shuffled_indices)
 Xtrain_shuffled, Ytrain_shuffled = Xtrain[:,shuffled_indices], Ytrain[:,shuffled_indices]
-print("Number of Folds: {}".format(K))
 for k in range(K):
   # split data
   fold_indices = range(k*fold_size,(k+1)*fold_size)
@@ -52,7 +51,6 @@ for k in range(K):
   # train
   ntrain_k = Xtrain_k.shape[1]
   history = model.fit(Xtrain_k,Ytrain_k,epochs,verbose=False,batch_size=ntrain_k,validation_data=(Xfold_k,Yfold_k))
-  print("Fold: {}  Accuracy: {}  Valid_Accuracy: {}".format(k,history["accuracy"][-1],history["valid_accuracy"][-1]))
   train_acc_cv += history["accuracy"][-1] / K
   val_acc_cv += history["valid_accuracy"][-1] / K
 

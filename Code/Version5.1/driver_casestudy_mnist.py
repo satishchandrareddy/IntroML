@@ -18,7 +18,7 @@ Xtrain,Ytrain,Xvalid,Yvalid = load_mnist.load_mnist(ntrain,nvalid)
 np.random.seed(10)
 lamb = 0.0
 model = NeuralNetwork.NeuralNetwork(784)
-model.add_layer(128,"tanh",lamb)
+model.add_layer(128,"relu",lamb)
 model.add_layer(nclass,"softmax",lamb)
 # (3) Compile model
 optimizer = Optimizer.Adam(0.02,0.9,0.999,1e-7)

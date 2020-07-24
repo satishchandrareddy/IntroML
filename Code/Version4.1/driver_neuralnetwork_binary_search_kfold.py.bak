@@ -22,21 +22,21 @@ def nn(nfeature,lamb,seed,learning_rate,beta):
 
 # (1) Set up data
 nfeature = 2
-m = 1200
+m = 1000
 case = "quadratic"
 nclass = 2
 noise = True
 np.random.seed(10)
-Xtrain,Ytrain = example_classification.example(nfeature,m,case,nclass,noise)
+Xtrain,Ytrain,Xvalid,Yvalid = example_classification.example(nfeature,m,case,nclass,noise,0.2)
 # loop over hyperparameters
 list_save = [["Lambda","Learning Rate", "Train Accuracy", "Valid Accuracy"]]
 list_lamb = [0, 0.01, 0.02]
 list_learningrate = [0.01, 0.03, 0.1, 0.3]
-list_batch_size = [64, 1000]
+list_batch_size = [64, 512]
 seed = 100
 beta = 0.9
 epochs = 100
-K = 6
+K = 5
 ntrain = Xtrain.shape[1]
 fold_size = ntrain // K
 for lamb in list_lamb:

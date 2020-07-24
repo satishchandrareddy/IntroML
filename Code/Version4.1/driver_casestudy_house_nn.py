@@ -15,10 +15,10 @@ ntrain_pct = 0.8
 Xtrain,Ytrain,Xvalid,Yvalid = load_house.load_house(0.8,False,True,True)
 # (2) Define model
 np.random.seed(10)
-lamb = 0.001
+lamb = 0.0001
 model = NeuralNetwork.NeuralNetwork(nfeature)
 model.add_layer(16,"relu",lamb)
-model.add_layer(1,"linear",lamb)
+model.add_layer(1,"relu",lamb)
 # (3) Compile model
 optimizer = Optimizer.Adam(0.02,0.9,0.999,1e-7)
 model.compile("meansquarederror",optimizer)
