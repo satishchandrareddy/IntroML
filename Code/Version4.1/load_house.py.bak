@@ -27,8 +27,8 @@ def load_house(train_pct,transform=True,standardizeX=True,standardizeY=True):
 
 	Y = Y_df.values.T
 	# extract training and validation data
-	ndata = len(data)
-	ntrain = int(train_pct*ndata)
+	nrows = len(data)
+	ntrain = int(train_pct * nrows)
 	Xtrain = X[:,:ntrain]
 	Xvalid = X[:,ntrain:]
 	Ytrain = Y[:,:ntrain]
