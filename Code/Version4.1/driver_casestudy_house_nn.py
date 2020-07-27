@@ -31,7 +31,6 @@ history = model.fit(Xtrain,Ytrain,epochs,batch_size=ntrain,validation_data=(Xval
 time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Predictions and plotting
-Yvalid_pred = model.predict(Xvalid)
 # plot loss and accuracy
 plot_results.plot_results_history(history,["loss","valid_loss"])
 plot_results.plot_results_history(history,["accuracy","valid_accuracy"])

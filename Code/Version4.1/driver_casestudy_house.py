@@ -22,7 +22,6 @@ model.compile("meansquarederror",optimizer)
 epochs = 50
 history = model.fit(Xtrain,Ytrain,epochs,validation_data=(Xvalid,Yvalid))
 # (5) Predictions and plotting
-Yvalid_pred = model.predict(Xvalid)
 # plot loss and accuracy
 plot_results.plot_results_history(history,["loss","valid_loss"])
 plot_results.plot_results_history(history,["accuracy","valid_accuracy"])

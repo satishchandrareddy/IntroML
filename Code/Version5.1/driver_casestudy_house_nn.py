@@ -10,10 +10,10 @@ import time
 
 
 # (1) Set up data
-nfeature = 3
 ntrain_pct = 0.8
-Xtrain,Ytrain,Xvalid,Yvalid = load_house.load_house(0.8,False,True,True)
+Xtrain,Ytrain,Xvalid,Yvalid = load_house.load_house(ntrain_pct,False,True,True)
 # (2) Define model
+nfeature = Xtrain.shape[0]
 np.random.seed(10)
 lamb = 0.0001
 model = NeuralNetwork.NeuralNetwork(nfeature)
@@ -31,7 +31,6 @@ history = model.fit(Xtrain,Ytrain,epochs,batch_size=ntrain,validation_data=(Xval
 time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Predictions and plotting
-Yvalid_pred = model.predict(Xvalid)
 # plot loss and accuracy
 plot_results.plot_results_history(history,["loss","valid_loss"])
 plot_results.plot_results_history(history,["accuracy","valid_accuracy"])

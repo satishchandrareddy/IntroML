@@ -7,7 +7,6 @@ import load_house
 import tensorflow as tf
 
 # (1) Set up data
-nfeature = 3
 ntrain_pct = 0.8
 Xtrain,Ytrain,Xvalid,Yvalid = load_house.load_house(0.8,True,True,True)
 # take transpose of inputs for tensorflow  - sample axis along rows
@@ -18,6 +17,7 @@ YvalidT = Yvalid.T
 print("XtrainT.shape: {} - YtrainT.shape: {}".format(XtrainT.shape,YtrainT.shape))
 print("XvalidT.shape: {} - YvalidT.shape: {}".format(XvalidT.shape,YvalidT.shape))
 # (2) Define model
+nfeature = Xtrain.shape[0]
 lamb = 0.0001
 model = tf.keras.Sequential([
   tf.keras.layers.Dense(units=1,input_shape=(nfeature,),

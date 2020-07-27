@@ -20,9 +20,10 @@ YtrainT = Ytrain.T
 XvalidT = Xvalid.T
 YvalidT = Yvalid.T
 # (2) Define model
+nfeature = Xtrain.shape[0]
 lamb = 0.0
 model = tf.keras.models.Sequential([
- tf.keras.layers.Dense(128,input_shape=(784,), activation="tanh",kernel_regularizer=tf.keras.regularizers.l2(lamb)),
+ tf.keras.layers.Dense(128,input_shape=(nfeature,), activation="relu",kernel_regularizer=tf.keras.regularizers.l2(lamb)),
  tf.keras.layers.Dense(nclass,activation="softmax", kernel_regularizer=tf.keras.regularizers.l2(lamb))])
 # (3) Compile model
 optimizer = tf.keras.optimizers.Adam(lr=0.02, beta_1=0.9, beta_2=0.999, epsilon=1e-7)

@@ -23,8 +23,7 @@ print("YtrainT.shape: {}".format(YtrainT.shape))
 print("XvalidT.shape: {}".format(XvalidT.shape))
 print("YvalidT.shape: {}".format(YvalidT.shape))
 # (2) Define model
-nfeature = XtrainT.shape[1]
-nclass = 2
+nfeature = Xtrain.shape[0]
 model = tf.keras.models.Sequential([
  tf.keras.layers.Dense(200,input_shape=(nfeature,),activation="tanh"),
  tf.keras.layers.Dense(50,activation="tanh"),
@@ -44,7 +43,7 @@ print("Train time: {}".format(time_end - time_start))
 # confusion matrix
 Afinal = model.predict(XvalidT).T
 Yvalid_pred = np.round(Afinal)
-metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
+metrics.confusion_matrix(Yvalid,Yvalid_pred,2)
 f1score,precision,recall = metrics.f1score(Yvalid,Yvalid_pred)
 print("F1Score: {} - Precision: {} - Recall: {}".format(f1score,precision,recall))
 text_results.text_results(Yvalid,Yvalid_pred,Xvalid_raw)

@@ -8,10 +8,10 @@ import plot_results
 import load_house
 
 # (1) Set up data
-nfeature = 3
 ntrain_pct = 0.8
-Xtrain,Ytrain,Xvalid,Yvalid = load_house.load_house(0.8,True,True,True)
+Xtrain,Ytrain,Xvalid,Yvalid = load_house.load_house(ntrain_pct,True,True,True)
 # (2) Define model
+nfeature = Xtrain.shape[0]
 np.random.seed(10)
 lamb = 0.0001
 model = LRegression.LRegression(nfeature,"linear",lamb)
@@ -22,7 +22,6 @@ model.compile("meansquarederror",optimizer)
 epochs = 50
 history = model.fit(Xtrain,Ytrain,epochs,validation_data=(Xvalid,Yvalid))
 # (5) Predictions and plotting
-Yvalid_pred = model.predict(Xvalid)
 # plot loss and accuracy
 plot_results.plot_results_history(history,["loss","valid_loss"])
 plot_results.plot_results_history(history,["accuracy","valid_accuracy"])

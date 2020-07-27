@@ -8,13 +8,13 @@ def load_house(train_pct,transform=True,standardizeX=True,standardizeY=True):
 	# read data file
 	root_dir = Path(__file__).resolve().parent.parent
 	data = pd.read_csv(root_dir / "Data_House/house.csv")
-	# explanatory variables
+	# feature variables
 	features = ['house-age', 'dist-to-nearest-MRT', 'num-of-stores']
-	# response variable
+	# price variable
 	outcome = ['price-per-unit-area']
 	# feature matrix as dataframe
 	X_df = data[features]
-	# response vector as dataframe
+	# value vector as dataframe
 	Y_df = data[outcome]
 	# apply transformations
 	if transform:
@@ -27,8 +27,8 @@ def load_house(train_pct,transform=True,standardizeX=True,standardizeY=True):
 
 	Y = Y_df.values.T
 	# extract training and validation data
-	nrows = len(data)
-	ntrain = int(train_pct * nrows)
+	ndata = len(data)
+	ntrain = int(train_pct*ndata)
 	Xtrain = X[:,:ntrain]
 	Xvalid = X[:,ntrain:]
 	Ytrain = Y[:,:ntrain]
