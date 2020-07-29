@@ -81,13 +81,13 @@ class NeuralNetwork_Base:
         # iterate over epochs
         loss = []
         accuracy = []
-        # get mini-batches
-        if "batch_size" in kwargs:
-            mini_batch = self.mini_batch(X,Y,kwargs["batch_size"])
-        else:
-            mini_batch = [(X,Y)]
         # train
         for epoch in range(epochs):
+            # get mini-batches
+            if "batch_size" in kwargs:
+                mini_batch = self.mini_batch(X,Y,kwargs["batch_size"])
+            else:
+                mini_batch = [(X,Y)]
             # train using mini-batches
             for (Xbatch,Ybatch) in mini_batch:
                 self.forward_propagate(Xbatch)
@@ -131,6 +131,10 @@ class NeuralNetwork_Base:
 
     def mini_batch(self,X,Y,batch_size):
         m = Y.shape[1]
+        # shuffle data
+        shuffled_indices = list(range(m))
+        np.random.shuffle(shuffled_indices)
+        X_shuffled, Y_shuffled = X[:,shuffled_indices], Y[:,shuffled_indices]
         # determine number of mini-batches
         if m % batch_size == 0:
             n = int(m/batch_size)
@@ -141,5 +145,5 @@ class NeuralNetwork_Base:
         for count in range(n):
             start = count*batch_size
             end = start + min(start+batch_size,m)
-            mini_batch.append((X[:,start:end],Y[:,start:end]))
+            mini_batch.append((X_shuffled[:,start:end],Y_shuffled[:,start:end]))
         return mini_batch

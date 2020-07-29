@@ -33,7 +33,7 @@ print("Train time: {}".format(time_end - time_start))
 # confusiont matrix
 print("Metrics for Validation Dataset")
 Yvalid_pred = model.predict(Xvalid)
-metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
+metrics.confusion_matrix(Yvalid,Yvalid_pred,2)
 f1score,precision,recall = metrics.f1score(Yvalid,Yvalid_pred)
 print("F1Score: {} - Precision: {} - Recall: {}".format(f1score,precision,recall))
 text_results.text_results(Yvalid,Yvalid_pred,Xvalid_raw)

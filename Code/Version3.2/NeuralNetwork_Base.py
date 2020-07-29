@@ -89,13 +89,13 @@ class NeuralNetwork_Base:
             Yvalid = kwargs["validation_data"][1]
             valid_loss = []
             valid_accuracy = []
-        #get mini-batches
-        if "batch_size" in kwargs:
-            mini_batch = self.mini_batch(X,Y,kwargs["batch_size"])
-        else:
-            mini_batch = [(X,Y)]
         # train
         for epoch in range(epochs):
+            # get mini-batches
+            if "batch_size" in kwargs:
+                mini_batch = self.mini_batch(X,Y,kwargs["batch_size"])
+            else:
+                mini_batch = [(X,Y)]
             # train using mini-batches
             for (Xbatch,Ybatch) in mini_batch:
                 self.forward_propagate(Xbatch)
