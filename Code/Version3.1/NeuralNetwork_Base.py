@@ -144,6 +144,6 @@ class NeuralNetwork_Base:
         mini_batch = []
         for count in range(n):
             start = count*batch_size
-            end = start + min(start+batch_size,m)
+            end = min(start+batch_size,m)
             mini_batch.append((X_shuffled[:,start:end],Y_shuffled[:,start:end]))
         return mini_batch
