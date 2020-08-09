@@ -71,7 +71,7 @@ class NeuralNetwork_Base:
     def update_param(self):
         # Update the parameter matrices W and b for each layer in neural network
         for layer in range(self.nlayer):
-            # parameter_guess= i = parameter_guess=i-1 + update_guess=i-1
+            # parameter_epoch= i = parameter_epoch=i-1 + update_epoch=i-1
             # use the += operation
             self.info[layer]["param"]["W"] += self.info[layer]["optimizer"]["W"].update(self.get_param(layer,"param_der","W"))
             self.info[layer]["param"]["b"] += self.info[layer]["optimizer"]["b"].update(self.get_param(layer,"param_der","b"))

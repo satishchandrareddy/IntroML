@@ -8,8 +8,8 @@ def plot_results_history(history,key_list):
     plt.figure()
     linemarker = ["r-","b-","k-","g-","c-"]
     for count in range(len(key_list)):
-        epoch_array = list(range(1,len(history[key_list[count]])+1))
-        plt.plot(epoch_array,history[key_list[count]],linemarker[count],label=key_list[count])
+        epoch_list = list(range(1,len(history[key_list[count]])+1))
+        plt.plot(epoch_list,history[key_list[count]],linemarker[count],label=key_list[count])
     plt.xlabel("Epoch")
     plt.ylabel(",".join(key_list))
     plt.title(",".join(key_list))

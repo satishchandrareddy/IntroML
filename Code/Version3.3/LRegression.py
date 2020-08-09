@@ -9,8 +9,8 @@ class LRegression(NeuralNetwork_Base.NeuralNetwork_Base):
     def __init__(self,nfeature,activation,lamb=0):
         self.nlayer = 1
         self.info = [{"nIn": nfeature, "nOut": 1, "activation": activation}]
-        self.info[0]["param"] = {"W": np.random.randn(1,self.info[0]["nIn"]), "b": np.random.randn(1,1)}
-        self.info[0]["param_der"] = {"W": np.zeros((1,self.info[0]["nIn"])), "b": np.zeros((1,1))}
+        self.info[0]["param"] = {"W": np.random.randn(1,nfeature), "b": np.random.randn(1,1)}
+        self.info[0]["param_der"] = {"W": np.zeros((1,nfeature)), "b": np.zeros((1,1))}
         self.info[0]["optimizer"] = {"W": None, "b": None}
         self.info[0]["lambda"] = lamb
 
