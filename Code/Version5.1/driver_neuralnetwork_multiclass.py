@@ -10,7 +10,7 @@ import time
 
 # (1) Set up data
 nfeature = 2
-m = 1000
+m = 2000
 case = "quadratic"
 nclass = 3
 noise = True

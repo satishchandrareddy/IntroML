@@ -8,7 +8,7 @@ import plot_results
 
 # (1) Set up data
 nfeature = 2
-m = 1000
+m = 2000
 case = "quadratic"
 nclass = 3
 X,Y = example_classification.example(nfeature,m,case,nclass)
@@ -23,7 +23,7 @@ model.add_layer(nclass,"softmax")
 optimizer = Optimizer.GradientDescent(0.3)
 model.compile("crossentropy",optimizer)
 # (4) Train model
-epochs = 200
+epochs = 100
 history = model.fit(X,Y,epochs)
 # (5) Results
 # plot loss and accuracy

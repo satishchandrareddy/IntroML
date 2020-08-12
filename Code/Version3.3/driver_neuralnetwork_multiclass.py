@@ -10,14 +10,14 @@ import time
 
 # (1) Set up data
 nfeature = 2
-m = 1000
+m = 2000
 case = "quadratic"
 nclass = 3
 noise = True
 validperc = 0.2
 Xtrain,Ytrain,Xvalid,Yvalid = example_classification.example(nfeature,m,case,nclass,noise,validperc)
 # (2) Define model
-lamb = 0.02
+lamb = 0.0
 model = NeuralNetwork.NeuralNetwork(nfeature)
 model.add_layer(11,"tanh",lamb)
 model.add_layer(9,"tanh",lamb)
