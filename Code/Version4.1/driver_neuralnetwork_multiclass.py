@@ -17,7 +17,7 @@ noise = True
 validperc = 0.2
 Xtrain,Ytrain,Xvalid,Yvalid = example_classification.example(nfeature,m,case,nclass,noise,validperc)
 # (2) Define model
-lamb = 0.02
+lamb = 0.0
 model = NeuralNetwork.NeuralNetwork(nfeature)
 model.add_layer(11,"tanh",lamb)
 model.add_layer(9,"tanh",lamb)

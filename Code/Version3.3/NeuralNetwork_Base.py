@@ -96,13 +96,13 @@ class NeuralNetwork_Base:
         for epoch in range(epochs):
             # get mini-batches
             if "batch_size" in kwargs:
-                mini_batch = self.mini_batch(X,Y,kwargs["batch_size"])
+                minibatches = self.create_minibatches(X,Y,kwargs["batch_size"])
             else:
-                mini_batch = [(X,Y)]
+                minibatches = [(X,Y)]
             # train using mini-batches
-            for (Xbatch,Ybatch) in mini_batch:
-                self.forward_propagate(Xbatch)
-                self.back_propagate(Xbatch,Ybatch)
+            for (Xminibatch,Yminibatch) in minibatches:
+                self.forward_propagate(Xminibatch)
+                self.back_propagate(Xminibatch,Yminibatch)
                 self.update_param()
             # compute loss and accuracy after cycling through all mini-batches    
             Y_pred = self.predict(X)
@@ -153,7 +153,7 @@ class NeuralNetwork_Base:
         print("Total parameters: {}".format(nparameter_total))
         print(" ")
 
-    def mini_batch(self,X,Y,batch_size):
+    def create_minibatches(self,X,Y,batch_size):
         m = Y.shape[1]
         # shuffle data
         shuffled_indices = list(range(m))
@@ -163,11 +163,11 @@ class NeuralNetwork_Base:
         if m % batch_size == 0:
             n = int(m/batch_size)
         else:
-            n = int(m/batch_size) + 1
+            n = int(np.ceil(m/batch_size))
         # create mini-batches
-        mini_batch = []
+        minibatches = []
         for count in range(n):
             start = count*batch_size
             end = min(start+batch_size,m)
-            mini_batch.append((X_shuffled[:,start:end],Y_shuffled[:,start:end]))
-        return mini_batch
+            minibatches.append((X_shuffled[:,start:end],Y_shuffled[:,start:end]))
+        return minibatches
