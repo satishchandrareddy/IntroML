@@ -6,7 +6,7 @@ import numpy as np
 import Optimizer
 import time
 
-# create function to generate 
+# create function to generate neural network
 def nn(nfeature,seed,learning_rate,beta):
   np.random.seed(seed)
   model = NeuralNetwork.NeuralNetwork(nfeature)

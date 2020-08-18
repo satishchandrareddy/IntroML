@@ -6,11 +6,11 @@ def f1score(Y,Y_pred):
     # returns f1score, precision, and recall
     # Y = numpy array of actual labels
     # Y_pred = numpy array of predicted labels
-    idx_truepositive = np.where((np.absolute(Y-1)<1e-7)&(np.absolute(Y_pred-1)<1e-7))
-    idx_actualpositive = np.where(np.absolute(Y-1)<1e-7)
-    idx_predpositive = np.where(np.absolute(Y_pred-1)<1e-7)
-    precision = np.size(idx_truepositive)/(np.size(idx_predpositive)+1e-7)
-    recall = np.size(idx_truepositive)/(np.size(idx_actualpositive)+1e-7)
+    idx_truepositive = np.where(np.squeeze((np.absolute(Y-1)<1e-7)&(np.absolute(Y_pred-1)<1e-7)))
+    idx_actualpositive = np.where(np.squeeze(np.absolute(Y-1)<1e-7))
+    idx_predpositive = np.where(np.squeeze(np.absolute(Y_pred-1)<1e-7))
+    precision = np.size(idx_truepositive)/(np.size(idx_predpositive)+1e-16)
+    recall = np.size(idx_truepositive)/(np.size(idx_actualpositive)+1e-16)
     f1score = 2*precision*recall/(precision + recall)
     return f1score,precision,recall
 

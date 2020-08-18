@@ -41,7 +41,8 @@ print("Train time: {}".format(time_end - time_start))
 # f1score
 Yvalid_pred = model.predict(Xvalid)
 f1score,precision,recall=metrics.f1score(Yvalid,Yvalid_pred)
-print("For validation data: F1Score: {} - Precision: {} - Recall: {}".format(f1score,precision,recall))
+print("For Validation Data")
+print("F1Score: {} - Precision: {} - Recall: {}".format(f1score,precision,recall))
 # confusion matrix
 metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
 # plot loss and accuracy and heatmap in x0-x1 plane

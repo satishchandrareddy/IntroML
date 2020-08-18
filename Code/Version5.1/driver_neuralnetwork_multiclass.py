@@ -38,6 +38,7 @@ time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Results
 # confusion matrix
+print("Validation Data")
 Yvalid_pred = model.predict(Xvalid)
 metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
 # plot loss and accuracy

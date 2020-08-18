@@ -37,8 +37,13 @@ if __name__ == "__main__":
 	nfeature = 2
 	m = 1000
 	case = "quadratic"
-	nclass = 3
-	noise = True
-	Xtrain,Ytrain,Xvalid,Yvalid = example(nfeature,m,case,nclass,noise,0.2)
-	plot_results.plot_results_data((Xtrain,Ytrain),nclass,validation_data=(Xvalid,Yvalid))
+	nclass = 2
+	noise = False
+	validpercent = 0.0
+	if validpercent > 0:
+		Xtrain,Ytrain,Xvalid,Yvalid = example(nfeature,m,case,nclass,noise,validpercent)
+		plot_results.plot_results_data((Xtrain,Ytrain),nclass,validation_data=(Xvalid,Yvalid))
+	else:
+		Xtrain,Ytrain = example(nfeature,m,case,nclass,noise,validpercent)
+		plot_results.plot_results_data((Xtrain,Ytrain),nclass)
 	plt.show()

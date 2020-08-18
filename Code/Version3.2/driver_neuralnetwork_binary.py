@@ -23,20 +23,21 @@ model.add_layer(8,"tanh")
 model.add_layer(4,"tanh")
 model.add_layer(1,"sigmoid")
 # (3) Compile model and print summary
-optimizer = Optimizer.Momentum(0.1,0.9)
+optimizer = Optimizer.Momentum(0.3,0.9)
 model.compile("binarycrossentropy",optimizer)
 model.summary()
 # (4) Train model
 epochs = 30
 time_start = time.time()
-history = model.fit(Xtrain,Ytrain,epochs,batch_size=64,validation_data=(Xvalid,Yvalid))
+history = model.fit(Xtrain,Ytrain,epochs,batch_size=64,verbose=True,validation_data=(Xvalid,Yvalid))
 time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Results
 # f1score
 Yvalid_pred = model.predict(Xvalid)
 f1score,precision,recall=metrics.f1score(Yvalid,Yvalid_pred)
-print("For validation data: F1Score: {} - Precision: {} - Recall: {}".format(f1score,precision,recall))
+print("For Validation Data")
+print("F1Score: {} - Precision: {} - Recall: {}".format(f1score,precision,recall))
 # confusion matrix
 metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
 # plot loss and accuracy and heatmap in x0-x1 plane
