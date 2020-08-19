@@ -29,13 +29,13 @@ noise = True
 np.random.seed(10)
 Xtrain,Ytrain = example_classification.example(nfeature,m,case,nclass,noise)
 # loop over hyperparameters
-list_save = [["Lambda","Learning Rate", "Train Accuracy", "Valid Accuracy"]]
+list_save = [["Lambda","Learning Rate", "batch_size", "Train Accuracy", "Valid Accuracy"]]
 list_lamb = [0, 0.01, 0.02]
 list_learningrate = [0.01, 0.03, 0.1, 0.3]
 list_batch_size = [64, 1000]
 seed = 100
 beta = 0.9
-epochs = 100
+epochs = 300
 K = 6
 ntrain = Xtrain.shape[1]
 fold_size = ntrain // K

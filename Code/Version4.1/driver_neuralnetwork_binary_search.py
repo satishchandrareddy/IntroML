@@ -26,8 +26,9 @@ m = 1000
 case = "quadratic"
 nclass = 2
 noise = True
+validpercent=0.2
 np.random.seed(10)
-Xtrain,Ytrain,Xvalid,Yvalid = example_classification.example(nfeature,m,case,nclass,noise,0.2)
+Xtrain,Ytrain,Xvalid,Yvalid = example_classification.example(nfeature,m,case,nclass,noise,validpercent)
 # loop over hyperparameters
 list_save = [["Lambda","Learning Rate", "batch_size", "Train Accuracy", "Valid Accuracy"]]
 list_lamb = [0, 0.01, 0.02]
