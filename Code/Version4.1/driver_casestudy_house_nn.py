@@ -11,7 +11,10 @@ import time
 
 # (1) Set up data
 ntrain_pct = 0.8
-Xtrain,Ytrain,Xvalid,Yvalid = load_house.load_house(ntrain_pct,False,True,True)
+transform = False
+standardizeX = True
+standardizeY = True
+Xtrain,Ytrain,Xvalid,Yvalid = load_house.load_house(ntrain_pct,transform,standardizeX,standardizeY)
 # (2) Define model
 nfeature = Xtrain.shape[0]
 np.random.seed(10)

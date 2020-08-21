@@ -26,8 +26,8 @@ def load_spam(train_pct):
 	print("Xfit_array.shape: {}".format(Xfit_array.shape))
 	data_analysis(Xfit_array,Y,10,vectorizer)
 	# create training and validation datasets - return also raw messages
-	nrows = len(df)
-	ntrain = int(train_pct * nrows)
+	ndata = len(df)
+	ntrain = int(train_pct * ndata)
 	Xtrain = Xfit_array[:,:ntrain]
 	Ytrain = Y[:,:ntrain]
 	Xvalid = Xfit_array[:,ntrain:]
@@ -55,6 +55,8 @@ def data_analysis(X,Y,nmostcommon,vectorizer):
 	# sum over messages and determine idx of most common words in each set
 	X0 = np.squeeze(X[:,idx_0])
 	X1 = np.squeeze(X[:,idx_1])
+	print("X0_shape: {}".format(X0.shape))
+	print("X1_shape: {}".format(X1.shape))
 	word_idx_0 = np.argsort(-np.sum(X0,axis=1))[:nmostcommon]
 	word_idx_1 = np.argsort(-np.sum(X1,axis=1))[:nmostcommon]
 	print("Most common words in non-spam messages: {}".format(np.array(vectorizer.get_feature_names())[word_idx_0]))
