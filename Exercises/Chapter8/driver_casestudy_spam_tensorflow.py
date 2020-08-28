@@ -1,4 +1,5 @@
 # driver_casestudy_spam_tensorflow.py
+# Run in folder IntroML/Code/Version5.1
 
 import load_spam
 import matplotlib.pyplot as plt

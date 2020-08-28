@@ -1,4 +1,5 @@
 # driver_casestudy_spam_logistic.py
+# Run in folder IntroML/Code/Version4.1
 
 import load_spam
 import NeuralNetwork

@@ -1,4 +1,5 @@
 # driver_casestudy_houseprice_nn.py
+# Run in folder IntroML/Code/Version4.1
 
 import NeuralNetwork
 import matplotlib.pyplot as plt

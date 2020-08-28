@@ -1,4 +1,5 @@
 # driver_casestudy_house_tensorflow.py
+# Run in folder IntroML/Code/Version5.1
 
 import matplotlib.pyplot as plt
 import numpy as np
