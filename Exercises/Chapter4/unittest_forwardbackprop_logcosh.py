@@ -32,13 +32,13 @@ class Test_functions(unittest.TestCase):
         Y = np.random.rand(1,m)
         # (2) define object
         model = LRegression.LRegression(nfeature,"linear")
-        # (3) compile
+        # (3) compile - use logcosh loss function
         optimizer = None
         model.compile("logcosh",optimizer)
         # (4) perform derivative test
         eps = 1e-5
         error = model.test_derivative(X,Y,eps)
-        print("forwardbackprop: LinearRegression Error: {}".format(error))
+        print("forwardbackprop: LinearRegression_logcosh Error: {}".format(error))
         # (5) assert statement
         self.assertLessEqual(error,1e-7)
 

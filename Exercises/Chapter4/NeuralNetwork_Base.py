@@ -94,11 +94,13 @@ class NeuralNetwork_Base:
         self.forward_propagate(X)
         if self.loss=="meansquarederror":
             return self.get_Afinal()
+        # create case for logcosh
         elif self.loss == "logcosh":
             return self.get_Afinal()
 
     def accuracy(self,Y,Y_pred):
         if self.loss == "meansquarederror":
             return np.mean(np.absolute(Y - Y_pred))
+        # create case for logcosh
         elif self.loss == "logcosh":
             return np.mean(np.absolute(Y - Y_pred))

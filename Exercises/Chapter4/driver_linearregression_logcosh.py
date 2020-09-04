@@ -13,7 +13,7 @@ Y = 0.5*X + 0.25
 Y = Y + 0.1*np.random.randn(m)
 # (2) Define model
 model = LRegression.LRegression(1,"linear")
-# (3) Compile model
+# (3) Compile model - use logcosh loss function
 optimizer = Optimizer.GradientDescent(0.5)
 model.compile("logcosh",optimizer)
 # (4) Train model

@@ -13,7 +13,7 @@ m = 1000
 case = "linear"
 nclass = 2
 X,Y = example_classification.example(nfeature,m,case,nclass)
-# (2) Define model
+# (2) Define model - use mirrorsigmoid activation
 model = LRegression.LRegression(nfeature,"mirrorsigmoid")
 # (3) Compile model
 optimizer = Optimizer.GradientDescent(0.5)
