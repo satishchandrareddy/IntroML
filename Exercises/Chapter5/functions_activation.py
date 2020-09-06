@@ -19,6 +19,7 @@ def activation(activation_fun,Z):
 	elif activation_fun == "softplus":
 		ZLIM = np.maximum(Z,-LIM)
 		return ZLIM + np.log(np.exp(-ZLIM)+1)
+	# add elu case
 	elif activation_fun == "elu":
 		ZLIM = np.maximum(Z,LIM)
 		return Z*np.heaviside(Z, 1) + (np.exp(ZLIM)-1)*np.heaviside(-Z, 0)
@@ -36,5 +37,6 @@ def activation_der(activation_fun,A,grad_A_L):
 		return grad_A_L*(1 - np.square(A))
 	elif activation_fun == "softplus":
 		return grad_A_L*(1 - np.exp(-A))
+	# add elu case
 	elif activation_fun == "elu":
 		return grad_A_L*(np.heaviside(A, 1) + (A+1)*np.heaviside(-A, 0))
