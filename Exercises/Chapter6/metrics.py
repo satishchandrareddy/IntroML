@@ -1,4 +1,5 @@
 # metrics.py
+# put in IntroML/Code/Version3.2
 
 import numpy as np
 
@@ -9,15 +10,10 @@ def f1score(Y,Y_pred):
     idx_truepositive = np.where(np.squeeze((np.absolute(Y-1)<1e-7)&(np.absolute(Y_pred-1)<1e-7)))
     idx_actualpositive = np.where(np.squeeze(np.absolute(Y-1)<1e-7))
     idx_predpositive = np.where(np.squeeze(np.absolute(Y_pred-1)<1e-7))
-    idx_truenegative = np.where(np.squeeze((np.absolute(Y-0)<1e-7)&(np.absolute(Y_pred-0)<1e-7)))
-    idx_actualnegative = np.where(np.squeeze(np.absolute(Y-0)<1e-7))
-    idx_prednegative = np.where(np.squeeze(np.absolute(Y_pred-0)<1e-7))
     precision = np.size(idx_truepositive)/(np.size(idx_predpositive)+1e-16)
     recall = np.size(idx_truepositive)/(np.size(idx_actualpositive)+1e-16)
     f1score = 2*precision*recall/(precision + recall)
-    tnr = np.size(idx_truenegative)/(np.size(idx_actualnegative)+1e-16)
-    npv = np.size(idx_truenegative)/(np.size(idx_prednegative)+1e-16)
-    return f1score,precision,recall,tnr,npv
+    return f1score,precision,recall
 
 def confusion_matrix(Y,Y_pred,nclass):
     # prints confusion matrix
@@ -38,3 +34,14 @@ def confusion_matrix(Y,Y_pred,nclass):
             idx_act = np.where(np.squeeze(np.absolute(Y[0,idx_pred]-actual)<1e-7))
             str_row.append(str(np.size(idx_act))+"\t")
         print("".join(str_row))
+
+def tnrnpv(Y,Y_pred):
+    # returns tnr, npv
+    # Y = numpy array of actual labels
+    # Y_pred = numpy array of predicted labels
+    idx_truenegative = np.where(np.squeeze((np.absolute(Y-0)<1e-7)&(np.absolute(Y_pred-0)<1e-7)))
+    idx_actualnegative = np.where(np.squeeze(np.absolute(Y-0)<1e-7))
+    idx_prednegative = np.where(np.squeeze(np.absolute(Y_pred-0)<1e-7))
+    tnr = np.size(idx_truenegative)/(np.size(idx_actualnegative)+1e-16)
+    npv = np.size(idx_truenegative)/(np.size(idx_prednegative)+1e-16)
+    return tnr,npv

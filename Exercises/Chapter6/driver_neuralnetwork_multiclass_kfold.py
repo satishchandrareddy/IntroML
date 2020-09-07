@@ -1,4 +1,5 @@
 # driver_neuralnetwork_multiclass_kfold.py
+# run in IntroML/Code/Version3.2
 
 import NeuralNetwork
 import example_classification
@@ -7,7 +8,7 @@ import Optimizer
 import time
 
 # create function to generate neural network
-def nn(nfeature,seed,learning_rate,beta):
+def nn(nfeature,nclass,seed,learning_rate,beta):
   np.random.seed(seed)
   model = NeuralNetwork.NeuralNetwork(nfeature)
   model.add_layer(11,"tanh")
@@ -48,7 +49,7 @@ for k in range(K):
   Xfold_k, Yfold_k = Xtrain_shuffled[:,fold_indices], Ytrain_shuffled[:,fold_indices]
   Xtrain_k, Ytrain_k = Xtrain_shuffled[:,train_indices], Ytrain_shuffled[:,train_indices]
   # create model
-  model = nn(nfeature,seed,lr,beta)
+  model = nn(nfeature,nclass,seed,lr,beta)
   # train
   ntrain_k = Xtrain_k.shape[1]
   history = model.fit(Xtrain_k,Ytrain_k,epochs,verbose=False,batch_size=ntrain_k,validation_data=(Xfold_k,Yfold_k))

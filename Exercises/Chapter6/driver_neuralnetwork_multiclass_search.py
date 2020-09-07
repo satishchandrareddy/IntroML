@@ -8,7 +8,7 @@ import time
 import write_csv
 
 # create function to generate neural network
-def nn(nfeature,lamb,seed,learning_rate,beta):
+def nn(nfeature,nclass,lamb,seed,learning_rate,beta):
   np.random.seed(seed)
   model = NeuralNetwork.NeuralNetwork(nfeature)
   model.add_layer(11,"tanh",lamb)
