@@ -1,9 +1,9 @@
 # driver_neuralnetwork_multiclass.py
+# Run in IntroML/Code/Version3.1
 
 import NeuralNetwork
 import example_classification
 import matplotlib.pyplot as plt
-import metrics
 import Optimizer
 import plot_results
 import time
@@ -13,9 +13,7 @@ nfeature = 2
 m = 2000
 case = "quadratic"
 nclass = 3
-noise = False
-validperc = 0.1
-Xtrain,Ytrain,Xvalid,Yvalid = example_classification.example(nfeature,m,case,nclass,noise,validperc)
+X,Y = example_classification.example(nfeature,m,case,nclass)
 # (2) Define model
 model = NeuralNetwork.NeuralNetwork(nfeature)
 model.add_layer(11,"tanh")
@@ -25,25 +23,21 @@ model.add_layer(3,"tanh")
 model.add_layer(nclass,"softmax")
 # (3) Compile model
 #optimizer = Optimizer.GradientDescent(0.3)
-optimizer = Optimizer.Momentum(0.3,0.9)
+#optimizer = Optimizer.Momentum(0.3,0.9)
 #optimizer = Optimizer.RmsProp(0.02,0.9,1e-8)
 #optimizer = Optimizer.Adam(0.02,0.9,0.999,1e-8)
-#optimizer = Optimizer.Adagrad(0.1,1e-8)
+optimizer = Optimizer.Adagrad(0.1,1e-8)
 model.compile("crossentropy",optimizer)
 # (4) Train model
 epochs = 100
 time_start = time.time()
-history = model.fit(Xtrain,Ytrain,epochs,batch_size=1000,validation_data=(Xvalid,Yvalid))
+history = model.fit(X,Y,epochs,batch_size=1000)
 time_end = time.time()
 print("Train time: {}".format(time_end - time_start))
 # (5) Results
-# confusion matrix
-print("Validation Data")
-Yvalid_pred = model.predict(Xvalid)
-metrics.confusion_matrix(Yvalid,Yvalid_pred,nclass)
 # plot loss and accuracy
-plot_results.plot_results_history(history,["loss","valid_loss"])
-plot_results.plot_results_history(history,["accuracy","valid_accuracy"])
+plot_results.plot_results_history(history,["loss"])
+plot_results.plot_results_history(history,["accuracy"])
 # plot heatmap in x0-x1 plane
-plot_results.plot_results_classification((Xtrain,Ytrain),model,nclass,validation_data=(Xvalid,Yvalid))
+plot_results.plot_results_classification((X,Y),model,nclass)
 plt.show()

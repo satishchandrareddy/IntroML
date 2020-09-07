@@ -40,12 +40,12 @@ for lamb in list_lamb:
 	for lr in list_learningrate:
 		for batch_size in list_batch_size:
 			# create model
-			model = nn(nfeature,lamb,seed,lr,beta)
+			model = nn(nfeature,nclass,lamb,seed,lr,beta)
 			# train
 			history = model.fit(Xtrain,Ytrain,epochs,verbose=False,batch_size=batch_size,validation_data=(Xvalid,Yvalid))
 			# save results
 			list_save.append([lamb, lr, batch_size, history["accuracy"][-1], history["valid_accuracy"][-1]])
 			print("Lambda: {} - LR: {} - batch_size: {} - Acc: {} - Valid Acc: {}".format(lamb,lr,batch_size,history["accuracy"][-1],history["valid_accuracy"][-1]))
 
-outputfile = "Search.csv"
+outputfile = "Search_multiclass.csv"
 write_csv.write_csv(outputfile,list_save)
