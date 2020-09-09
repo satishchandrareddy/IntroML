@@ -1,4 +1,5 @@
-#unittest_forwardbackprop.py
+#unittest_forwardbackprop_mirrorsigmoid.py
+# Run in IntroML/Code/Version1.3
 
 import LRegression
 import numpy as np

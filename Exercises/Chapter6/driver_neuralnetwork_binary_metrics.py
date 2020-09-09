@@ -1,4 +1,5 @@
-# driver_neuralnetwork_binary.py
+# driver_neuralnetwork_binary_metrics.py
+# Run in IntroML/Code/Version3.2
 
 import NeuralNetwork
 import example_classification

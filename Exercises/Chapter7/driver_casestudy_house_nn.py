@@ -10,13 +10,13 @@ import load_house
 import time
 
 
-# (1) Set up data
+# (1) Set up data - no transform
 ntrain_pct = 0.8
 transform = False
 standardizeX = True
 standardizeY = True
 Xtrain,Ytrain,Xvalid,Yvalid = load_house.load_house(ntrain_pct,transform,standardizeX,standardizeY)
-# (2) Define model
+# (2) Define model - 2 layer neural network with relu activation
 nfeature = Xtrain.shape[0]
 np.random.seed(10)
 lamb = 0.0001

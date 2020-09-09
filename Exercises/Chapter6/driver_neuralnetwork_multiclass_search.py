@@ -1,4 +1,5 @@
-# driver_neuralnetwork_binary_search.py
+# driver_neuralnetwork_multiclass_search.py
+# Run in IntroML/Code/Version3.3
 
 import NeuralNetwork
 import example_classification

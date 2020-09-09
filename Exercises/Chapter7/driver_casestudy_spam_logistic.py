@@ -14,7 +14,7 @@ import time
 # (1) Set up data
 ntrain_pct = 0.85
 Xtrain,Ytrain,Xvalid,Yvalid,Xtrain_raw,Xvalid_raw = load_spam.load_spam(ntrain_pct)
-# (2) Define model
+# (2) Define model - single layer with sigmoid activation (equivalent to logistic regression)
 nfeature = Xtrain.shape[0]
 np.random.seed(10)
 model = NeuralNetwork.NeuralNetwork(nfeature)

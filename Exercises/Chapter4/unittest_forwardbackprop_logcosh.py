@@ -1,4 +1,5 @@
-#unittest_forwardbackprop.py
+#unittest_forwardbackprop_logcosh.py
+# Run in IntroML/Code/Version1.1
 
 import LRegression
 import numpy as np

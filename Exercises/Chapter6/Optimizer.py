@@ -1,4 +1,5 @@
 # Optimizer.py
+# Put in IntroML/Code/Version3.1
 
 import numpy as np
 

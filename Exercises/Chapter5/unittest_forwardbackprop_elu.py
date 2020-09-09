@@ -1,4 +1,5 @@
-#unittest_forwardbackprop.py
+#unittest_forwardbackprop_elu.py
+# Run in IntroML/Code/Version2.1
 
 import LRegression
 import NeuralNetwork

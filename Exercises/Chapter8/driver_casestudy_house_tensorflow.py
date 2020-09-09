@@ -21,7 +21,7 @@ print("XvalidT.shape: {} - YvalidT.shape: {}".format(XvalidT.shape,YvalidT.shape
 nfeature = Xtrain.shape[0]
 lamb = 0.0001
 model = tf.keras.Sequential([
-  tf.keras.layers.Dense(units=1,input_shape=(nfeature,),
+  tf.keras.layers.Dense(units=1,input_shape=(nfeature,), activation="linear",
                         kernel_regularizer=tf.keras.regularizers.l2(lamb))
 ])
 # (3) Compile model

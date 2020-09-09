@@ -1,4 +1,5 @@
-# driver_linearregression.py
+# driver_linearregression_logcosh.py
+# Run in IntroML/Code/Version1.2
 
 import LRegression
 import matplotlib.pyplot as plt

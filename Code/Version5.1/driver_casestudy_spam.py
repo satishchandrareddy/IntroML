@@ -30,6 +30,7 @@ time_start = time.time()
 ntrain = Xtrain.shape[1]
 history = model.fit(Xtrain,Ytrain,epochs,batch_size=ntrain,validation_data=(Xvalid,Yvalid))
 time_end = time.time()
+print("Train time: {}".format(time_end-time_start))
 # (5) Predictions and plotting
 # confusiont matrix
 print("Metrics for Validation Dataset")

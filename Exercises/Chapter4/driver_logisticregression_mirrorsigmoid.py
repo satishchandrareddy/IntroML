@@ -1,4 +1,5 @@
 # driver_logisticregression_mirrorsigmoid.py
+# Run in IntroML/Code/Version1.3
 
 import LRegression
 import example_classification
